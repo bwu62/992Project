@@ -1,1 +1,1 @@
-Sitemap: /https://bwu62.github.io/992Project/sitemap.xml
+Sitemap: /sitemap.xml
