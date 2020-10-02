@@ -5,6 +5,11 @@
 
 # --- Required options --- #
 
+#site.url: "1/"
+#site.baseurl: "2/"
+url: "https://bwu62.github.io/992Project"
+#baseurl: "4/"
+
 # Name of website
 title: 992 Project site
 

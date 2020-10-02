@@ -5,7 +5,7 @@
 
 # --- Required options --- #
 
-baseurl: 'https://bwu62.github.io/992Project'
+site.url: "https://bwu62.github.io/992Project/"
 
 # Name of website
 title: 992 Project site
