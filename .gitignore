@@ -7,4 +7,4 @@ site/.vagrant
 site/.jekyll-cache
 site/Gemfile.lock
 site/beautiful-jekyll-theme-*.gem
-
+site/_site
