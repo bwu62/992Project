@@ -51,7 +51,7 @@ layout: page
 
     {% if thumbnail != "" %}
     <div class="post-image post-image-small">
-      <a href="{{ post.url | absolute_url }}" aria-label="Thumbnail">
+      <a href="{{ post.url | absolute_url }}" aria-label="Thumbnaiil">
         <img src="{{ thumbnail | absolute_url }}" alt="Post thumbnail">
       </a>
     </div>
@@ -68,7 +68,7 @@ layout: page
 
     <div class="post-entry">
       {% assign excerpt_length = site.excerpt_length | default: 50 %}
-      {{ post.excerpt | strip_html | xml_escape | truncatewords: excerpt_length }}
+      {{ post.excerpt | strip_html | xml_escape | truncatewords: 100000000000 }}
       {% assign excerpt_word_count = post.excerpt | number_of_words %}
       {% if post.content != post.excerpt or excerpt_word_count > excerpt_length %}
         <a href="{{ post.url | absolute_url }}" class="post-read-more">[Read&nbsp;More]</a>
