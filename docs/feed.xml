@@ -10,14 +10,14 @@
     
     
       <item>
-        <title>Sample blog post</title>
+        <title>First meeting!</title>
         <description>
-          Each post also has a subtitle - 
-          This is a demo post to show you how to write blog posts with markdown. I strongly encourage you to take 5 minutes to learn how to write in markdown - it’ll teach you how to transform regular text into bold/italics/headings/tables/etc. Here is some bold text Here is a secondary...
+          
+          Main ideas Download IMDB dataset (with description here), and explore it. Ideas for things to try: Find graph center (is it really Kevin Bacon?) Find graph diameter (two people who are farthest apart) Find largest k-core (largest group of people all interconnected) Cluster movies into genres only by using cast...
         </description>
-        <pubDate>Fri, 28 Feb 2020 00:00:00 +0000</pubDate>
-        <link>https://bwu62.github.io/992Project/2020-02-28-test-markdown/</link>
-        <guid isPermaLink="true">https://bwu62.github.io/992Project/2020-02-28-test-markdown/</guid>
+        <pubDate>Fri, 02 Oct 2020 00:00:00 +0000</pubDate>
+        <link>https://bwu62.github.io/992Project/2020-10-02-first-meeting/</link>
+        <guid isPermaLink="true">https://bwu62.github.io/992Project/2020-10-02-first-meeting/</guid>
       </item>
     
   </channel>
