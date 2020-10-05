@@ -11,6 +11,8 @@ library(tidyverse)
 # # save result ot be easily loaded
 # save(principals,file="data/principals.Rdata.xz",compress="xz",compression_level=9)
 
+# load file
 load("data/principals.Rdata.xz")
 
-
+# check size
+print(object.size(principals),units="Mb")
