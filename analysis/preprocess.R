@@ -2,9 +2,9 @@ library(tidyverse)
 library(igraph)
 
 # # read in titles' metadata
-# keep.titles = 
-#   read_tsv("data/title.basics.tsv.gz",na="\\N",quote="") %>% 
-#   filter(titleType %in% c("movie","tvMovie") & !isAdult) %>% 
+# keep.titles =
+#   read_tsv("data/title.basics.tsv.gz",na="\\N",quote="") %>%
+#   filter(titleType %in% c("movie","tvMovie") & !isAdult) %>%
 #   pull(tconst)
 # 
 # # read in data and convert columns
@@ -24,6 +24,8 @@ load("data/principals.Rdata.xz")
 # check size
 print(object.size(principals),units="Mb")
 
+# karl said this makes a very dense graph and we might be able to
+# wotk with just principals and create a bipartite graph (see readme and meeting post)
 # # create graph using naive (i.e. slow) method since I can't figure out how to optimize it
 # imdb = full_join(principals,principals,c('tconst'='tconst'))[,c(2,3,1)] %>%
 #   filter(nconst.x!=nconst.y) %>%
