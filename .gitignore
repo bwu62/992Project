@@ -1,5 +1,5 @@
 # data
-#analysis/data/*
+analysis/data/*.tsv.gz
 
 # site
 site/.sass-cache
