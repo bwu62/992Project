@@ -2,6 +2,12 @@
 analysis/data/*.tsv.gz
 analysis/data/*.tsv
 
+# mac
+**/.DS_Store
+
+# temp files
+**/*~
+
 # site
 site/.sass-cache
 site/.vagrant
