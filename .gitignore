@@ -7,6 +7,7 @@ analysis/data/*.tsv
 
 # temp files
 **/*~
+**/.ipynb_checkpoints/
 
 # site
 site/.sass-cache
