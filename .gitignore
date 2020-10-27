@@ -9,6 +9,9 @@ analysis/data/*.tsv
 **/*~
 **/.ipynb_checkpoints/
 
+# R junk
+*.Rproj
+
 # site
 site/.sass-cache
 site/.vagrant
