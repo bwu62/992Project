@@ -24,7 +24,7 @@ bacon.table =
 options(scipen=1e9)
 
 # plot degrees
-ggplot(bacon.table, aes(x=degree,y=count)) + geom_col(width=.95,) + 
+ggplot(bacon.table, aes(x=degree,y=count)) + geom_col(width=.95) + 
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
   scale_x_continuous(breaks=1:11) + 
@@ -47,7 +47,7 @@ getMeanDegrees = function(person){
 # library(pryr)
 # 
 # gc()
-# cores = min(detectCores(), as.numeric(floor(0.5*get_ram() / mem_used())-1) )
+# cores = min( detectCores(), as.numeric(floor(0.55*get_ram() / mem_used())) ) - 1
 # cl = makeCluster(cores)
 # clusterEvalQ(cl,library(igraph))
 # clusterExport(cl,list("imdb","neighbors","getMeanDegrees"))
@@ -66,19 +66,21 @@ getMeanDegrees = function(person){
 load("data/neighbors.Rdata.xz")
 neighbors.degrees
 
-central.actor = 
+# highest so far is Eric Roberts (nm0000616, NOT nm0731082 (less famous guy of same name))
+
+roberts = 
   neighbors.degrees %>% 
   slice_min(mean.degree,n=1) %>% 
-  pull(actor.id,name=actor.name)
+  pull(actor.name,name=actor.id)
 
-central.actor %>% 
-  distances(graph=imdb,v=.) %>% 
-  .[1,] %>% 
-  table %>% 
+roberts.degrees = distances(graph=imdb,v=names(roberts))[1,]
+roberts.table = 
+  roberts.degrees %>% table %>% 
   enframe(name="degree",value="count") %>% 
   mutate(degree=as.numeric(degree)) %>% 
-  filter(degree>0) %>% 
-  ggplot(aes(x=degree,y=count)) + geom_col(width=.95,) + 
+  filter(degree>0)
+
+ggplot(roberts.table,aes(x=degree,y=count)) + geom_col(width=.95) + 
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
   scale_x_continuous(breaks=1:11) + 
@@ -86,4 +88,14 @@ central.actor %>%
        x=paste0("Degrees away from ",names(central.actor)),y="Frequency")
 
 ggsave(paste0("plots/",sub(".* ","",tolower(names(central.actor))),".png"),width=6,height=4)
+
+cbind(bacon.table %>% rename(Bacon=count),
+      roberts.table %>% rename(Roberts=count) %>% select(Roberts)) %>% 
+  gather(key="Actor",value="Frequency",2:3) %>% 
+  ggplot(aes(x=degree,y=Frequency,fill=Actor)) + geom_col(position="dodge",width=.75) + 
+  scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
+                labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
+  scale_x_continuous(breaks=1:11) + scale_fill_manual(values=c('#e66101','#5e3c99')) + 
+  labs(title="Mean degree comparison of Kevin Bacon and Eric Roberts",x="Degrees away",y="Frequency")
+ggsave("plots/bacon-roberts.png",width=6,height=4)
 
