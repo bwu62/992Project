@@ -87,6 +87,14 @@ actor.names %>%
 save(principals,actor.names,title.names,
      file="data/principals+names.Rdata.xz",compress="xz",compression_level=9)
 
+# # get title language information
+# title.akas = read_tsv("data/title.akas.tsv.gz",na="\\N",quote="")
+# 
+# title.akas %>% 
+#   filter(titleId %in% names(title.names)) %>% 
+#   group_by(titleId) %>% 
+#   slice_max(isOriginalTitle,n=1)
+
 # #Degrees of separation of every actor from Kevin Bacon (nm0000102)
 # separation = distances(imdb2, v = "nm0000102")
 # 
