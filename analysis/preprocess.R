@@ -37,7 +37,7 @@ library(igraph)
 # save(list=ls(),file="data/principals+names.Rdata.xz",compress="xz",compression_level=9)
 
 # load file and check size
-load("analysis/data/principals+names.Rdata.xz")
+load("data/principals+names.Rdata.xz")
 
 # get title and actor counts (how many actors/titles were associated with a particular title/actor)
 actor.counts = principals %>% group_by(tconst) %>% summarise(n=n()) %>% pull(n,name=tconst)
@@ -64,34 +64,71 @@ head(sort(imdb.comp$csize,decreasing=T),10)
 imdb.comp$membership[imdb.comp$membership == 1]
 imdb2 = induced_subgraph(imdb,names(imdb.comp$membership[imdb.comp$membership == 1]))
 
-#Degrees of seperation of every actor from Kevin Bacon (nm0000102)
-degrees_seperation<-distances(imdb, v = "nm0000102")
+# get actors in this component, to subset principals
+sub.names = V(imdb2) %>% names
 
-#Percent of actors who are connected with Kevin bacon
-print(sum(is.finite(degrees_seperation))/length(degrees_seperation))
+principals = 
+  principals %>% 
+  filter(nconst %in% sub.names)
 
-#See distribution of degrees of seperation
-as.data.frame(table(degrees_seperation))
+title.names %>% 
+  enframe %>% 
+  filter(name %in% principals$tconst) %>% 
+  pull(value,name=name) ->
+  title.names
 
-#Use this to look up someone's degrees of seperation from Bacon
-#print(degrees_seperation[which(colnames(degrees_seperation)=="nm0000102")])
+actor.names %>% 
+  enframe %>% 
+  filter(name %in% principals$nconst) %>% 
+  pull(value,name=name) ->
+  actor.names
 
-#Get all actors one degree away from Bacon
-oneAway <- colnames(degrees_seperation)[which(degrees_seperation %in% 1)]
+# save largest connected subcomponent
+save(principals,actor.names,title.names,
+     file="data/principals+names.Rdata.xz",compress="xz",compression_level=9)
 
-actorList <- list()
-actorMean <- list()
-
-#Calculate every one of these actor's mean degrees of seperation
-for (i in 1:length(oneAway)) {
-  deg_sep<-distances(imdb, v = oneAway[i])
-  actorList[[i]]<-oneAway[i]
-  # print(sum(is.finite(deg_sep))/length(deg_sep))
-  #print(as.data.frame(table(deg_sep)))
-  deg <- deg_sep[is.finite(deg_sep)]
-  actorMean[[i]]<-mean(deg)
-}
-df <- data.frame(matrix(unlist(actorMean), nrow=231, byrow=T),stringsAsFactors=FALSE)
-df$actor <- unlist(actorList)
-colnames(df)[1] <- "mean"
-avgDegrees<-df[order(df$mean),]
+# #Degrees of separation of every actor from Kevin Bacon (nm0000102)
+# separation = distances(imdb2, v = "nm0000102")
+# 
+# # #Percent of actors who are connected with Kevin bacon
+# # print(sum(is.finite(degrees_separation))/length(degrees_separation))
+# 
+# #See distribution of degrees of separation
+# table(separation)
+# 
+# #Get all actors one degree away from Bacon
+# oneAway = colnames(separation)[separation]
+# 
+# #Use this to look up someone's degrees of separation from Bacon
+# #print(degrees_separation[which(colnames(degrees_separation)=="nm0000102")])
+# 
+# # 
+# # actorList = list()
+# # actorMean = list()
+# # 
+# # #Calculate every one of these actor's mean degrees of separation
+# # 
+# # for (i in 1:length(oneAway)) {
+# #   deg_sep=distances(imdb, v = oneAway[i])
+# #   actorList[[i]]=oneAway[i]
+# #   # print(sum(is.finite(deg_sep))/length(deg_sep))
+# #   #print(as.data.frame(table(deg_sep)))
+# #   deg = deg_sep[is.finite(deg_sep)]
+# #   actorMean[[i]]=mean(deg)
+# # }
+# # df = data.frame(matrix(unlist(actorMean), nrow=231, byrow=T),stringsAsFactors=FALSE)
+# # df$actor = unlist(actorList)
+# # colnames(df)[1] = "mean"
+# # avgDegrees=df[order(df$mean),]
+# 
+# 
+# # More efficient way of calculating above:
+# getMeanSep = function(person){
+#   mean(distances(imdb2, v=person))
+# }
+# 
+# mean.degrees = sapply(oneAway,getMeanSep)
+# mean.degrees %>% 
+#   enframe(name="actor.id",value="mean.degree") %>% 
+#   mutate(actor.name=actor.names[actor.id]) %>% 
+#   select(mean.degree,actor.name,actor.id)
