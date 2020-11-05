@@ -1,9 +1,10 @@
-if(!require(pacman)){
-  install.packages("pacman")
-} else pacman::p_load(tidyverse,igraph,ggplot2,scales)
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,igraph,ggplot2,scales)
 
 # load data
-load("data/principals+names.Rdata.xz")
+load("data/principals+names.Rdata")
 
 # make graph (this should just be the largest connected component now)
 imdb = full_join(principals,principals,c('tconst'='tconst'))[,c(2,3,1)] %>%
@@ -69,7 +70,7 @@ ggplot(bacon.table %>% filter(degree>0), aes(x=degree,y=count)) + geom_col(width
 
 
 
-load("data/top.means.Rdata.xz")
+load("data/top.means.Rdata")
 top.means
 
 # highest so far is Eric Roberts (nm0000616, NOT nm0731082 (less famous guy of same name))
@@ -96,7 +97,7 @@ cbind(bacon.table %>% rename(Bacon=count),
       roberts.table %>% rename(Roberts=count) %>% select(Roberts)) %>% 
   filter(degree>0) %>% 
   gather(key="Actor",value="Frequency",2:3) %>% 
-  ggplot(aes(x=degree,y=Frequency,fill=Actor)) + geom_col(position="dodge",width=.75) + 
+  ggplot(aes(x=degree,y=Frequency,fill=Actor)) + geom_col(position="dodge",width=.75) + theme_minimal() +
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
   scale_x_continuous(breaks=1:11) + scale_fill_manual(values=c('#e66101','#5e3c99')) + 
