@@ -20,4 +20,4 @@ Our final dataset contains ~605k actors and 463k movies.
 
 ## Centrality
 
-One of the first questions 
+One of the first questions we were interested in answering
