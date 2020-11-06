@@ -1,0 +1,28 @@
+baseurl: "https://bwu62.github.io/992Project/"
+languageCode: "en-us"
+title: "STAT992: IMDB Blog Page"
+theme: "hugo-xmin"
+ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+footnotereturnlinkcontents: "↩"
+
+permalinks:
+  note: "/note/:year/:month/:day/:slug/"
+  post: "/post/:year/:month/:day/:slug/"
+
+menu:
+  main:
+    - name: Home
+      url: ""
+      weight: 1
+    - name: About Us
+      url: "about/"
+      weight: 2
+
+params:
+  description: "Built with Hugo and blogdown."
+  footer: "[Bi Wu](https://github.com/bwu62) & [Chris Kardatzke](https://github.com/ckardatzke) [[Github](https://github.com/bwu62/992Project)]"
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

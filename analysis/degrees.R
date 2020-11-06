@@ -101,6 +101,7 @@ cbind(bacon.table %>% rename(Bacon=count),
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
   scale_x_continuous(breaks=1:11) + scale_fill_manual(values=c('#e66101','#5e3c99')) + 
-  labs(title="Mean degree comparison of Kevin Bacon and Eric Roberts",x="Degrees away",y="Frequency")
+  labs(title="Mean degree comparison of Kevin Bacon and Eric Roberts",x="Degrees away",y="Frequency") +
+  theme(legend.position = c(0.9, 0.9))
 # ggsave("plots/bacon-roberts.png",width=6,height=4)
 

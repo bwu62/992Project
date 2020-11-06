@@ -9,7 +9,7 @@ load("data/principals+names.Rdata")
 
 # make graph (this should just be the largest connected component now)
 imdb = full_join(principals,principals,c('tconst'='tconst'))[,c(2,3,1)] %>%
-  dplyr::filter(nconst.x!=nconst.y) %>%
+  filter(nconst.x!=nconst.y) %>%
   graph_from_data_frame(directed=F)
 
 # also get simplified version (no multiple edges, no attributes)
@@ -66,10 +66,10 @@ eng.titles = CL[which(!is.na(str_match(CL[[2]],"USA")) | !is.na(str_match(CL[[1]
 #                            runtimeMinutes = col_double(),
 #                            genres = col_character()
 #                          )) %>%
-#   dplyr::filter(titleType=="movie" & !isAdult) %>%
+#   filter(titleType=="movie" & !isAdult) %>%
 #   pull(tconst)
 # 
-# principals2.eng = principals %>% dplyr::filter(tconst %in% eng.titles & tconst %in% keep.titles.2)
+# principals2.eng = principals %>% filter(tconst %in% eng.titles & tconst %in% keep.titles.2)
 # save(principals2.eng,file="data/principals2.eng.Rdata",compression_level=9)
 # load("data/principals2.eng.Rdata")
 

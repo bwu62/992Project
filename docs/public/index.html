@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+	<meta name="generator" content="Hugo 0.78.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home | STAT992: IMDB Blog Page</title>
+    <link rel="stylesheet" href="/992Project/css/style.css" />
+    <link rel="stylesheet" href="/992Project/css/fonts.css" />
+    <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/992Project/">Home</a></li>
+      
+      <li><a href="/992Project/about/">About Us</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+
+
+
+<p><img src="assets/img/icon.png" style="max-width:20%;min-width:40px;float:right;border-radius:50%" alt="Github repo" /></p>
+<h1 id="imdb-centerfactor-analysis">IMDB Center/Factor Analysis</h1>
+<p>We were interested in investigating actors/movies data from IMDB. The data is conveniently available for <a href="https://datasets.imdbws.com/">download here</a> (<a href="https://www.imdb.com/interfaces/">data description</a>).</p>
+<p>For sake of clarity, we omit directly quoting code. Readers interested in getting into the weeks should consult the <a href="https://github.com/bwu62/992Project">Github</a>.</p>
+<h2 id="preprocessing">Preprocessing</h2>
+<p>Before we jump into the analyses, we first discuss the preprocessing done. We were primarily interested in movies typically played in theaters or streamed online, not television shows, web shorts, or adult content (all of which is included in the IMDB data download), so these were filtered out.</p>
+<p>Basically all actors and movies (&gt;99.9%) were in one large connected component, with a small smattering of other niche/amateur/independent content in numerous smaller disconnected components. These were filtered out too.</p>
+<p>Our final dataset contains ~605k actors and 463k movies.</p>
+<h2 id="centrality">Centrality</h2>
+<p>One of the first questions</p>
+
+
+<ul>
+  
+  
+  
+</ul>
+
+  <footer>
+  <script src="//yihui.org/js/math-code.js"></script>
+
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+  
+  <hr/>
+  <a href="https://github.com/bwu62">Bi Wu</a> &amp; <a href="https://github.com/ckardatzke">Chris Kardatzke</a> [<a href="https://github.com/bwu62/992Project">Github</a>]
+  
+  </footer>
+  </body>
+</html>
+
