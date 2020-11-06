@@ -27,12 +27,13 @@ bacon.table =
 options(scipen=1e9)
 
 # plot degrees
-ggplot(bacon.table %>% filter(degree>0), aes(x=degree,y=count)) + geom_col(width=.95) + 
+ggplot(bacon.table %>% filter(degree>0), aes(x=degree,y=count)) + geom_col(width=.95,fill="#e66101") + 
+  theme_minimal()+
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
   scale_x_continuous(breaks=1:11) + 
   labs(title="Distribution of Bacon numbers",x="Degrees away from Kevin Bacon",y="Frequency")
-# ggsave("plots/bacon.png",width=6,height=4)
+ggsave("../content/assets/img/bacon.svg",width=7,height=4)
 
 
 
@@ -85,13 +86,14 @@ roberts.table =
   enframe(name="degree",value="count") %>% 
   mutate(degree=as.numeric(degree))
 
-ggplot(roberts.table %>% filter(degree>0),aes(x=degree,y=count)) + geom_col(width=.95) + 
+ggplot(roberts.table %>% filter(degree>0),aes(x=degree,y=count)) + geom_col(width=.95,fill="#5e3c99") + 
+  theme_minimal() +
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=","))) + 
   scale_x_continuous(breaks=1:11) + 
   labs(title="Distribution of Roberts numbers",
        x="Degrees away from Eric Roberts",y="Frequency")
-# ggsave(paste0("plots/roberts.png"),width=6,height=4)
+ggsave("../content/assets/img/roberts.svg",width=7,height=4)
 
 cbind(bacon.table %>% rename(Bacon=count),
       roberts.table %>% rename(Roberts=count) %>% select(Roberts)) %>% 
@@ -103,5 +105,6 @@ cbind(bacon.table %>% rename(Bacon=count),
   scale_x_continuous(breaks=1:11) + scale_fill_manual(values=c('#e66101','#5e3c99')) + 
   labs(title="Mean degree comparison of Kevin Bacon and Eric Roberts",x="Degrees away",y="Frequency") +
   theme(legend.position = c(0.9, 0.9))
-# ggsave("plots/bacon-roberts.png",width=6,height=4)
+ggsave("../content/assets/img/bacon-roberts.svg",width=7,height=4)
+
 
