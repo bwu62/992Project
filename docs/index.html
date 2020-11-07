@@ -34,8 +34,14 @@ pre{
 </style>
 <p><img src="assets/img/icon.png" style="max-width:20%;min-width:40px;float:right;border-radius:50%;margin:5px;" alt="Github repo" /></p>
 <h1 id="imdb-centerfactor-analysis">IMDB Center/Factor Analysis</h1>
-<p>We were interested in investigating actors/movies data from IMDB. The data is conveniently available for <a href="https://datasets.imdbws.com/">download here</a> (<a href="https://www.imdb.com/interfaces/">data description</a>).</p>
-<p>For sake of clarity, we omit directly quoting code. Readers interested in getting into the weeks should consult the <a href="https://github.com/bwu62/992Project">Github</a>.</p>
+<p><em>Authors: Bi Wu &amp; Chris Kardatzke</em></p>
+<h2 id="intro">Intro</h2>
+<p>We examined actors/movies data from IMDB (<a href="https://datasets.imdbws.com/"><code>data download</code></a>|<a href="https://www.imdb.com/interfaces/"><code>data description</code></a>). In particular, we were interested in 2 topics:</p>
+<ol>
+<li>Degree centrality</li>
+<li>Factor analysis</li>
+</ol>
+<p>For sake of clarity, we omit directly quoting code. Readers interested in getting into the weeds should consult the <a href="https://github.com/bwu62/992Project">Github repo</a>.</p>
 <h2 id="preprocessing">Preprocessing</h2>
 <p>Before we jump into the analyses, we first discuss the preprocessing done. We were primarily interested in movies typically played in theaters or streamed online, not television shows, web shorts, or adult content (all of which is included in the IMDB data download), so these were filtered out.</p>
 <p>Basically all actors and movies (&gt;99.9%) were in one large connected component, with a small smattering of other niche/amateur/independent content in numerous smaller disconnected components. These were filtered out too.</p>

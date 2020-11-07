@@ -22,9 +22,16 @@ pre{
 
 # IMDB Center/Factor Analysis
 
-We were interested in investigating actors/movies data from IMDB. The data is conveniently available for [download here](https://datasets.imdbws.com/) ([data description](https://www.imdb.com/interfaces/)).
+_Authors: Bi Wu & Chris Kardatzke_
 
-For sake of clarity, we omit directly quoting code. Readers interested in getting into the weeks should consult the [Github](https://github.com/bwu62/992Project).
+## Intro
+
+We examined actors/movies data from IMDB ([`data download`](https://datasets.imdbws.com/)|[`data description`](https://www.imdb.com/interfaces/)). In particular, we were interested in 2 topics:
+
+1. Degree centrality
+2. Factor analysis
+
+For sake of clarity, we omit directly quoting code. Readers interested in getting into the weeds should consult the [Github repo](https://github.com/bwu62/992Project).
 
 ## Preprocessing
 
