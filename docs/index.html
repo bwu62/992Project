@@ -7,6 +7,7 @@
     <title>Home | STAT992: IMDB Blog Page</title>
     <link rel="stylesheet" href="/992Project/css/style.css" />
     <link rel="stylesheet" href="/992Project/css/fonts.css" />
+    <link rel="shortcut icon" type="image/ico" href="/992Project/assets/img/favicon.ico"/>
     <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
 
   </head>
@@ -36,7 +37,7 @@ pre{
 <h1 id="imdb-centerfactor-analysis">IMDB Center/Factor Analysis</h1>
 <p><em>Authors: Bi Wu &amp; Chris Kardatzke</em></p>
 <h2 id="intro">Intro</h2>
-<p>We examined actors/movies data from IMDB (<a href="https://datasets.imdbws.com/"><code>data download</code></a>|<a href="https://www.imdb.com/interfaces/"><code>data description</code></a>). In particular, we were interested in 2 topics:</p>
+<p>We examined actors/movies data from IMDB (<a href="https://datasets.imdbws.com/"><code>data download</code></a> | <a href="https://www.imdb.com/interfaces/"><code>data description</code></a>). In particular, we were interested in 2 topics:</p>
 <ol>
 <li>Degree centrality</li>
 <li>Factor analysis</li>
@@ -58,7 +59,7 @@ pre{
 <p><img class="plots" src="assets/img/bacon-roberts.svg" alt="Comparison of Bacon and Roberts numbers"/></p>
 <h2 id="factor-analysis">Factor Analysis</h2>
 <p>The second thing we were interested in was whether we could use factor analysis to identify genre clusters in an unsupervised way simply by examining costar relationships, without any kind of external genre data or sentiment analysis. We decided to use <a href="http://pages.stat.wisc.edu/~karlrohe/">Karl Rohe</a>&rsquo;s <a href="https://github.com/RoheLab/vsp"><code>vsp</code></a> package due to its speed and ease of use.</p>
-<p>We constructed a very sparse (99.999% sparsity) incidence matrix from our edge list and used the <code>vsp</code> function with <code>k=100</code> as an initial trial. After checking the scree plot, <code>k=20</code> was determined to be a suitable size. Using the <code>bff</code> function to pick out the 10 best features in each cluster, we get the following groups:</p>
+<p>We constructed a very sparse (99.999% sparsity) incidence matrix from our edge list and used the <code>vsp</code> function with <code>k=100</code> as an initial trial. After checking the scree plot, <code>k=20</code> was determined to be a suitable size. Using the <code>bff</code> function to pick out the 10 best features in each cluster, we get the following groups (a few groups were omitted to reduce verbosity):</p>
 <br/>
 <code>
 <blockquote>
@@ -67,78 +68,50 @@ pre{
 </blockquote>
 <blockquote>
 <p>Group 2:
-<a href="https://www.imdb.com/title/tt0280421">Amma Enna Stree</a>, <a href="https://www.imdb.com/title/tt0276915">Divyadharsanam</a>, <a href="https://www.imdb.com/title/tt0281101">Pushpa Sarem</a>, <a href="https://www.imdb.com/title/tt0156125">Thachali Marumakan Chandu</a>, <a href="https://www.imdb.com/title/tt0230398">Kanyadanam</a>, <a href="https://www.imdb.com/title/tt0281293">Tourist Bungalow</a>, <a href="https://www.imdb.com/title/tt0230682">Rajayogam</a>, <a href="https://www.imdb.com/title/tt0279013">Chandrakantham</a>, <a href="https://www.imdb.com/title/tt0214923">Maram</a>, <a href="https://www.imdb.com/title/tt0257957">Neethi</a></p>
-</blockquote>
-<blockquote>
-<p>Group 3:
-<a href="https://www.imdb.com/title/tt1207772">Sto. Cristo</a>, <a href="https://www.imdb.com/title/tt0344518">Valiente Brothers</a>, <a href="https://www.imdb.com/title/tt1151355">Labo-labo</a>, <a href="https://www.imdb.com/title/tt1151347">Johnny West</a>, <a href="https://www.imdb.com/title/tt0375734">Encuentro</a>, <a href="https://www.imdb.com/title/tt0375693">Deadly Brothers</a>, <a href="https://www.imdb.com/title/tt0370456">Despatsadora</a>, <a href="https://www.imdb.com/title/tt2343553">Hepe Goes to War</a>, <a href="https://www.imdb.com/title/tt2140653">Walang bakas na naiiwan</a>, <a href="https://www.imdb.com/title/tt4778222">Isa Lang ang Hari</a></p>
-</blockquote>
-<blockquote>
-<p>Group 4:
 <a href="https://www.imdb.com/title/tt1050218">Ushiwakamarû</a>, <a href="https://www.imdb.com/title/tt1109638">Sûmidagawa no adauchi</a>, <a href="https://www.imdb.com/title/tt1089609">Aizu no Kotetsu</a>, <a href="https://www.imdb.com/title/tt1121068">Ôokubo hikozaemon</a>, <a href="https://www.imdb.com/title/tt1062963">Setta naoshi Chôgorô</a>, <a href="https://www.imdb.com/title/tt1075372">Owari daihachi</a>, <a href="https://www.imdb.com/title/tt1075100">Ôniwaka kurô edojô arashi</a>, <a href="https://www.imdb.com/title/tt1089695">Kana tehon chûsinghura</a>, <a href="https://www.imdb.com/title/tt1106741">Araki mataemon</a>, <a href="https://www.imdb.com/title/tt1116825">Sendai hagi</a></p>
 </blockquote>
 <blockquote>
-<p>Group 5:
+<p>Group 3:
 <a href="https://www.imdb.com/title/tt0183858">Takip</a>, <a href="https://www.imdb.com/title/tt0263094">The Sugar Almonds</a>, <a href="https://www.imdb.com/title/tt0345475">Kafkas kartali</a>, <a href="https://www.imdb.com/title/tt0418802">The Armless Hero</a>, <a href="https://www.imdb.com/title/tt0183598">Ölüm görevi</a>, <a href="https://www.imdb.com/title/tt0182754">Babanin suçu</a>, <a href="https://www.imdb.com/title/tt0398841">Cehennem arkadaslari</a>, <a href="https://www.imdb.com/title/tt0306557">The Endless Struggle</a>, <a href="https://www.imdb.com/title/tt0263030">Bitter Love</a>, <a href="https://www.imdb.com/title/tt0431400">Silahli pasazade</a></p>
 </blockquote>
 <blockquote>
-<p>Group 6:
+<p>Group 4:
 <a href="https://www.imdb.com/title/tt6977646">O Caso do Senhor Vestido de Violeta</a>, <a href="https://www.imdb.com/title/tt6760116">As Alegres Comadres de Windsor</a>, <a href="https://www.imdb.com/title/tt6557304">O Camões do Rossio</a>, <a href="https://www.imdb.com/title/tt6897332">Sinos de Natal</a>, <a href="https://www.imdb.com/title/tt6553802">A Janela Fechada</a>, <a href="https://www.imdb.com/title/tt6549890">Uma Noite de Paz</a>, <a href="https://www.imdb.com/title/tt6550862">Chocolate á Espanhola</a>, <a href="https://www.imdb.com/title/tt6583714">O Feitiço da Vovó</a>, <a href="https://www.imdb.com/title/tt6997866">Os Terríveis</a>, <a href="https://www.imdb.com/title/tt6865766">Música no Andar de Cima</a></p>
 </blockquote>
 <blockquote>
-<p>Group 7:
-<a href="https://www.imdb.com/title/tt0315149">Uncle Abdu&rsquo;s Ghost</a>, <a href="https://www.imdb.com/title/tt0356004">The Midnight Driver</a>, <a href="https://www.imdb.com/title/tt0318420">The Unjust Angel</a>, <a href="https://www.imdb.com/title/tt0289935">Ebn el-hetta</a>, <a href="https://www.imdb.com/title/tt0359458">The Giant</a>, <a href="https://www.imdb.com/title/tt0342039">God Is on Our Side</a>, <a href="https://www.imdb.com/title/tt0316728">Tarik el saada</a>, <a href="https://www.imdb.com/title/tt0315989">Love in the Shadows</a>, <a href="https://www.imdb.com/title/tt0316208">Written on the Forehead</a>, <a href="https://www.imdb.com/title/tt0315140">Slaves of Money</a></p>
-</blockquote>
-<blockquote>
-<p>Group 8:
+<p>Group 5:
 <a href="https://www.imdb.com/title/tt0328177">Naya Bakra</a>, <a href="https://www.imdb.com/title/tt0315487">Dhoti Lota Aur Chowpatty</a>, <a href="https://www.imdb.com/title/tt0178194">Aap Beati</a>, <a href="https://www.imdb.com/title/tt0381521">Pyar Ki Rahen</a>, <a href="https://www.imdb.com/title/tt0232626">Shareef Budmaash</a>, <a href="https://www.imdb.com/title/tt2679238">Hunterwali 77</a>, <a href="https://www.imdb.com/title/tt0154788">Lootmaar</a>, <a href="https://www.imdb.com/title/tt0376483">Angaare</a>, <a href="https://www.imdb.com/title/tt9556410">Laakho Vanzaro</a>, <a href="https://www.imdb.com/title/tt0242307">Bedard Zamana Kya Jane</a></p>
 </blockquote>
 <blockquote>
-<p>Group 9:
-<a href="https://www.imdb.com/title/tt1842364">Fist of the North Star: The Shin Saga</a>, <a href="https://www.imdb.com/title/tt1827386">Danguard Ace</a>, <a href="https://www.imdb.com/title/tt1827387">Danguard Ace 2</a>, <a href="https://www.imdb.com/title/tt1832471">Space Pirate Captain Harlock</a>, <a href="https://www.imdb.com/title/tt1844786">The Adventures of Nadja</a>, <a href="https://www.imdb.com/title/tt1844787">The Adventures of Nadja II</a>, <a href="https://www.imdb.com/title/tt1827527">Space Pirate Captain Harlock 2</a>, <a href="https://www.imdb.com/title/tt1836837">Kitaro&rsquo;s Graveyard Gang</a>, <a href="https://www.imdb.com/title/tt1844663">Gaiking I</a>, <a href="https://www.imdb.com/title/tt1844664">Gaiking II</a></p>
-</blockquote>
-<blockquote>
-<p>Group 10:
+<p>Group 6:
 <a href="https://www.imdb.com/title/tt3730290">Koi no Tsumako</a>, <a href="https://www.imdb.com/title/tt3722818">Kyôenrokû</a>, <a href="https://www.imdb.com/title/tt3722918">Ryôen Rokû</a>, <a href="https://www.imdb.com/title/tt0183375">Kuroshio</a>, <a href="https://www.imdb.com/title/tt1180716">Akînosuke to ôsumi</a>, <a href="https://www.imdb.com/title/tt1178086">Aki no koe sannin shoi</a>, <a href="https://www.imdb.com/title/tt3724656">Kobonno</a>, <a href="https://www.imdb.com/title/tt3730244">Koi no Gisei</a>, <a href="https://www.imdb.com/title/tt3724520">Chichiyâ No Mûsume</a>, <a href="https://www.imdb.com/title/tt1047508">Onna no chikai</a></p>
 </blockquote>
 <blockquote>
-<p>Group 11:
+<p>Group 7:
 <a href="https://www.imdb.com/title/tt2956242">Insaan Ik Tamasha</a>, <a href="https://www.imdb.com/title/tt1332538">Khandan</a>, <a href="https://www.imdb.com/title/tt1538255">Dil Da Jani</a>, <a href="https://www.imdb.com/title/tt1407130">Aakhri Dao</a>, <a href="https://www.imdb.com/title/tt1207626">Angara</a>, <a href="https://www.imdb.com/title/tt2956176">Bhai Bhai</a>, <a href="https://www.imdb.com/title/tt2956008">Eid Da Chann</a>, <a href="https://www.imdb.com/title/tt1702607">Taj Mahal</a>, <a href="https://www.imdb.com/title/tt1538307">Imam Din Gohavia</a>, <a href="https://www.imdb.com/title/tt1538314">Jigri Yaar</a></p>
 </blockquote>
 <blockquote>
-<p>Group 12:
+<p>Group 8:
 <a href="https://www.imdb.com/title/tt2372288">Konkurrencen</a>, <a href="https://www.imdb.com/title/tt0127544">John Redmond, the Evangelist</a>, <a href="https://www.imdb.com/title/tt2276404">Hvorledes jeg kom til Filmen</a>, <a href="https://www.imdb.com/title/tt2414986">Pigen fra Klubben</a>, <a href="https://www.imdb.com/title/tt2275782">Den Æreløse</a>, <a href="https://www.imdb.com/title/tt2371328">Mit Fædreland, min Kærlighed</a>, <a href="https://www.imdb.com/title/tt0002153">The Great Circus Catastrophe</a>, <a href="https://www.imdb.com/title/tt2369654">Den sidste Nat</a>, <a href="https://www.imdb.com/title/tt2412162">Manden med de ni Fingre IV</a>, <a href="https://www.imdb.com/title/tt0127494">Cowboymillionæren</a></p>
 </blockquote>
 <blockquote>
-<p>Group 13:
+<p>Group 9:
 <a href="https://www.imdb.com/title/tt1593671">Dui Bari</a>, <a href="https://www.imdb.com/title/tt1582470">Asamapta</a>, <a href="https://www.imdb.com/title/tt0321079">Adarsha Hindu Hotel</a>, <a href="https://www.imdb.com/title/tt1584007">Agnisikha</a>, <a href="https://www.imdb.com/title/tt0152702">Surya Toran</a>, <a href="https://www.imdb.com/title/tt1582520">Kancha-Mithey</a>, <a href="https://www.imdb.com/title/tt1593710">Khela Bhangar Khela</a>, <a href="https://www.imdb.com/title/tt1565019">High Heel</a>, <a href="https://www.imdb.com/title/tt1534479">Ogo Shunchho</a>, <a href="https://www.imdb.com/title/tt0215115">Rani Rashmoni</a></p>
 </blockquote>
 <blockquote>
-<p>Group 14:
+<p>Group 10:
 <a href="https://www.imdb.com/title/tt11650350">Wenn du Geld hast</a>, <a href="https://www.imdb.com/title/tt0190147">Willems Vermächtnis</a>, <a href="https://www.imdb.com/title/tt0339272">Die Königin von Honolulu</a>, <a href="https://www.imdb.com/title/tt0219362">Tratsch im Treppenhaus</a>, <a href="https://www.imdb.com/title/tt1495879">Mutter steht ihren Mann</a>, <a href="https://www.imdb.com/title/tt1508341">Strandräuber</a>, <a href="https://www.imdb.com/title/tt0183161">Das Herrschaftskind</a>, <a href="https://www.imdb.com/title/tt1346326">Der Winkeladvokat</a>, <a href="https://www.imdb.com/title/tt1516139">Und oben wohnen Engels</a>, <a href="https://www.imdb.com/title/tt0352637">Nichts gegen Frauen</a></p>
 </blockquote>
 <blockquote>
-<p>Group 15:
-<a href="https://www.imdb.com/title/tt1972806">The Walton Sextuplets: Moving On</a>, <a href="https://www.imdb.com/title/tt3685040">The Walton Sextuplets at 30</a>, <a href="https://www.imdb.com/title/tt3607774">The Walton Sextuplets: 60 Tiny Fingers</a>, <a href="https://www.imdb.com/title/tt3607792">The Walton Sextuplets: Thank Heaven for Little Girls</a>, <a href="https://www.imdb.com/title/tt3607538">The Walton Sextuplets: Come of Age</a>, <a href="https://www.imdb.com/title/tt3657698">The Walton Sextuplets Six of the Best</a>, <a href="https://www.imdb.com/title/tt3657746">The Walton Sextuplets Hannah Luci Ruth Sarah Kate and Jenny</a>, <a href="https://www.imdb.com/title/tt3579998">The Walton Sextuplets</a>, <a href="https://www.imdb.com/title/tt3580610">Six Little Angels</a>, <a href="https://www.imdb.com/title/tt3607730">The Waltons: Meet Mickey Mouse</a></p>
-</blockquote>
-<blockquote>
-<p>Group 16:
-<a href="https://www.imdb.com/title/tt0016430">The Thundering Herd</a>, <a href="https://www.imdb.com/title/tt0014187">The Last Hour</a>, <a href="https://www.imdb.com/title/tt0014135">His Last Race</a>, <a href="https://www.imdb.com/title/tt0010772">This Hero Stuff</a>, <a href="https://www.imdb.com/title/tt0015839">Free and Equal</a>, <a href="https://www.imdb.com/title/tt0013095">Ebb Tide</a>, <a href="https://www.imdb.com/title/tt0021163">Murder Will Out</a>, <a href="https://www.imdb.com/title/tt0013134">Flesh and Blood</a>, <a href="https://www.imdb.com/title/tt0008993">Danger, Go Slow</a>, <a href="https://www.imdb.com/title/tt0016037">Lord Jim</a></p>
-</blockquote>
-<blockquote>
-<p>Group 17:
-<a href="https://www.imdb.com/title/tt6886734">The Story of Night</a>, <a href="https://www.imdb.com/title/tt0293586">Setare-ye haft-asemoon</a>, <a href="https://www.imdb.com/title/tt2388649">For Whom the Hearts Beat</a>, <a href="https://www.imdb.com/title/tt12543962">Haron Va Gharon</a>, <a href="https://www.imdb.com/title/tt0293424">Miracle</a>, <a href="https://www.imdb.com/title/tt0426939">The Caged Tiger</a>, <a href="https://www.imdb.com/title/tt8555060">Kasebha-ye mahal</a>, <a href="https://www.imdb.com/title/tt0293397">Marde do chehre</a>, <a href="https://www.imdb.com/title/tt6273926">Ali Bi Gham</a>, <a href="https://www.imdb.com/title/tt11409926">Yek jo gheirat</a></p>
-</blockquote>
-<blockquote>
-<p>Group 18:
+<p>Group 11:
 <a href="https://www.imdb.com/title/tt0290415">Anbalipu</a>, <a href="https://www.imdb.com/title/tt1440120">Anjal Petty 520</a>, <a href="https://www.imdb.com/title/tt0246985">Thiruvarutselvar</a>, <a href="https://www.imdb.com/title/tt0246666">Gurudakshinai</a>, <a href="https://www.imdb.com/title/tt1440165">Enga Ooru Raja</a>, <a href="https://www.imdb.com/title/tt1475421">Thayin Madiyil</a>, <a href="https://www.imdb.com/title/tt0234061">Kumkumam</a>, <a href="https://www.imdb.com/title/tt1475358">En Kadamai</a>, <a href="https://www.imdb.com/title/tt0156863">Paladai</a>, <a href="https://www.imdb.com/title/tt0256431">Thaye Unakkaga</a></p>
 </blockquote>
 <blockquote>
-<p>Group 19:
+<p>Group 12:
 <a href="https://www.imdb.com/title/tt6417816">Chhota Bheem and the Broken Amulet</a>, <a href="https://www.imdb.com/title/tt6417830">Chhota Bheem and the ShiNobi Secret</a>, <a href="https://www.imdb.com/title/tt6417854">Chhota Bheem aur Hanuman</a>, <a href="https://www.imdb.com/title/tt6417868">Chhota Bheem Aur Mayavi Gorgan</a>, <a href="https://www.imdb.com/title/tt6417876">Chhota Bheem Banjara Masti</a>, <a href="https://www.imdb.com/title/tt6417984">Chhota Bheem Krishna vs Zimbara</a>, <a href="https://www.imdb.com/title/tt6442436">Bheem vs Aliens</a>, <a href="https://www.imdb.com/title/tt6442694">Chhota Bheem Neeli Pahaadi</a>, <a href="https://www.imdb.com/title/tt6442758">Chhota Bheem Paanch Ajoobe</a>, <a href="https://www.imdb.com/title/tt6442766">Chhota Bheem the Crown of Valhalla</a></p>
 </blockquote>
 <blockquote>
-<p>Group 20:
+<p>Group 13:
 <a href="https://www.imdb.com/title/tt0135688">Ta tria paidia Voliotika</a>, <a href="https://www.imdb.com/title/tt0252842">Alygisti sti zoi</a>, <a href="https://www.imdb.com/title/tt0232075">To megalo amartima</a>, <a href="https://www.imdb.com/title/tt0255101">They Can&rsquo;t Keep Us Apart</a>, <a href="https://www.imdb.com/title/tt0135409">Einai megalos o kaimos</a>, <a href="https://www.imdb.com/title/tt0237825">Thimios in the Land of Striptease</a>, <a href="https://www.imdb.com/title/tt0135540">Maria Pentagiotissa</a>, <a href="https://www.imdb.com/title/tt0231167">Apokliroi tis koinonias</a>, <a href="https://www.imdb.com/title/tt0288766">Prodomeni</a>, <a href="https://www.imdb.com/title/tt0263574">Klapse, ftohi mou kardia</a></p>
 </blockquote>
 <p></code><br/></p>

@@ -26,7 +26,7 @@ _Authors: Bi Wu & Chris Kardatzke_
 
 ## Intro
 
-We examined actors/movies data from IMDB ([`data download`](https://datasets.imdbws.com/)|[`data description`](https://www.imdb.com/interfaces/)). In particular, we were interested in 2 topics:
+We examined actors/movies data from IMDB ([`data download`](https://datasets.imdbws.com/) | [`data description`](https://www.imdb.com/interfaces/)). In particular, we were interested in 2 topics:
 
 1. Degree centrality
 2. Factor analysis
@@ -65,13 +65,14 @@ Here is a side by side plot for comparison.
 
 The second thing we were interested in was whether we could use factor analysis to identify genre clusters in an unsupervised way simply by examining costar relationships, without any kind of external genre data or sentiment analysis. We decided to use [Karl Rohe](http://pages.stat.wisc.edu/~karlrohe/)'s [`vsp`](https://github.com/RoheLab/vsp) package due to its speed and ease of use.
 
-We constructed a very sparse (99.999% sparsity) incidence matrix from our edge list and used the `vsp` function with `k=100` as an initial trial. After checking the scree plot, `k=20` was determined to be a suitable size. Using the `bff` function to pick out the 10 best features in each cluster, we get the following groups:
+We constructed a very sparse (99.999% sparsity) incidence matrix from our edge list and used the `vsp` function with `k=100` as an initial trial. After checking the scree plot, `k=20` was determined to be a suitable size. Using the `bff` function to pick out the 10 best features in each cluster, we get the following groups (a few groups were omitted to reduce verbosity):
 
 <br/>
 
 ```{r,eval=T,echo=F,comment="",class.output='condensed'}
 load("assets/data/fa.lists.Rdata")
 options(width=1000)
+fa1.list = fa1.list[-c(17:15,9,7,3,2)]
 ```
 
 <code>
