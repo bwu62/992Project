@@ -16,9 +16,6 @@ menu:
     - name: Home
       url: ""
       weight: 1
-    - name: About Us
-      url: "about/"
-      weight: 2
 
 params:
   description: "Built with Hugo and blogdown."

@@ -2,7 +2,23 @@
 title: Home
 ---
 
-<img src="assets/img/icon.png" style="max-width:20%;min-width:40px;float:right;border-radius:50%" alt="Github repo" />
+<style>
+.plots{
+  max-width: 80%;
+  text-align: center;
+  margin-top: 15px !important;
+}
+pre{
+    white-space: pre-wrap;      /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* Internet Explorer 5.5+ */
+    margin: 40px 0 !important;
+}
+</style>
+
+<img src="assets/img/icon.png" style="max-width:20%;min-width:40px;float:right;border-radius:50%;margin:5px;" alt="Github repo" />
 
 # IMDB Center/Factor Analysis
 
@@ -26,16 +42,62 @@ One popular spinoff conjecture known was that everyone in Hollywood can be linke
 
 Using [`igraph`](https://igraph.org/), we constructed a graph from our edge list data frame based on costar relationships. First, we decided to see how connected people are to Bacon by computing everyone's distance to him in the network, referred to as their bacon numbers. We found a mean degrees of separation of **4.301**. Below is a histogram of these distances.
 
-![bacon numbers](assets/img/bacon.svg)
+<p><img class="plots" src="assets/img/bacon.svg" alt="Bacon numbers"/></p>
 
 Next, we wanted to see if we could find a better center of the network. We setup parallelized jobs to traverse the top 5000 most-connected actors in the network (below this number, actors has so few connections that it's inconceivable they could be the most central) and computed their distance to everyone else in the network.
 
 Using this as our measure of centrality, we found [Eric Roberts](https://en.wikipedia.org/wiki/Eric_Roberts) (brother of [Julia Roberts](https://en.wikipedia.org/wiki/Julia_Roberts) and father of [Emma Roberts](https://en.wikipedia.org/wiki/Emma_Roberts)) to be the most connected, with a mean degrees of separation of just **3.905**. Below is a histogram of these distances.
 
-![roberts numbers](assets/img/roberts.svg)
+<p><img class="plots" src="assets/img/roberts.svg" alt="Roberts numbers"/></p>
 
 Here is a side by side plot for comparison.
 
-![comparison of bacon and roberts numbers](assets/img/bacon-roberts.svg)
+<p><img class="plots" src="assets/img/bacon-roberts.svg" alt="Comparison of Bacon and Roberts numbers"/></p>
 
+## Factor Analysis
 
+The second thing we were interested in was whether we could use factor analysis to identify genre clusters in an unsupervised way simply by examining costar relationships, without any kind of external genre data or sentiment analysis. We decided to use [Karl Rohe](http://pages.stat.wisc.edu/~karlrohe/)'s [`vsp`](https://github.com/RoheLab/vsp) package due to its speed and ease of use.
+
+We constructed a very sparse (99.999% sparsity) incidence matrix from our edge list and used the `vsp` function with `k=100` as an initial trial. After checking the scree plot, `k=20` was determined to be a suitable size. Using the `bff` function to pick out the 10 best features in each cluster, we get the following groups:
+
+<br/>
+
+```{r,eval=T,echo=F,comment="",class.output='condensed'}
+load("assets/data/fa.lists.Rdata")
+options(width=1000)
+```
+
+<code>
+
+`r paste(unlist(lapply(seq_along(fa1.list),function(i){sprintf(" > Group %d:\n%s",i,fa1.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
+
+The code is clearly picking out films purely based on language/country of origin. Following the instructor's suggestion, we decided to subset the data further to select only titles made in the US and with in no language other than English. Running `vsp`, choosing `k=8` based on the scree plot, and then rerunning `vsp` followed by `bff` gives the following clusters.
+
+<br/><code class="fa-links">
+
+`r paste(unlist(lapply(seq_along(fa2.list),function(i){sprintf(" > Group %d:\n%s",i,fa2.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
+
+Now, we seem to be getting clusters around genres/topics. Here is a list of cursory guesses of the topics based on glancing at the highlighted titles:
+
+1. Mystery/drama?
+1. Wrestling ([`Twitter`](https://twitter.com/h_2_0wrestling)|[`YouTube`](https://www.youtube.com/channel/UCFmWdHVzsf1aTl8X6vZbRTg)).
+1. [Blondie movies](https://en.wikipedia.org/wiki/Blondie_(film_series)).
+1. Westerns.
+1. Various independent movies all written & directed by and starring [Ryan Konig](https://www.imdb.com/name/nm4344986) and [Sean Konig](https://www.imdb.com/name/nm4345041).
+1. Various comedies involving [Chris Rex](https://www.imdb.com/name/nm3979912), [Cody Burns](https://www.imdb.com/name/nm3979887), and some other people.
+1. [RiffTrax](https://en.wikipedia.org/wiki/RiffTrax) releases ("humorous audio commentary tracks" played over other movies/shows).
+1. Christian "documentaries".
+
+It seems like certain niche groups tend to release a lot of titles involving the exact same group of cast/crew, and these are easily picked up by `vsp`. However, entire genres involve too many different people, so they're not as easily identified.
+
+Even though we weren't able to identify genres, the results of this analysis (to me at least) are still pretty fascinating. A lot of these topics/titles I've honestly never heard of before, and it's cool to see `vsp` identifying them and grouping them all together.
+
+### Acknowledgement
+
+We'd like to thank the instructor Karl Rohe for providing us with valuable feedback throughout the course of this investigation.
+
+<br/>

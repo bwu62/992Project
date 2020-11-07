@@ -17,8 +17,6 @@
       
       <li><a href="/992Project/">Home</a></li>
       
-      <li><a href="/992Project/about/">About Us</a></li>
-      
     </ul>
     <hr/>
     </nav>
@@ -26,7 +24,22 @@
 
 
 
-<p><img src="assets/img/icon.png" style="max-width:20%;min-width:40px;float:right;border-radius:50%" alt="Github repo" /></p>
+<style>
+.plots{
+  max-width: 80%;
+  text-align: center;
+  margin-top: 15px !important;
+}
+pre{
+    white-space: pre-wrap;      /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* Internet Explorer 5.5+ */
+    margin: 40px 0 !important;
+}
+</style>
+<p><img src="assets/img/icon.png" style="max-width:20%;min-width:40px;float:right;border-radius:50%;margin:5px;" alt="Github repo" /></p>
 <h1 id="imdb-centerfactor-analysis">IMDB Center/Factor Analysis</h1>
 <p>We were interested in investigating actors/movies data from IMDB. The data is conveniently available for <a href="https://datasets.imdbws.com/">download here</a> (<a href="https://www.imdb.com/interfaces/">data description</a>).</p>
 <p>For sake of clarity, we omit directly quoting code. Readers interested in getting into the weeks should consult the <a href="https://github.com/bwu62/992Project">Github</a>.</p>
@@ -38,12 +51,149 @@
 <p><a href="https://en.wikipedia.org/wiki/Frigyes_Karinthy">Frigyes Karithny</a> is widely credited as the originator of the <a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation">six degrees of separation</a> hypothesis that in social networks, any two arbitrary persons can be connected by 6 edge traversals in the network. This was influential in popular culture, inspiring popular <a href="https://en.wikipedia.org/wiki/Six_Degrees_of_Separation_(film)">films</a>, <a href="https://en.wikipedia.org/wiki/Six_Degrees_(TV_series)">shows</a>, and <a href="https://www.youtube.com/watch?v=FCT6Mu-pOeE">music</a>.</p>
 <p>One popular spinoff conjecture known was that everyone in Hollywood can be linked to <a href="https://en.wikipedia.org/wiki/Kevin_Bacon">Kevin Bacon</a> in <a href="https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon">six or fewer film roles</a>. This inspired us to use degrees as a centrality measure and try to identify the &ldquo;center&rdquo; of our IMDB network.</p>
 <p>Using <a href="https://igraph.org/"><code>igraph</code></a>, we constructed a graph from our edge list data frame based on costar relationships. First, we decided to see how connected people are to Bacon by computing everyone&rsquo;s distance to him in the network, referred to as their bacon numbers. We found a mean degrees of separation of <strong>4.301</strong>. Below is a histogram of these distances.</p>
-<p><img src="assets/img/bacon.svg" alt="bacon numbers"></p>
+<p><img class="plots" src="assets/img/bacon.svg" alt="Bacon numbers"/></p>
 <p>Next, we wanted to see if we could find a better center of the network. We setup parallelized jobs to traverse the top 5000 most-connected actors in the network (below this number, actors has so few connections that it&rsquo;s inconceivable they could be the most central) and computed their distance to everyone else in the network.</p>
 <p>Using this as our measure of centrality, we found <a href="https://en.wikipedia.org/wiki/Eric_Roberts">Eric Roberts</a> (brother of <a href="https://en.wikipedia.org/wiki/Julia_Roberts">Julia Roberts</a> and father of <a href="https://en.wikipedia.org/wiki/Emma_Roberts">Emma Roberts</a>) to be the most connected, with a mean degrees of separation of just <strong>3.905</strong>. Below is a histogram of these distances.</p>
-<p><img src="assets/img/roberts.svg" alt="roberts numbers"></p>
+<p><img class="plots" src="assets/img/roberts.svg" alt="Roberts numbers"/></p>
 <p>Here is a side by side plot for comparison.</p>
-<p><img src="assets/img/bacon-roberts.svg" alt="comparison of bacon and roberts numbers"></p>
+<p><img class="plots" src="assets/img/bacon-roberts.svg" alt="Comparison of Bacon and Roberts numbers"/></p>
+<h2 id="factor-analysis">Factor Analysis</h2>
+<p>The second thing we were interested in was whether we could use factor analysis to identify genre clusters in an unsupervised way simply by examining costar relationships, without any kind of external genre data or sentiment analysis. We decided to use <a href="http://pages.stat.wisc.edu/~karlrohe/">Karl Rohe</a>&rsquo;s <a href="https://github.com/RoheLab/vsp"><code>vsp</code></a> package due to its speed and ease of use.</p>
+<p>We constructed a very sparse (99.999% sparsity) incidence matrix from our edge list and used the <code>vsp</code> function with <code>k=100</code> as an initial trial. After checking the scree plot, <code>k=20</code> was determined to be a suitable size. Using the <code>bff</code> function to pick out the 10 best features in each cluster, we get the following groups:</p>
+<br/>
+<code>
+<blockquote>
+<p>Group 1:
+<a href="https://www.imdb.com/title/tt3590664">Jin shang tian hua</a>, <a href="https://www.imdb.com/title/tt3471862">Jigong Huofo</a>, <a href="https://www.imdb.com/title/tt3554940">Wangfu Shan</a>, <a href="https://www.imdb.com/title/tt3298660">Xin Qingnian</a>, <a href="https://www.imdb.com/title/tt3362794">Romance of the Pearl River</a>, <a href="https://www.imdb.com/title/tt3433664">Zhuang Zi Shi Qi</a>, <a href="https://www.imdb.com/title/tt3407004">Zhoushi Fanjia</a>, <a href="https://www.imdb.com/title/tt3407058">Pipa Xing</a>, <a href="https://www.imdb.com/title/tt3590638">Duanchang Hua</a>, <a href="https://www.imdb.com/title/tt3477954">The Swordswoman of the Wild River: Against the Han Clan</a></p>
+</blockquote>
+<blockquote>
+<p>Group 2:
+<a href="https://www.imdb.com/title/tt0280421">Amma Enna Stree</a>, <a href="https://www.imdb.com/title/tt0276915">Divyadharsanam</a>, <a href="https://www.imdb.com/title/tt0281101">Pushpa Sarem</a>, <a href="https://www.imdb.com/title/tt0156125">Thachali Marumakan Chandu</a>, <a href="https://www.imdb.com/title/tt0230398">Kanyadanam</a>, <a href="https://www.imdb.com/title/tt0281293">Tourist Bungalow</a>, <a href="https://www.imdb.com/title/tt0230682">Rajayogam</a>, <a href="https://www.imdb.com/title/tt0279013">Chandrakantham</a>, <a href="https://www.imdb.com/title/tt0214923">Maram</a>, <a href="https://www.imdb.com/title/tt0257957">Neethi</a></p>
+</blockquote>
+<blockquote>
+<p>Group 3:
+<a href="https://www.imdb.com/title/tt1207772">Sto. Cristo</a>, <a href="https://www.imdb.com/title/tt0344518">Valiente Brothers</a>, <a href="https://www.imdb.com/title/tt1151355">Labo-labo</a>, <a href="https://www.imdb.com/title/tt1151347">Johnny West</a>, <a href="https://www.imdb.com/title/tt0375734">Encuentro</a>, <a href="https://www.imdb.com/title/tt0375693">Deadly Brothers</a>, <a href="https://www.imdb.com/title/tt0370456">Despatsadora</a>, <a href="https://www.imdb.com/title/tt2343553">Hepe Goes to War</a>, <a href="https://www.imdb.com/title/tt2140653">Walang bakas na naiiwan</a>, <a href="https://www.imdb.com/title/tt4778222">Isa Lang ang Hari</a></p>
+</blockquote>
+<blockquote>
+<p>Group 4:
+<a href="https://www.imdb.com/title/tt1050218">Ushiwakamarû</a>, <a href="https://www.imdb.com/title/tt1109638">Sûmidagawa no adauchi</a>, <a href="https://www.imdb.com/title/tt1089609">Aizu no Kotetsu</a>, <a href="https://www.imdb.com/title/tt1121068">Ôokubo hikozaemon</a>, <a href="https://www.imdb.com/title/tt1062963">Setta naoshi Chôgorô</a>, <a href="https://www.imdb.com/title/tt1075372">Owari daihachi</a>, <a href="https://www.imdb.com/title/tt1075100">Ôniwaka kurô edojô arashi</a>, <a href="https://www.imdb.com/title/tt1089695">Kana tehon chûsinghura</a>, <a href="https://www.imdb.com/title/tt1106741">Araki mataemon</a>, <a href="https://www.imdb.com/title/tt1116825">Sendai hagi</a></p>
+</blockquote>
+<blockquote>
+<p>Group 5:
+<a href="https://www.imdb.com/title/tt0183858">Takip</a>, <a href="https://www.imdb.com/title/tt0263094">The Sugar Almonds</a>, <a href="https://www.imdb.com/title/tt0345475">Kafkas kartali</a>, <a href="https://www.imdb.com/title/tt0418802">The Armless Hero</a>, <a href="https://www.imdb.com/title/tt0183598">Ölüm görevi</a>, <a href="https://www.imdb.com/title/tt0182754">Babanin suçu</a>, <a href="https://www.imdb.com/title/tt0398841">Cehennem arkadaslari</a>, <a href="https://www.imdb.com/title/tt0306557">The Endless Struggle</a>, <a href="https://www.imdb.com/title/tt0263030">Bitter Love</a>, <a href="https://www.imdb.com/title/tt0431400">Silahli pasazade</a></p>
+</blockquote>
+<blockquote>
+<p>Group 6:
+<a href="https://www.imdb.com/title/tt6977646">O Caso do Senhor Vestido de Violeta</a>, <a href="https://www.imdb.com/title/tt6760116">As Alegres Comadres de Windsor</a>, <a href="https://www.imdb.com/title/tt6557304">O Camões do Rossio</a>, <a href="https://www.imdb.com/title/tt6897332">Sinos de Natal</a>, <a href="https://www.imdb.com/title/tt6553802">A Janela Fechada</a>, <a href="https://www.imdb.com/title/tt6549890">Uma Noite de Paz</a>, <a href="https://www.imdb.com/title/tt6550862">Chocolate á Espanhola</a>, <a href="https://www.imdb.com/title/tt6583714">O Feitiço da Vovó</a>, <a href="https://www.imdb.com/title/tt6997866">Os Terríveis</a>, <a href="https://www.imdb.com/title/tt6865766">Música no Andar de Cima</a></p>
+</blockquote>
+<blockquote>
+<p>Group 7:
+<a href="https://www.imdb.com/title/tt0315149">Uncle Abdu&rsquo;s Ghost</a>, <a href="https://www.imdb.com/title/tt0356004">The Midnight Driver</a>, <a href="https://www.imdb.com/title/tt0318420">The Unjust Angel</a>, <a href="https://www.imdb.com/title/tt0289935">Ebn el-hetta</a>, <a href="https://www.imdb.com/title/tt0359458">The Giant</a>, <a href="https://www.imdb.com/title/tt0342039">God Is on Our Side</a>, <a href="https://www.imdb.com/title/tt0316728">Tarik el saada</a>, <a href="https://www.imdb.com/title/tt0315989">Love in the Shadows</a>, <a href="https://www.imdb.com/title/tt0316208">Written on the Forehead</a>, <a href="https://www.imdb.com/title/tt0315140">Slaves of Money</a></p>
+</blockquote>
+<blockquote>
+<p>Group 8:
+<a href="https://www.imdb.com/title/tt0328177">Naya Bakra</a>, <a href="https://www.imdb.com/title/tt0315487">Dhoti Lota Aur Chowpatty</a>, <a href="https://www.imdb.com/title/tt0178194">Aap Beati</a>, <a href="https://www.imdb.com/title/tt0381521">Pyar Ki Rahen</a>, <a href="https://www.imdb.com/title/tt0232626">Shareef Budmaash</a>, <a href="https://www.imdb.com/title/tt2679238">Hunterwali 77</a>, <a href="https://www.imdb.com/title/tt0154788">Lootmaar</a>, <a href="https://www.imdb.com/title/tt0376483">Angaare</a>, <a href="https://www.imdb.com/title/tt9556410">Laakho Vanzaro</a>, <a href="https://www.imdb.com/title/tt0242307">Bedard Zamana Kya Jane</a></p>
+</blockquote>
+<blockquote>
+<p>Group 9:
+<a href="https://www.imdb.com/title/tt1842364">Fist of the North Star: The Shin Saga</a>, <a href="https://www.imdb.com/title/tt1827386">Danguard Ace</a>, <a href="https://www.imdb.com/title/tt1827387">Danguard Ace 2</a>, <a href="https://www.imdb.com/title/tt1832471">Space Pirate Captain Harlock</a>, <a href="https://www.imdb.com/title/tt1844786">The Adventures of Nadja</a>, <a href="https://www.imdb.com/title/tt1844787">The Adventures of Nadja II</a>, <a href="https://www.imdb.com/title/tt1827527">Space Pirate Captain Harlock 2</a>, <a href="https://www.imdb.com/title/tt1836837">Kitaro&rsquo;s Graveyard Gang</a>, <a href="https://www.imdb.com/title/tt1844663">Gaiking I</a>, <a href="https://www.imdb.com/title/tt1844664">Gaiking II</a></p>
+</blockquote>
+<blockquote>
+<p>Group 10:
+<a href="https://www.imdb.com/title/tt3730290">Koi no Tsumako</a>, <a href="https://www.imdb.com/title/tt3722818">Kyôenrokû</a>, <a href="https://www.imdb.com/title/tt3722918">Ryôen Rokû</a>, <a href="https://www.imdb.com/title/tt0183375">Kuroshio</a>, <a href="https://www.imdb.com/title/tt1180716">Akînosuke to ôsumi</a>, <a href="https://www.imdb.com/title/tt1178086">Aki no koe sannin shoi</a>, <a href="https://www.imdb.com/title/tt3724656">Kobonno</a>, <a href="https://www.imdb.com/title/tt3730244">Koi no Gisei</a>, <a href="https://www.imdb.com/title/tt3724520">Chichiyâ No Mûsume</a>, <a href="https://www.imdb.com/title/tt1047508">Onna no chikai</a></p>
+</blockquote>
+<blockquote>
+<p>Group 11:
+<a href="https://www.imdb.com/title/tt2956242">Insaan Ik Tamasha</a>, <a href="https://www.imdb.com/title/tt1332538">Khandan</a>, <a href="https://www.imdb.com/title/tt1538255">Dil Da Jani</a>, <a href="https://www.imdb.com/title/tt1407130">Aakhri Dao</a>, <a href="https://www.imdb.com/title/tt1207626">Angara</a>, <a href="https://www.imdb.com/title/tt2956176">Bhai Bhai</a>, <a href="https://www.imdb.com/title/tt2956008">Eid Da Chann</a>, <a href="https://www.imdb.com/title/tt1702607">Taj Mahal</a>, <a href="https://www.imdb.com/title/tt1538307">Imam Din Gohavia</a>, <a href="https://www.imdb.com/title/tt1538314">Jigri Yaar</a></p>
+</blockquote>
+<blockquote>
+<p>Group 12:
+<a href="https://www.imdb.com/title/tt2372288">Konkurrencen</a>, <a href="https://www.imdb.com/title/tt0127544">John Redmond, the Evangelist</a>, <a href="https://www.imdb.com/title/tt2276404">Hvorledes jeg kom til Filmen</a>, <a href="https://www.imdb.com/title/tt2414986">Pigen fra Klubben</a>, <a href="https://www.imdb.com/title/tt2275782">Den Æreløse</a>, <a href="https://www.imdb.com/title/tt2371328">Mit Fædreland, min Kærlighed</a>, <a href="https://www.imdb.com/title/tt0002153">The Great Circus Catastrophe</a>, <a href="https://www.imdb.com/title/tt2369654">Den sidste Nat</a>, <a href="https://www.imdb.com/title/tt2412162">Manden med de ni Fingre IV</a>, <a href="https://www.imdb.com/title/tt0127494">Cowboymillionæren</a></p>
+</blockquote>
+<blockquote>
+<p>Group 13:
+<a href="https://www.imdb.com/title/tt1593671">Dui Bari</a>, <a href="https://www.imdb.com/title/tt1582470">Asamapta</a>, <a href="https://www.imdb.com/title/tt0321079">Adarsha Hindu Hotel</a>, <a href="https://www.imdb.com/title/tt1584007">Agnisikha</a>, <a href="https://www.imdb.com/title/tt0152702">Surya Toran</a>, <a href="https://www.imdb.com/title/tt1582520">Kancha-Mithey</a>, <a href="https://www.imdb.com/title/tt1593710">Khela Bhangar Khela</a>, <a href="https://www.imdb.com/title/tt1565019">High Heel</a>, <a href="https://www.imdb.com/title/tt1534479">Ogo Shunchho</a>, <a href="https://www.imdb.com/title/tt0215115">Rani Rashmoni</a></p>
+</blockquote>
+<blockquote>
+<p>Group 14:
+<a href="https://www.imdb.com/title/tt11650350">Wenn du Geld hast</a>, <a href="https://www.imdb.com/title/tt0190147">Willems Vermächtnis</a>, <a href="https://www.imdb.com/title/tt0339272">Die Königin von Honolulu</a>, <a href="https://www.imdb.com/title/tt0219362">Tratsch im Treppenhaus</a>, <a href="https://www.imdb.com/title/tt1495879">Mutter steht ihren Mann</a>, <a href="https://www.imdb.com/title/tt1508341">Strandräuber</a>, <a href="https://www.imdb.com/title/tt0183161">Das Herrschaftskind</a>, <a href="https://www.imdb.com/title/tt1346326">Der Winkeladvokat</a>, <a href="https://www.imdb.com/title/tt1516139">Und oben wohnen Engels</a>, <a href="https://www.imdb.com/title/tt0352637">Nichts gegen Frauen</a></p>
+</blockquote>
+<blockquote>
+<p>Group 15:
+<a href="https://www.imdb.com/title/tt1972806">The Walton Sextuplets: Moving On</a>, <a href="https://www.imdb.com/title/tt3685040">The Walton Sextuplets at 30</a>, <a href="https://www.imdb.com/title/tt3607774">The Walton Sextuplets: 60 Tiny Fingers</a>, <a href="https://www.imdb.com/title/tt3607792">The Walton Sextuplets: Thank Heaven for Little Girls</a>, <a href="https://www.imdb.com/title/tt3607538">The Walton Sextuplets: Come of Age</a>, <a href="https://www.imdb.com/title/tt3657698">The Walton Sextuplets Six of the Best</a>, <a href="https://www.imdb.com/title/tt3657746">The Walton Sextuplets Hannah Luci Ruth Sarah Kate and Jenny</a>, <a href="https://www.imdb.com/title/tt3579998">The Walton Sextuplets</a>, <a href="https://www.imdb.com/title/tt3580610">Six Little Angels</a>, <a href="https://www.imdb.com/title/tt3607730">The Waltons: Meet Mickey Mouse</a></p>
+</blockquote>
+<blockquote>
+<p>Group 16:
+<a href="https://www.imdb.com/title/tt0016430">The Thundering Herd</a>, <a href="https://www.imdb.com/title/tt0014187">The Last Hour</a>, <a href="https://www.imdb.com/title/tt0014135">His Last Race</a>, <a href="https://www.imdb.com/title/tt0010772">This Hero Stuff</a>, <a href="https://www.imdb.com/title/tt0015839">Free and Equal</a>, <a href="https://www.imdb.com/title/tt0013095">Ebb Tide</a>, <a href="https://www.imdb.com/title/tt0021163">Murder Will Out</a>, <a href="https://www.imdb.com/title/tt0013134">Flesh and Blood</a>, <a href="https://www.imdb.com/title/tt0008993">Danger, Go Slow</a>, <a href="https://www.imdb.com/title/tt0016037">Lord Jim</a></p>
+</blockquote>
+<blockquote>
+<p>Group 17:
+<a href="https://www.imdb.com/title/tt6886734">The Story of Night</a>, <a href="https://www.imdb.com/title/tt0293586">Setare-ye haft-asemoon</a>, <a href="https://www.imdb.com/title/tt2388649">For Whom the Hearts Beat</a>, <a href="https://www.imdb.com/title/tt12543962">Haron Va Gharon</a>, <a href="https://www.imdb.com/title/tt0293424">Miracle</a>, <a href="https://www.imdb.com/title/tt0426939">The Caged Tiger</a>, <a href="https://www.imdb.com/title/tt8555060">Kasebha-ye mahal</a>, <a href="https://www.imdb.com/title/tt0293397">Marde do chehre</a>, <a href="https://www.imdb.com/title/tt6273926">Ali Bi Gham</a>, <a href="https://www.imdb.com/title/tt11409926">Yek jo gheirat</a></p>
+</blockquote>
+<blockquote>
+<p>Group 18:
+<a href="https://www.imdb.com/title/tt0290415">Anbalipu</a>, <a href="https://www.imdb.com/title/tt1440120">Anjal Petty 520</a>, <a href="https://www.imdb.com/title/tt0246985">Thiruvarutselvar</a>, <a href="https://www.imdb.com/title/tt0246666">Gurudakshinai</a>, <a href="https://www.imdb.com/title/tt1440165">Enga Ooru Raja</a>, <a href="https://www.imdb.com/title/tt1475421">Thayin Madiyil</a>, <a href="https://www.imdb.com/title/tt0234061">Kumkumam</a>, <a href="https://www.imdb.com/title/tt1475358">En Kadamai</a>, <a href="https://www.imdb.com/title/tt0156863">Paladai</a>, <a href="https://www.imdb.com/title/tt0256431">Thaye Unakkaga</a></p>
+</blockquote>
+<blockquote>
+<p>Group 19:
+<a href="https://www.imdb.com/title/tt6417816">Chhota Bheem and the Broken Amulet</a>, <a href="https://www.imdb.com/title/tt6417830">Chhota Bheem and the ShiNobi Secret</a>, <a href="https://www.imdb.com/title/tt6417854">Chhota Bheem aur Hanuman</a>, <a href="https://www.imdb.com/title/tt6417868">Chhota Bheem Aur Mayavi Gorgan</a>, <a href="https://www.imdb.com/title/tt6417876">Chhota Bheem Banjara Masti</a>, <a href="https://www.imdb.com/title/tt6417984">Chhota Bheem Krishna vs Zimbara</a>, <a href="https://www.imdb.com/title/tt6442436">Bheem vs Aliens</a>, <a href="https://www.imdb.com/title/tt6442694">Chhota Bheem Neeli Pahaadi</a>, <a href="https://www.imdb.com/title/tt6442758">Chhota Bheem Paanch Ajoobe</a>, <a href="https://www.imdb.com/title/tt6442766">Chhota Bheem the Crown of Valhalla</a></p>
+</blockquote>
+<blockquote>
+<p>Group 20:
+<a href="https://www.imdb.com/title/tt0135688">Ta tria paidia Voliotika</a>, <a href="https://www.imdb.com/title/tt0252842">Alygisti sti zoi</a>, <a href="https://www.imdb.com/title/tt0232075">To megalo amartima</a>, <a href="https://www.imdb.com/title/tt0255101">They Can&rsquo;t Keep Us Apart</a>, <a href="https://www.imdb.com/title/tt0135409">Einai megalos o kaimos</a>, <a href="https://www.imdb.com/title/tt0237825">Thimios in the Land of Striptease</a>, <a href="https://www.imdb.com/title/tt0135540">Maria Pentagiotissa</a>, <a href="https://www.imdb.com/title/tt0231167">Apokliroi tis koinonias</a>, <a href="https://www.imdb.com/title/tt0288766">Prodomeni</a>, <a href="https://www.imdb.com/title/tt0263574">Klapse, ftohi mou kardia</a></p>
+</blockquote>
+<p></code><br/></p>
+<p>The code is clearly picking out films purely based on language/country of origin. Following the instructor&rsquo;s suggestion, we decided to subset the data further to select only titles made in the US and with in no language other than English. Running <code>vsp</code>, choosing <code>k=8</code> based on the scree plot, and then rerunning <code>vsp</code> followed by <code>bff</code> gives the following clusters.</p>
+<p><br/><code class="fa-links"></p>
+<blockquote>
+<p>Group 1:
+<a href="https://www.imdb.com/title/tt0014187">The Last Hour</a>, <a href="https://www.imdb.com/title/tt0015839">Free and Equal</a>, <a href="https://www.imdb.com/title/tt0010772">This Hero Stuff</a>, <a href="https://www.imdb.com/title/tt0014135">His Last Race</a>, <a href="https://www.imdb.com/title/tt0008993">Danger, Go Slow</a>, <a href="https://www.imdb.com/title/tt0016430">The Thundering Herd</a>, <a href="https://www.imdb.com/title/tt0021163">Murder Will Out</a>, <a href="https://www.imdb.com/title/tt0013134">Flesh and Blood</a>, <a href="https://www.imdb.com/title/tt0010046">The Daredevil</a>, <a href="https://www.imdb.com/title/tt0338339">Peg o' My Heart</a></p>
+</blockquote>
+<blockquote>
+<p>Group 2:
+<a href="https://www.imdb.com/title/tt11975170">H20: Hustlemania</a>, <a href="https://www.imdb.com/title/tt11975316">H20: Opportunity Knocks</a>, <a href="https://www.imdb.com/title/tt11975086">H20: Hardcore Kingdom 2</a>, <a href="https://www.imdb.com/title/tt12137914">H20: The Best of Subterranean Violence: Volumes 1-666</a>, <a href="https://www.imdb.com/title/tt10675494">H20: Hustlepalooza</a>, <a href="https://www.imdb.com/title/tt11975122">H20: Sweet Dreams</a>, <a href="https://www.imdb.com/title/tt11975686">H20: Written in Blood</a>, <a href="https://www.imdb.com/title/tt12375684">CZW: Tournament of Death XV</a>, <a href="https://www.imdb.com/title/tt12375698">CZW: Tournament of Death 16</a>, <a href="https://www.imdb.com/title/tt11974892">H20: Blood Money</a></p>
+</blockquote>
+<blockquote>
+<p>Group 3:
+<a href="https://www.imdb.com/title/tt0038368">Blondie&rsquo;s Lucky Day</a>, <a href="https://www.imdb.com/title/tt0039201">Blondie&rsquo;s Anniversary</a>, <a href="https://www.imdb.com/title/tt0040174">Blondie&rsquo;s Secret</a>, <a href="https://www.imdb.com/title/tt0029927">Blondie</a>, <a href="https://www.imdb.com/title/tt0031106">Blondie Brings Up Baby</a>, <a href="https://www.imdb.com/title/tt0031108">Blondie Takes a Vacation</a>, <a href="https://www.imdb.com/title/tt0032261">Blondie Has Servant Trouble</a>, <a href="https://www.imdb.com/title/tt0032262">Blondie Plays Cupid</a>, <a href="https://www.imdb.com/title/tt0032263">Blondie on a Budget</a>, <a href="https://www.imdb.com/title/tt0033403">Blondie Goes Latin</a></p>
+</blockquote>
+<blockquote>
+<p>Group 4:
+<a href="https://www.imdb.com/title/tt0037535">Bells of Rosarita</a>, <a href="https://www.imdb.com/title/tt0038968">Song of Arizona</a>, <a href="https://www.imdb.com/title/tt0037894">Man from Oklahoma</a>, <a href="https://www.imdb.com/title/tt0034832">Heart of the Golden West</a>, <a href="https://www.imdb.com/title/tt0037509">Along the Navajo Trail</a>, <a href="https://www.imdb.com/title/tt0039173">Bandits of Dark Canyon</a>, <a href="https://www.imdb.com/title/tt0038611">Home in Oklahoma</a>, <a href="https://www.imdb.com/title/tt0037018">Lights of Old Santa Fe</a>, <a href="https://www.imdb.com/title/tt0038869">Rainbow Over Texas</a>, <a href="https://www.imdb.com/title/tt0038136">Sunset in El Dorado</a></p>
+</blockquote>
+<blockquote>
+<p>Group 5:
+<a href="https://www.imdb.com/title/tt2839014">Before the Movies</a>, <a href="https://www.imdb.com/title/tt1915606">The Amulet</a>, <a href="https://www.imdb.com/title/tt2111444">The Best Movie Ever</a>, <a href="https://www.imdb.com/title/tt2122269">ASRM: The Show</a>, <a href="https://www.imdb.com/title/tt2145535">ASRM: Short Films</a>, <a href="https://www.imdb.com/title/tt2195939">GoldenEar</a>, <a href="https://www.imdb.com/title/tt2407870">The Man-Hunt</a>, <a href="https://www.imdb.com/title/tt3154890">Two Missions</a>, <a href="https://www.imdb.com/title/tt3179284">The Last Magic Act</a>, <a href="https://www.imdb.com/title/tt4557668">Artwork</a></p>
+</blockquote>
+<blockquote>
+<p>Group 6:
+<a href="https://www.imdb.com/title/tt1929348">Prank Calls: Video Collection</a>, <a href="https://www.imdb.com/title/tt3303148">Prank Calls: 50th Call Anniversary</a>, <a href="https://www.imdb.com/title/tt4513078">Prank Calls: Return of the King</a>, <a href="https://www.imdb.com/title/tt4042020">Phillip: The Movie</a>, <a href="https://www.imdb.com/title/tt5886236">Take Me Back: Greatest So Far&hellip;</a>, <a href="https://www.imdb.com/title/tt3496286">The Virgins</a>, <a href="https://www.imdb.com/title/tt2672326">Forgotten Hero</a>, <a href="https://www.imdb.com/title/tt3247852">Ten Dollar Bill</a>, <a href="https://www.imdb.com/title/tt3184648">Camp Harlow</a>, <a href="https://www.imdb.com/title/tt7952840">The Pastor and the Pro</a></p>
+</blockquote>
+<blockquote>
+<p>Group 7:
+<a href="https://www.imdb.com/title/tt6740544">RiffTrax Live: Night of the Shorts IV - SF Sketchfest 2016</a>, <a href="https://www.imdb.com/title/tt3154342">RiffTrax Live: Night of the Shorts SF Sketchfest 2013</a>, <a href="https://www.imdb.com/title/tt6745170">RiffTrax Live: Night of the Shorts, A Good Day to Riff Hard - SF Sketchfest 2015</a>, <a href="https://www.imdb.com/title/tt2027202">RiffTrax Live: House on Haunted Hill</a>, <a href="https://www.imdb.com/title/tt2145853">RiffTrax Live: Plan 9 from Outer Space</a>, <a href="https://www.imdb.com/title/tt6361584">Rifftrax: Order in the Shorts</a>, <a href="https://www.imdb.com/title/tt10263222">RiffTrax: High School Musical</a>, <a href="https://www.imdb.com/title/tt10321126">RiffTrax: The Hunger Games</a>, <a href="https://www.imdb.com/title/tt10321138">RiffTrax: Star Wars: The Force Awakens</a>, <a href="https://www.imdb.com/title/tt10322272">RiffTrax: Captain America: The First Avenger</a></p>
+</blockquote>
+<blockquote>
+<p>Group 8:
+<a href="https://www.imdb.com/title/tt10887266">The Days of Noah Part 3: The Valley of Decision</a>, <a href="https://www.imdb.com/title/tt10887286">The Days of Noah Part 4: Ark of Fire</a>, <a href="https://www.imdb.com/title/tt9647732">The Days of Noah: Judgment Hour</a>, <a href="https://www.imdb.com/title/tt9647706">The Days of Noah: The Flood</a>, <a href="https://www.imdb.com/title/tt8362562">Kingdoms in Time</a>, <a href="https://www.imdb.com/title/tt6360332">Is Genesis History?</a>, <a href="https://www.imdb.com/title/tt1832487">The Creation: Faith, Science, Intelligent Design</a>, <a href="https://www.imdb.com/title/tt11898048">Charmed by Darkness</a>, <a href="https://www.imdb.com/title/tt7522002">Genesis: Paradise Lost</a>, <a href="https://www.imdb.com/title/tt10555608">All Aboard</a></p>
+</blockquote>
+<p></code><br/></p>
+<p>Now, we seem to be getting clusters around genres/topics. Here is a list of cursory guesses of the topics based on glancing at the highlighted titles:</p>
+<ol>
+<li>Mystery/drama?</li>
+<li>Wrestling (<a href="https://twitter.com/h_2_0wrestling"><code>Twitter</code></a>|<a href="https://www.youtube.com/channel/UCFmWdHVzsf1aTl8X6vZbRTg"><code>YouTube</code></a>).</li>
+<li><a href="https://en.wikipedia.org/wiki/Blondie_(film_series)">Blondie movies</a>.</li>
+<li>Westerns.</li>
+<li>Various independent movies all written &amp; directed by and starring <a href="https://www.imdb.com/name/nm4344986">Ryan Konig</a> and <a href="https://www.imdb.com/name/nm4345041">Sean Konig</a>.</li>
+<li>Various comedies involving <a href="https://www.imdb.com/name/nm3979912">Chris Rex</a>, <a href="https://www.imdb.com/name/nm3979887">Cody Burns</a>, and some other people.</li>
+<li><a href="https://en.wikipedia.org/wiki/RiffTrax">RiffTrax</a> releases (&ldquo;humorous audio commentary tracks&rdquo; played over other movies/shows).</li>
+<li>Christian &ldquo;documentaries&rdquo;.</li>
+</ol>
+<p>It seems like certain niche groups tend to release a lot of titles involving the exact same group of cast/crew, and these are easily picked up by <code>vsp</code>. However, entire genres involve too many different people, so they&rsquo;re not as easily identified.</p>
+<p>Even though we weren&rsquo;t able to identify genres, the results of this analysis (to me at least) are still pretty fascinating. A lot of these topics/titles I&rsquo;ve honestly never heard of before, and it&rsquo;s cool to see <code>vsp</code> identifying them and grouping them all together.</p>
+<h3 id="acknowledgement">Acknowledgement</h3>
+<p>We&rsquo;d like to thank the instructor Karl Rohe for providing us with valuable feedback throughout the course of this investigation.</p>
+<br/>
 
 
 <ul>

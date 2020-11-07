@@ -1,7 +1,7 @@
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 if(!require(pacman)) install.packages("pacman")
-pacman::p_load(tidyverse,igraph,ggplot2,scales,Matrix,vsp)
+pacman::p_load(tidyverse,igraph,ggplot2,scales,Matrix,vsp,magrittr)
 library(tidyverse)
 
 # load data
@@ -36,22 +36,31 @@ str(imdb.incidence)
 setNames(dim(imdb.incidence),c("titles","actors"))
 
 fa = vsp(imdb.incidence,k=20)
-plot(fa$d)
 
 # fa$Z %>% 
 #   apply(2, function(x)title.names[t.names[which(rank(-x,ties.method="random") <= 10)]])
 
-bff(fa$Y,t(imdb.incidence),10) %>% 
+fa1.bff = bff(fa$Y,t(imdb.incidence),10)
+
+fa1.titles = fa1.bff %>% 
   apply(2, function(x)sapply(x,function(i)title.names[which(i==names(title.names))]))
 
-bff(fa$Z,imdb.incidence,10) %>% 
-  apply(2, function(x)sapply(x,function(i)actor.names[which(i==names(actor.names))]))
+fa1.links = fa1.bff %>% 
+  apply(2, function(x)sapply(x,function(i){
+    sprintf("[%s](https://www.imdb.com/title/%s)",title.names[which(i==names(title.names))],i)
+  }))
+
+# save(fa1.titles,file="content/assets/data/fa1.titles.Rdata",compression_level=9)
+
+# bff(fa$Z,imdb.incidence,10) %>% 
+#   apply(2, function(x)sapply(x,function(i)actor.names[which(i==names(actor.names))]))
 
 
 
 # load country/language data
 load("data/region.Rdata")
-eng.titles = CL[which(!is.na(str_match(CL[[2]],"USA")) | !is.na(str_match(CL[[1]],"English"))),1]
+# eng.titles = CL[which(!is.na(str_match(CL[[2]],"USA")) | !is.na(str_match(CL[[3]],"English"))),1]
+eng.titles = CL %>% filter(grepl("USA",country) & (is.na(language) | language=="English")) %>% pull(tconst)
 
 # # also remove tvmovies, since seems like a lot of junk
 # keep.titles.2 = read_tsv("data/title.basics.tsv.gz",na="\\N",quote="",
@@ -71,7 +80,11 @@ eng.titles = CL[which(!is.na(str_match(CL[[2]],"USA")) | !is.na(str_match(CL[[1]
 # 
 # principals2.eng = principals %>% filter(tconst %in% eng.titles & tconst %in% keep.titles.2)
 # save(principals2.eng,file="data/principals2.eng.Rdata",compression_level=9)
-# load("data/principals2.eng.Rdata")
+
+load("data/principals2.eng.Rdata")
+
+# use new filter from above
+principals2.eng %<>% filter(tconst %in% eng.titles)
 
 t.names.eng = unique(principals2.eng$tconst)
 n.names.eng = unique(principals2.eng$nconst)
@@ -85,18 +98,29 @@ imdb.incidence.eng =
 str(imdb.incidence.eng)
 setNames(dim(imdb.incidence.eng),c("titles","actors"))
 
-# big jumps after k=2,5,8 small jumps after k=14,18,23,37
-fa.eng = vsp(imdb.incidence.eng,k=50)
+# big jumps after k=2,5,8 small jump after k=12,19
+fa.eng = vsp(imdb.incidence.eng,k=100)
 plot(fa.eng$d)
 
-fa.eng = vsp(imdb.incidence.eng,k=23)
+fa.eng = vsp(imdb.incidence.eng,k=8)
 
 # fa.eng$Z %>% 
 #   apply(2, function(x)title.names[t.names[which(rank(-x,ties.method="random") <= 10)]])
 
-bff(fa.eng$Y,t(imdb.incidence.eng),10) %>% 
+fa2.bff = bff(fa.eng$Y,t(imdb.incidence.eng),10)
+
+fa2.titles = fa2.bff %>% 
   apply(2, function(x)sapply(x,function(i)title.names[which(i==names(title.names))]))
 
-bff(fa.eng$Z,imdb.incidence.eng,10) %>% 
-  apply(2, function(x)sapply(x,function(i)actor.names[which(i==names(actor.names))]))
+fa2.links = fa2.bff %>% 
+  apply(2, function(x)sapply(x,function(i){
+    sprintf("[%s](https://www.imdb.com/title/%s)",title.names[which(i==names(title.names))],i)
+  }))
 
+# bff(fa.eng$Z,imdb.incidence.eng,10) %>% 
+#   apply(2, function(x)sapply(x,function(i)actor.names[which(i==names(actor.names))]))
+
+fa1.list = lapply(fa1.links%>%data.frame, .%>%paste(.,collapse=", "))
+fa2.list = lapply(fa2.links%>%data.frame, .%>%paste(.,collapse=", "))
+
+save(fa1.list,fa2.list,file="content/assets/data/fa.lists.Rdata")
