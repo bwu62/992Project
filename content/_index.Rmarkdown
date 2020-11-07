@@ -51,7 +51,7 @@ Using [`igraph`](https://igraph.org/), we constructed a graph from our edge list
 
 <p><img class="plots" src="assets/img/bacon.svg" alt="Bacon numbers"/></p>
 
-Next, we wanted to see if we could find a better center of the network. We setup parallelized jobs to traverse the top 5000 most-connected actors in the network (below this number, actors has so few connections that it's inconceivable they could be the most central) and computed their distance to everyone else in the network.
+Next, we wanted to see if we could find a better center of the network. We setup parallelized jobs to traverse the top 5000 most-connected actors in the network (below this number, actors have so few connections that it's inconceivable they could be the most central) and computed their distance to everyone else in the network.
 
 Using this as our measure of centrality, we found [Eric Roberts](https://en.wikipedia.org/wiki/Eric_Roberts) (brother of [Julia Roberts](https://en.wikipedia.org/wiki/Julia_Roberts) and father of [Emma Roberts](https://en.wikipedia.org/wiki/Emma_Roberts)) to be the most connected, with a mean degrees of separation of just **3.905**. Below is a histogram of these distances.
 
