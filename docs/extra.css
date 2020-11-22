@@ -1,0 +1,37 @@
+.reveal{
+  font-size: 200% !important;
+}
+
+.subtitle{
+  font-size: 1.6em !important;
+}
+
+.title{
+  margin-bottom: 0 !important;
+}
+
+.author,.date{
+  font-size: 1.2em !important;
+}
+
+.author{
+  margin: 20px 0 0 !important;
+}
+
+li{
+  margin: 5px 0 !important;
+}
+
+/*
+.reveal p {
+  text-align: left;
+}
+.reveal ul {
+  display: block;
+}
+.reveal ol {
+  display: block;
+}
+*/
+
+

@@ -2,7 +2,6 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse,igraph,ggplot2,scales,Matrix,vsp,magrittr)
-library(tidyverse)
 
 # load data
 load("data/principals+names.Rdata")

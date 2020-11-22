@@ -1,0 +1,32 @@
+---
+title: "STAT992 Project Proposal:"
+subtitle: "Cluster balancing with IMDB data"
+author: "Bi Wu, Chris Kardatzke, Yuqin Mu<br><a href='https://github.com/bwu62/992Project' class='subsubtitle'>Github</a>, <a href='https://github.com/bwu62/992Project' class='subsubtitle'>Blog</a>"
+date: "11/22/2020"
+output:
+  revealjs::revealjs_presentation:
+    css: extra.css
+    theme: sky
+    highlight: pygments
+    center: true
+    transition: convex
+    reveal_options:
+      slideNumber: false
+      previewLinks: false
+---
+
+# Background
+
+## Data description
+
+ - Title & cast data from [IMDB database](https://www.imdb.com/interfaces/)
+ - Data wrangling:
+   - Filter out TV series, shorts, & adult content
+   - Merge title/cast IDs with names
+   - Scrape titles' language/country info
+ - Convert to incidence matrix
+   - $\sim\!463\text{k}\!\times\!607\text{k}$ &nbsp; ($\text{titles}\!\times\!\text{actors}$)
+
+
+
+
