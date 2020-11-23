@@ -17,29 +17,47 @@ output:
 
 # Background
 
-## Data description
+## Data
 
- - Title & cast data from [IMDB database](https://www.imdb.com/interfaces/)
- - Focus on **mainstream movies**
-   - removed: TV series, shorts, adult content
-   - subsetted largest connected component
- - Incidence matrix
-   - $\sim\!463\text{K}\!\times\!607\text{K}$ &nbsp; ($\text{titles}\!\times\!\text{actors}$)
-   - $\sim\!99.999\%$ sparsity
- - Additional attributes:
-   - title/actor names
-   - country/language info (scraped)
+<ul>
+<li>Title & cast data from [IMDB database](https://www.imdb.com/interfaces/)</li>
+<li class="fragment fade-up">Focus on **mainstream movies**
+  <ul>
+  <li>removed: TV series, shorts, adult content</li>
+  <li>subsetted largest connected component</li>
+  </ul>
+</li>
+<li class="fragment fade-up">Incidence matrix
+  <ul>
+  <li>$\sim\!463\text{K}\!\times\!607\text{K}$ &nbsp; ($\text{titles}\!\times\!\text{actors}$)</li>
+  <li>$\sim\!99.999\%$ sparsity</li>
+  </ul>
+</li>
+<li class="fragment fade-up">Additional attributes:
+  <ul>
+  <li>title/actor names</li>
+  <li>country/language info (scraped)</li>
+  </ul>
+</li>
+</ul>
 
 ## Previous work
 
- - Node centrality analysis (see [blog](https://bwu62.github.io/992Project/#centrality))
- - Factor analysis with [`VSP`](https://github.com/RoheLab/vsp)
-   - Goal:
-     - Group films by **genre** based on cast
-   - Result:
-     - Grouped by **country/language** instead
- - Retried with English-only titles
-   - Clusters have strange **cliques**
+<ul>
+<li>Node centrality analysis (see [blog](https://bwu62.github.io/992Project/#centrality))</li>
+<li class="fragment fade-up" data-fragment-index="1">Factor analysis with [`VSP`](https://github.com/RoheLab/vsp)
+  <ul>
+  <li class="fragment fade-up" data-fragment-index="1">Goal: Group films by **genre** based on cast</li>
+  <li class="fragment fade-up" data-fragment-index="2">Result: Grouped by **country/language** instead</li>
+  </ul>
+</li>
+<li class="fragment fade-up" data-fragment-index="3">Retried with English-only titles
+  <ul>
+  <li>Clusters have strange **cliques**</li>
+  </ul>
+</li>
+</ul>
+
 
 ## Cliques
 
@@ -47,5 +65,56 @@ output:
 
 # Next steps
 
+## Cluster Balancing
+
+<ul>
+<li>Goal: extract better **genre** info with `vsp`</li>
+<li class="fragment fade-up" data-fragment-index="1">Try: encourage larger, more balanced clusters</li>
+<li class="fragment fade-up" data-fragment-index="2">Methods to try:
+  <ul>
+  <li class="fragment fade-up" data-fragment-index="2">Transform (projected) adjacency matrix $AA^\text{T}$?</li>
+  <li class="fragment fade-up" data-fragment-index="3">Contract highly connected nodes?</li>
+  <li class="fragment fade-up" data-fragment-index="4">Something else??</li>
+  </ul>
+</li>
+</ul>
+
+# Questions?
+
+<small>(special thanks to Karl Rohe for his<br>guidance throughout this project)</small>
+
+<!--
+<ul>
+<li></li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+</ul>
+-->
 
 

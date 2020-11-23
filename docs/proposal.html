@@ -1782,51 +1782,135 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <h3 class="date"><a href="https://github.com/bwu62/992Project">[GitHub]</a></h3>
 </section>
 
-<section><section id="background" class="title-slide slide level1"><h1>Background</h1></section><section id="data-description" class="slide level2">
-<h2>Data description</h2>
+<section><section id="background" class="title-slide slide level1"><h1>Background</h1></section><section id="data" class="slide level2">
+<h2>Data</h2>
 <ul>
-<li>Title &amp; cast data from <a href="https://www.imdb.com/interfaces/">IMDB database</a></li>
-<li>Focus on <strong>mainstream movies</strong>
+<li>
+Title &amp; cast data from <a href="https://www.imdb.com/interfaces/">IMDB database</a>
+</li>
+<li class="fragment fade-up">
+Focus on <strong>mainstream movies</strong>
 <ul>
-<li>removed: TV series, shorts, adult content</li>
-<li>subsetted largest connected component</li>
-</ul></li>
-<li>Incidence matrix
+<li>
+removed: TV series, shorts, adult content
+</li>
+<li>
+subsetted largest connected component
+</li>
+</ul>
+</li>
+<li class="fragment fade-up">
+Incidence matrix
 <ul>
-<li><span class="math inline">\(\sim\!463\text{K}\!\times\!607\text{K}\)</span>   (<span class="math inline">\(\text{titles}\!\times\!\text{actors}\)</span>)</li>
-<li><span class="math inline">\(\sim\!99.999\%\)</span> sparsity</li>
-</ul></li>
-<li>Additional attributes:
+<li>
+<span class="math inline">\(\sim\!463\text{K}\!\times\!607\text{K}\)</span>   (<span class="math inline">\(\text{titles}\!\times\!\text{actors}\)</span>)
+</li>
+<li>
+<span class="math inline">\(\sim\!99.999\%\)</span> sparsity
+</li>
+</ul>
+</li>
+<li class="fragment fade-up">
+Additional attributes:
 <ul>
-<li>title/actor names</li>
-<li>country/language info (scraped)</li>
-</ul></li>
+<li>
+title/actor names
+</li>
+<li>
+country/language info (scraped)
+</li>
+</ul>
+</li>
 </ul>
 </section><section id="previous-work" class="slide level2">
 <h2>Previous work</h2>
 <ul>
-<li>Node centrality analysis (see <a href="https://bwu62.github.io/992Project/#centrality">blog</a>)</li>
-<li>Factor analysis with <a href="https://github.com/RoheLab/vsp"><code>VSP</code></a>
+<li>
+Node centrality analysis (see <a href="https://bwu62.github.io/992Project/#centrality">blog</a>)
+</li>
+<li class="fragment fade-up" data-fragment-index="1">
+Factor analysis with <a href="https://github.com/RoheLab/vsp"><code>VSP</code></a>
 <ul>
-<li>Goal:
+<li class="fragment fade-up" data-fragment-index="1">
+Goal: Group films by <strong>genre</strong> based on cast
+</li>
+<li class="fragment fade-up" data-fragment-index="2">
+Result: Grouped by <strong>country/language</strong> instead
+</li>
+</ul>
+</li>
+<li class="fragment fade-up" data-fragment-index="3">
+Retried with English-only titles
 <ul>
-<li>Group films by <strong>genre</strong> based on cast</li>
-</ul></li>
-<li>Result:
-<ul>
-<li>Grouped by <strong>country/language</strong> instead</li>
-</ul></li>
-</ul></li>
-<li>Retried with English-only titles
-<ul>
-<li>Clusters have strange <strong>cliques</strong></li>
-</ul></li>
+<li>
+Clusters have strange <strong>cliques</strong>
+</li>
+</ul>
+</li>
 </ul>
 </section><section id="cliques" class="slide level2">
 <h2>Cliques</h2>
 <p><img data-src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnID8+DQo8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZycgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnIHZpZXdCb3g9JzAgMCAzOTYuMDAgMjg4LjAwJz4NCjxkZWZzPg0KICA8c3R5bGUgdHlwZT0ndGV4dC9jc3MnPjwhW0NEQVRBWw0KICAgIGxpbmUsIHBvbHlsaW5lLCBwb2x5Z29uLCBwYXRoLCByZWN0LCBjaXJjbGUgew0KICAgICAgZmlsbDogbm9uZTsNCiAgICAgIHN0cm9rZTogIzAwMDAwMDsNCiAgICAgIHN0cm9rZS1saW5lY2FwOiByb3VuZDsNCiAgICAgIHN0cm9rZS1saW5lam9pbjogcm91bmQ7DQogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7DQogICAgfQ0KICBdXT48L3N0eWxlPg0KPC9kZWZzPg0KPHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgc3R5bGU9J3N0cm9rZTogbm9uZTsgZmlsbDogbm9uZTsnLz4NCjxyZWN0IHg9JzAuMDAwMDAwMDAwMDAwMDMyJyB5PScwLjAwJyB3aWR0aD0nMzk2LjAwJyBoZWlnaHQ9JzI4OC4wMCcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOycgLz4NCjxkZWZzPg0KICA8Y2xpcFBhdGggaWQ9J2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09Jz4NCiAgICA8cmVjdCB4PSc1NS4xNScgeT0nMjMuMTknIHdpZHRoPSczMzUuMzcnIGhlaWdodD0nMjMzLjMyJyAvPg0KICA8L2NsaXBQYXRoPg0KPC9kZWZzPg0KPHJlY3QgeD0nNTUuMTUnIHk9JzIzLjE5JyB3aWR0aD0nMzM1LjM3JyBoZWlnaHQ9JzIzMy4zMicgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxwb2x5bGluZSBwb2ludHM9JzU1LjE1LDIzMy45NiAzOTAuNTIsMjMzLjk2ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC4wNjQ7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxwb2x5bGluZSBwb2ludHM9JzU1LjE1LDE4OC44NSAzOTAuNTIsMTg4Ljg1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC4wNjQ7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxwb2x5bGluZSBwb2ludHM9JzU1LjE1LDE0My43NCAzOTAuNTIsMTQzLjc0ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC4wNjQ7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxwb2x5bGluZSBwb2ludHM9JzU1LjE1LDk4LjYzIDM5MC41Miw5OC42MyAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuMDY0OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cG9seWxpbmUgcG9pbnRzPSc1NS4xNSw1My41MiAzOTAuNTIsNTMuNTIgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjA2NDsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyBjbGlwLXBhdGg9J3VybCgjY3BOVFV1TVRWOE16a3dMalV5ZkRJMU5pNDFNWHd5TXk0eE9RPT0pJyAvPg0KPHBvbHlsaW5lIHBvaW50cz0nNTUuMTUsMjU2LjUxIDM5MC41MiwyNTYuNTEgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjExOyBzdHJva2UtbGluZWNhcDogYnV0dDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cG9seWxpbmUgcG9pbnRzPSc1NS4xNSwyMTEuNDAgMzkwLjUyLDIxMS40MCAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuMTE7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxwb2x5bGluZSBwb2ludHM9JzU1LjE1LDE2Ni4yOSAzOTAuNTIsMTY2LjI5ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC4xMTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyBjbGlwLXBhdGg9J3VybCgjY3BOVFV1TVRWOE16a3dMalV5ZkRJMU5pNDFNWHd5TXk0eE9RPT0pJyAvPg0KPHBvbHlsaW5lIHBvaW50cz0nNTUuMTUsMTIxLjE5IDM5MC41MiwxMjEuMTkgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjExOyBzdHJva2UtbGluZWNhcDogYnV0dDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cG9seWxpbmUgcG9pbnRzPSc1NS4xNSw3Ni4wOCAzOTAuNTIsNzYuMDggJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjExOyBzdHJva2UtbGluZWNhcDogYnV0dDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cG9seWxpbmUgcG9pbnRzPSc1NS4xNSwzMC45NyAzOTAuNTIsMzAuOTcgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjExOyBzdHJva2UtbGluZWNhcDogYnV0dDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cmVjdCB4PSc1NS4xNScgeT0nNzcuMzQnIHdpZHRoPSczOC4yMScgaGVpZ2h0PScxNzkuMTcnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IHNxdWFyZTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlcjsgZmlsbDogI0ZGN0YwMDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cmVjdCB4PSc5Ny42MCcgeT0nMTIyLjA3JyB3aWR0aD0nMzguMjEnIGhlaWdodD0nMTM0LjQ0JyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2U6IG5vbmU7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmU7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICNGRjdGMDA7JyBjbGlwLXBhdGg9J3VybCgjY3BOVFV1TVRWOE16a3dMalV5ZkRJMU5pNDFNWHd5TXk0eE9RPT0pJyAvPg0KPHJlY3QgeD0nMTQwLjA1JyB5PScxNjYuODknIHdpZHRoPSczOC4yMScgaGVpZ2h0PSc4OS42Micgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogc3F1YXJlOyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBmaWxsOiAjRkY3RjAwOycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxyZWN0IHg9JzE4Mi41MScgeT0nMjMuMTknIHdpZHRoPSczOC4yMScgaGVpZ2h0PScyMzMuMzInIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IHNxdWFyZTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlcjsgZmlsbDogI0ZGN0YwMDsnIGNsaXAtcGF0aD0ndXJsKCNjcE5UVXVNVFY4TXprd0xqVXlmREkxTmk0MU1Yd3lNeTR4T1E9PSknIC8+DQo8cmVjdCB4PScyMjQuOTYnIHk9JzE2Ni44OScgd2lkdGg9JzM4LjIxJyBoZWlnaHQ9Jzg5LjYyJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2U6IG5vbmU7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmU7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICNGRjdGMDA7JyBjbGlwLXBhdGg9J3VybCgjY3BOVFV1TVRWOE16a3dMalV5ZkRJMU5pNDFNWHd5TXk0eE9RPT0pJyAvPg0KPHJlY3QgeD0nMjY3LjQxJyB5PSc3OC4zOCcgd2lkdGg9JzM4LjIxJyBoZWlnaHQ9JzE3OC4xMycgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogc3F1YXJlOyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBmaWxsOiAjRkY3RjAwOycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxyZWN0IHg9JzMwOS44NicgeT0nMTEwLjY0JyB3aWR0aD0nMzguMjEnIGhlaWdodD0nMTQ1Ljg3JyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2U6IG5vbmU7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmU7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICNGRjdGMDA7JyBjbGlwLXBhdGg9J3VybCgjY3BOVFV1TVRWOE16a3dMalV5ZkRJMU5pNDFNWHd5TXk0eE9RPT0pJyAvPg0KPHJlY3QgeD0nMzUyLjMxJyB5PSc4My4xMCcgd2lkdGg9JzM4LjIxJyBoZWlnaHQ9JzE3My40MScgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogc3F1YXJlOyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBmaWxsOiAjRkY3RjAwOycgY2xpcC1wYXRoPSd1cmwoI2NwTlRVdU1UVjhNemt3TGpVeWZESTFOaTQxTVh3eU15NHhPUT09KScgLz4NCjxkZWZzPg0KICA8Y2xpcFBhdGggaWQ9J2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0nPg0KICAgIDxyZWN0IHg9JzAuMDAnIHk9JzAuMDAnIHdpZHRoPSczOTYuMDAnIGhlaWdodD0nMjg4LjAwJyAvPg0KICA8L2NsaXBQYXRoPg0KPC9kZWZzPg0KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0pJz48dGV4dCB4PSc0NS4zMicgeT0nMjU5LjY2JyBzdHlsZT0nZm9udC1zaXplOiA4LjgwcHg7IGZpbGw6ICM0RDRENEQ7IGZvbnQtZmFtaWx5OiBBcmlhbDsnIHRleHRMZW5ndGg9JzQuODlweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz4xPC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nNDAuNDMnIHk9JzIxNC41NScgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4OyBmaWxsOiAjNEQ0RDREOyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPSc5Ljc5cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+MTA8L3RleHQ+PC9nPg0KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0pJz48dGV4dCB4PSczNS41NCcgeT0nMTY5LjQ0JyBzdHlsZT0nZm9udC1zaXplOiA4LjgwcHg7IGZpbGw6ICM0RDRENEQ7IGZvbnQtZmFtaWx5OiBBcmlhbDsnIHRleHRMZW5ndGg9JzE0LjY4cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+MTAwPC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nMjguMjAnIHk9JzEyNC4zNCcgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4OyBmaWxsOiAjNEQ0RDREOyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPScyMi4wMnB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPjEsMDAwPC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nMjMuMzAnIHk9Jzc5LjIzJyBzdHlsZT0nZm9udC1zaXplOiA4LjgwcHg7IGZpbGw6ICM0RDRENEQ7IGZvbnQtZmFtaWx5OiBBcmlhbDsnIHRleHRMZW5ndGg9JzI2LjkycHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+MTAsMDAwPC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nMTguNDEnIHk9JzM0LjEyJyBzdHlsZT0nZm9udC1zaXplOiA4LjgwcHg7IGZpbGw6ICM0RDRENEQ7IGZvbnQtZmFtaWx5OiBBcmlhbDsnIHRleHRMZW5ndGg9JzMxLjgxcHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+MTAwLDAwMDwvdGV4dD48L2c+DQo8ZyBjbGlwLXBhdGg9J3VybCgjY3BNQzR3TUh3ek9UWXVNREI4TWpnNExqQXdmREF1TURBPSknPjx0ZXh0IHg9JzcxLjgxJyB5PScyNjcuNzQnIHN0eWxlPSdmb250LXNpemU6IDguODBweDsgZmlsbDogIzRENEQ0RDsgZm9udC1mYW1pbHk6IEFyaWFsOycgdGV4dExlbmd0aD0nNC44OXB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPjE8L3RleHQ+PC9nPg0KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0pJz48dGV4dCB4PScxMTQuMjYnIHk9JzI2Ny43NCcgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4OyBmaWxsOiAjNEQ0RDREOyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPSc0Ljg5cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+MjwvdGV4dD48L2c+DQo8ZyBjbGlwLXBhdGg9J3VybCgjY3BNQzR3TUh3ek9UWXVNREI4TWpnNExqQXdmREF1TURBPSknPjx0ZXh0IHg9JzE1Ni43MScgeT0nMjY3Ljc0JyBzdHlsZT0nZm9udC1zaXplOiA4LjgwcHg7IGZpbGw6ICM0RDRENEQ7IGZvbnQtZmFtaWx5OiBBcmlhbDsnIHRleHRMZW5ndGg9JzQuODlweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz4zPC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nMTk5LjE2JyB5PScyNjcuNzQnIHN0eWxlPSdmb250LXNpemU6IDguODBweDsgZmlsbDogIzRENEQ0RDsgZm9udC1mYW1pbHk6IEFyaWFsOycgdGV4dExlbmd0aD0nNC44OXB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPjQ8L3RleHQ+PC9nPg0KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0pJz48dGV4dCB4PScyNDEuNjEnIHk9JzI2Ny43NCcgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4OyBmaWxsOiAjNEQ0RDREOyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPSc0Ljg5cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+NTwvdGV4dD48L2c+DQo8ZyBjbGlwLXBhdGg9J3VybCgjY3BNQzR3TUh3ek9UWXVNREI4TWpnNExqQXdmREF1TURBPSknPjx0ZXh0IHg9JzI4NC4wNycgeT0nMjY3Ljc0JyBzdHlsZT0nZm9udC1zaXplOiA4LjgwcHg7IGZpbGw6ICM0RDRENEQ7IGZvbnQtZmFtaWx5OiBBcmlhbDsnIHRleHRMZW5ndGg9JzQuODlweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz42PC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nMzI2LjUyJyB5PScyNjcuNzQnIHN0eWxlPSdmb250LXNpemU6IDguODBweDsgZmlsbDogIzRENEQ0RDsgZm9udC1mYW1pbHk6IEFyaWFsOycgdGV4dExlbmd0aD0nNC44OXB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPjc8L3RleHQ+PC9nPg0KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0pJz48dGV4dCB4PSczNjguOTcnIHk9JzI2Ny43NCcgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4OyBmaWxsOiAjNEQ0RDREOyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPSc0Ljg5cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+ODwvdGV4dD48L2c+DQo8ZyBjbGlwLXBhdGg9J3VybCgjY3BNQzR3TUh3ek9UWXVNREI4TWpnNExqQXdmREF1TURBPSknPjx0ZXh0IHg9JzIwNS40MScgeT0nMjgwLjIxJyBzdHlsZT0nZm9udC1zaXplOiAxMS4wMHB4OyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPSczNC44NHB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPkNsdXN0ZXI8L3RleHQ+PC9nPg0KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01Id3pPVFl1TURCOE1qZzRMakF3ZkRBdU1EQT0pJz48dGV4dCB0cmFuc2Zvcm09J3RyYW5zbGF0ZSgxMy4zNSwxNTQuNTIpIHJvdGF0ZSgtOTApJyBzdHlsZT0nZm9udC1zaXplOiAxMS4wMHB4OyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPScyOS4zNXB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPkNvdW50PC90ZXh0PjwvZz4NCjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHd6T1RZdU1EQjhNamc0TGpBd2ZEQXVNREE9KSc+PHRleHQgeD0nNTUuMTUnIHk9JzE0LjkzJyBzdHlsZT0nZm9udC1zaXplOiAxMy4yMHB4OyBmb250LWZhbWlseTogQXJpYWw7JyB0ZXh0TGVuZ3RoPSc3NS41NXB4JyBsZW5ndGhBZGp1c3Q9J3NwYWNpbmdBbmRHbHlwaHMnPkNsdXN0ZXIgc2l6ZXM8L3RleHQ+PC9nPg0KPC9zdmc+DQo=" alt="plot of cluster sizes to show cliques" /></p>
 </section></section>
-<section id="next-steps" class="title-slide slide level1"><h1>Next steps</h1></section>
+<section><section id="next-steps" class="title-slide slide level1"><h1>Next steps</h1></section><section id="cluster-balancing" class="slide level2">
+<h2>Cluster Balancing</h2>
+<ul>
+<li>
+Goal: extract better <strong>genre</strong> info with <code>vsp</code>
+</li>
+<li class="fragment fade-up" data-fragment-index="1">
+Try: encourage larger, more balanced clusters
+</li>
+<li class="fragment fade-up" data-fragment-index="2">
+Methods to try:
+<ul>
+<li class="fragment fade-up" data-fragment-index="2">
+Transform (projected) adjacency matrix <span class="math inline">\(AA^\text{T}\)</span>?
+</li>
+<li class="fragment fade-up" data-fragment-index="3">
+Contract highly connected nodes?
+</li>
+<li class="fragment fade-up" data-fragment-index="4">
+Something else??
+</li>
+</ul>
+</li>
+</ul>
+</section></section>
+<section id="questions" class="title-slide slide level1"><h1>Questions?</h1><p><small>(special thanks to Karl Rohe for his<br>guidance throughout this project)</small></p>
+<!--
+<ul>
+<li></li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+<li class="fragment fade-up">
+  <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  </ul>
+</li>
+</ul>
+--></section>
     </div>
   </div>
 
