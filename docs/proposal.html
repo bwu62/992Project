@@ -1386,7 +1386,7 @@ transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
     <style type="text/css">code{white-space: pre;}</style>
 
-    <style type="text/css">.reveal{font-size: 200% !important;}.subtitle{font-size: 1.5em !important;}.title{margin-bottom: 0 !important;}.author{font-size: 1em !important;margin: 20px 0 0 !important;text-transform: none !important;}.date{font-size: 0.8em !important;text-transform: none !important;}li{margin: 8px 0 !important;}section.level2>ul{font-size: 80% !important;}h2{margin-bottom: 30px !important;font-size: 1.8em !important;}section.level1>h1{font-size: 2em;}.reveal img{max-width: 75% !important;border: 1px solid rgba(0,0,0,.33) !important;box-shadow: none !important;}</style>
+    <style type="text/css">.reveal{font-size: 200% !important;}.subtitle{font-size: 1.48em !important;}.title{margin-bottom: 0 !important;}.author{font-size: 1em !important;margin: 20px 0 0 !important;text-transform: none !important;}.date{font-size: 0.8em !important;text-transform: none !important;}li{margin: 8px 0 !important;}section.level2>ul{font-size: 80% !important;}h2{margin-bottom: 30px !important;font-size: 1.8em !important;}section.level1>h1{font-size: 2em;}.reveal img{max-width: 75% !important;border: 1px solid rgba(0,0,0,.33) !important;box-shadow: none !important;}</style>
 
 <!-- Printing and PDF exports -->
 <script id="paper-css" type="application/dynamic-css">
@@ -1777,7 +1777,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 <section>
     <h1 class="title">STAT992 Project Proposal:</h1>
-  <h1 class="subtitle">Cluster balancing with IMDB data</h1>
+  <h1 class="subtitle">Genre Identification with IMDB data</h1>
     <h2 class="author">Bi Cheng Wu, Chris Kardatzke, Yuqin Mu</h2>
     <h3 class="date"><a href="https://github.com/bwu62/992Project">[GitHub]</a></h3>
 </section>
@@ -1865,12 +1865,21 @@ Try: encourage larger, more balanced clusters
 Methods to try:
 <ul>
 <li class="fragment fade-up" data-fragment-index="1">
-Transform (projected) adjacency matrix <span class="math inline">\(AA^\text{T}\)</span>?
+Transform (projected) adjacency matrix <span class="math inline">\(AA^\text{T}\)</span> (titles)?
 </li>
 <li class="fragment fade-up" data-fragment-index="2">
-Contract highly connected nodes?
+Identify and contract clique/outlier nodes?
+<ul>
+<li class="fragment fade-up" data-fragment-index="2">
+PPR on <span class="math inline">\(A^\text{T}A\)</span> (actors)?
 </li>
 <li class="fragment fade-up" data-fragment-index="3">
+Predict using other metrics?<br />
+e.g., coreness, degree, centrality, etc.
+</li>
+</ul>
+</li>
+<li class="fragment fade-up" data-fragment-index="4">
 Something else??
 </li>
 </ul>

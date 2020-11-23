@@ -1,6 +1,6 @@
 ---
 title: "STAT992 Project Proposal:"
-subtitle: "Cluster balancing with IMDB data"
+subtitle: "Genre Identification with IMDB data"
 author: "Bi Cheng Wu, Chris Kardatzke, Yuqin Mu"
 date: "<a href='https://github.com/bwu62/992Project'>[GitHub]</a>"
 output:
@@ -71,11 +71,17 @@ output:
 <li>Goal: extract better **genre** info with `vsp`</li>
 <li>Try: encourage larger, more balanced clusters</li>
 <li class="fragment fade-up" data-fragment-index="1">Methods to try:
-  <ul>
-  <li class="fragment fade-up" data-fragment-index="1">Transform (projected) adjacency matrix $AA^\text{T}$?</li>
-  <li class="fragment fade-up" data-fragment-index="2">Contract highly connected nodes?</li>
-  <li class="fragment fade-up" data-fragment-index="3">Something else??</li>
-  </ul>
+ <ul>
+ <li class="fragment fade-up" data-fragment-index="1">Transform (projected) adjacency matrix $AA^\text{T}$ (titles)?</li>
+ <li class="fragment fade-up" data-fragment-index="2">Identify and contract clique/outlier nodes?
+ <ul>
+  <li class="fragment fade-up" data-fragment-index="2">PPR on $A^\text{T}A$ (actors)?</li>
+  <li class="fragment fade-up" data-fragment-index="3">Predict using other metrics?    
+  e.g., coreness, degree, centrality, etc.</li>
+ </ul>
+ </li>
+ <li class="fragment fade-up" data-fragment-index="4">Something else??</li>
+ </ul>
 </li>
 </ul>
 

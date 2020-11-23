@@ -109,11 +109,12 @@ fa.eng = vsp(imdb.incidence.eng,k=8)
 apply(fa.eng$Y,1,which.max) %>% 
   table %>% 
   enframe(name="Cluster",value="Count") %>% 
+  arrange(desc(Count)) %>% mutate(Cluster=rownames(.)) %>% 
   mutate(Cluster=as.numeric(Cluster)) %>% 
   ggplot(aes(x=Cluster,y=Count)) + geom_col(position="dodge",width=0.9,fill="darkorange1") + 
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),expand=c(0,0)) + 
-  scale_x_continuous(breaks=1:8,expand=c(0,0)) + labs(title="Cluster sizes") +
+  scale_x_continuous(breaks=1:100,expand=c(0,0)) + labs(title="Cluster sizes") +
   theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
