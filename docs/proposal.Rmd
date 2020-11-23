@@ -69,12 +69,12 @@ output:
 
 <ul>
 <li>Goal: extract better **genre** info with `vsp`</li>
-<li class="fragment fade-up" data-fragment-index="1">Try: encourage larger, more balanced clusters</li>
-<li class="fragment fade-up" data-fragment-index="2">Methods to try:
+<li>Try: encourage larger, more balanced clusters</li>
+<li class="fragment fade-up" data-fragment-index="1">Methods to try:
   <ul>
-  <li class="fragment fade-up" data-fragment-index="2">Transform (projected) adjacency matrix $AA^\text{T}$?</li>
-  <li class="fragment fade-up" data-fragment-index="3">Contract highly connected nodes?</li>
-  <li class="fragment fade-up" data-fragment-index="4">Something else??</li>
+  <li class="fragment fade-up" data-fragment-index="1">Transform (projected) adjacency matrix $AA^\text{T}$?</li>
+  <li class="fragment fade-up" data-fragment-index="2">Contract highly connected nodes?</li>
+  <li class="fragment fade-up" data-fragment-index="3">Something else??</li>
   </ul>
 </li>
 </ul>
