@@ -118,7 +118,7 @@ apply(fa.eng$Y,1,which.max) %>%
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.major.y = element_line(color="black",size=.05),
-    panel.grid.minor.y = element_line(color="black",size=.02),
+    panel.grid.minor.y = element_line(color="black",size=.03),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
