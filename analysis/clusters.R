@@ -106,6 +106,24 @@ fa.eng = vsp(imdb.incidence.eng,k=8)
 # fa.eng$Z %>% 
 #   apply(2, function(x)title.names[t.names[which(rank(-x,ties.method="random") <= 10)]])
 
+apply(fa.eng$Y,1,which.max) %>% 
+  table %>% 
+  enframe(name="Cluster",value="Count") %>% 
+  mutate(Cluster=as.numeric(Cluster)) %>% 
+  ggplot(aes(x=Cluster,y=Count)) + geom_col(position="dodge",width=0.9,fill="darkorange1") + 
+  scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
+                labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),expand=c(0,0)) + 
+  scale_x_continuous(breaks=1:8,expand=c(0,0)) + labs(title="Cluster sizes") +
+  theme_minimal() + theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(color="black",size=.05),
+    panel.grid.minor.y = element_line(color="black",size=.02),
+    panel.background = element_rect(fill="transparent",colour=NA),
+    plot.background = element_rect(fill="transparent",colour=NA)
+  )
+ggsave("../docs/cliques.svg",width=5.5,height=4,bg="transparent")
+
 fa2.bff = bff(fa.eng$Y,t(imdb.incidence.eng),10)
 
 fa2.titles = fa2.bff %>% 

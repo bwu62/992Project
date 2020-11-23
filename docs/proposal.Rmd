@@ -1,17 +1,17 @@
 ---
 title: "STAT992 Project Proposal:"
 subtitle: "Cluster balancing with IMDB data"
-author: "Bi Wu, Chris Kardatzke, Yuqin Mu<br><a href='https://github.com/bwu62/992Project' class='subsubtitle'>Github</a>, <a href='https://github.com/bwu62/992Project' class='subsubtitle'>Blog</a>"
-date: "11/22/2020"
+author: "Bi Cheng Wu, Chris Kardatzke, Yuqin Mu"
+date: "<a href='https://github.com/bwu62/992Project'>[GitHub]</a>"
 output:
   revealjs::revealjs_presentation:
     css: extra.css
     theme: sky
     highlight: pygments
     center: true
-    transition: convex
+    fig_width: 3
+    fig_height: 2
     reveal_options:
-      slideNumber: false
       previewLinks: false
 ---
 
@@ -20,13 +20,32 @@ output:
 ## Data description
 
  - Title & cast data from [IMDB database](https://www.imdb.com/interfaces/)
- - Data wrangling:
-   - Filter out TV series, shorts, & adult content
-   - Merge title/cast IDs with names
-   - Scrape titles' language/country info
- - Convert to incidence matrix
-   - $\sim\!463\text{k}\!\times\!607\text{k}$ &nbsp; ($\text{titles}\!\times\!\text{actors}$)
+ - Focus on **mainstream movies**
+   - removed: TV series, shorts, adult content
+   - subsetted largest connected component
+ - Incidence matrix
+   - $\sim\!463\text{K}\!\times\!607\text{K}$ &nbsp; ($\text{titles}\!\times\!\text{actors}$)
+   - $\sim\!99.999\%$ sparsity
+ - Additional attributes:
+   - title/actor names
+   - country/language info (scraped)
 
+## Previous work
+
+ - Node centrality analysis (see [blog](https://bwu62.github.io/992Project/#centrality))
+ - Factor analysis with [`VSP`](https://github.com/RoheLab/vsp)
+   - Goal:
+     - Group films by **genre** based on cast
+   - Result:
+     - Grouped by **country/language** instead
+ - Retried with English-only titles
+   - Clusters have strange **cliques**
+
+## Cliques
+
+![plot of cluster sizes to show cliques](cliques.svg)
+
+# Next steps
 
 
 

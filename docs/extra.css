@@ -3,23 +3,46 @@
 }
 
 .subtitle{
-  font-size: 1.6em !important;
+  font-size: 1.5em !important;
 }
 
 .title{
   margin-bottom: 0 !important;
 }
 
-.author,.date{
-  font-size: 1.2em !important;
+.author{
+  font-size: 1em !important;
+  margin: 20px 0 0 !important;
+  text-transform: none !important;
 }
 
-.author{
-  margin: 20px 0 0 !important;
+.date{
+  font-size: 0.8em !important;
+  text-transform: none !important;
 }
 
 li{
-  margin: 5px 0 !important;
+  margin: 8px 0 !important;
+}
+
+section.level2>ul{
+  font-size: 80% !important;
+}
+
+h2{
+  margin-bottom: 30px !important;
+  font-size: 1.8em !important;
+}
+
+section.level1>h1{
+  font-size: 2em;
+}
+
+.reveal img{
+  max-width: 75% !important;
+  /* max-height: 75% !important; */
+  border: 1px solid rgba(0,0,0,.33) !important;
+  box-shadow: none !important;
 }
 
 /*
