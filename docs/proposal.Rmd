@@ -83,38 +83,3 @@ output:
 
 <small>(special thanks to Karl Rohe for his<br>guidance throughout this project)</small>
 
-<!--
-<ul>
-<li></li>
-<li class="fragment fade-up">
-  <ul>
-  <li></li>
-  <li></li>
-  <li></li>
-  </ul>
-</li>
-<li class="fragment fade-up">
-  <ul>
-  <li></li>
-  <li></li>
-  <li></li>
-  </ul>
-</li>
-<li class="fragment fade-up">
-  <ul>
-  <li></li>
-  <li></li>
-  <li></li>
-  </ul>
-</li>
-<li class="fragment fade-up">
-  <ul>
-  <li></li>
-  <li></li>
-  <li></li>
-  </ul>
-</li>
-</ul>
--->
-
-
