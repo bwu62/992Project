@@ -1,6 +1,6 @@
 ---
 title: "STAT992 Project Proposal:"
-subtitle: "Genre Clustering with IMDB data"
+subtitle: "Genre Identification with IMDB data"
 author: "Bi Cheng Wu, Chris Kardatzke, Yuqin Mu"
 date: "<a href='https://github.com/bwu62/992Project'>[GitHub]</a>"
 output:
