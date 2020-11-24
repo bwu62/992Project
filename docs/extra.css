@@ -45,6 +45,10 @@ section.level1>h1{
   box-shadow: none !important;
 }
 
+div.progress{
+  height: 5px !important;
+}
+
 /*
 .reveal p {
   text-align: left;
