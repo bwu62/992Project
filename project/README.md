@@ -29,8 +29,8 @@ ls()
 
 You should have these objects:
 
- - `principals2.eng`: edge list of English-language titles and their cast (using IDs)
- - `actor.names.eng`, `title.names.eng`: real names of the movies and actors
+ - `principals2.eng` : edge list of English-language titles and their cast (using IDs)
+ - `actor.names.eng` , `title.names.eng` : real names of the movies and actors
 
 ## Basic processing
 
