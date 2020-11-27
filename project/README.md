@@ -67,7 +67,7 @@ Some other random notes:
 
 ## Good luck!
 
-I think this should be enough to get you started. Let me know if you have other questions.
+I think this should be enough to get you started. Let me know if you have other questions (and remember to commit and push your changes often!).
 
 Other resources:
 
