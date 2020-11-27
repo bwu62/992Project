@@ -11,14 +11,14 @@ imdb = full_join(principals,principals,c('tconst'='tconst'))[,c(2,3,1)] %>%
   filter(nconst.x!=nconst.y) %>%
   graph_from_data_frame(directed=F)
 
-# also get simplified version (no multiple edges, no attributes)
-imdb.simple = simplify(imdb)
-
-# convert multiple edges to weights
-imdb.simple.weighted = imdb
-E(imdb.simple.weighted)$weight = 1
-imdb.simple.weighted = simplify(imdb.simple.weighted,
-                                edge.attr.comb=list(weight="sum",tconst="ignore"))
+# # also get simplified version (no multiple edges, no attributes)
+# imdb.simple = simplify(imdb)
+# 
+# # convert multiple edges to weights
+# imdb.simple.weighted = imdb
+# E(imdb.simple.weighted)$weight = 1
+# imdb.simple.weighted = simplify(imdb.simple.weighted,
+#                                 edge.attr.comb=list(weight="sum",tconst="ignore"))
 
 # imdb.cliques = largest.cliques(imdb.simple)
 
@@ -57,10 +57,10 @@ fa1.links = fa1.bff %>%
 
 
 # load country/language data
-load("data/region.Rdata")
+# load("data/region.Rdata")
 # eng.titles = CL[which(!is.na(str_match(CL[[2]],"USA")) | !is.na(str_match(CL[[3]],"English"))),1]
-eng.titles = CL %>% filter(grepl("USA",country) & (is.na(language) | language=="English")) %>% pull(tconst)
-
+# eng.titles = CL %>% filter(grepl("USA",country) & (is.na(language) | language=="English")) %>% pull(tconst)
+# 
 # # also remove tvmovies, since seems like a lot of junk
 # keep.titles.2 = read_tsv("data/title.basics.tsv.gz",na="\\N",quote="",
 #                          col_types=cols(
@@ -78,12 +78,15 @@ eng.titles = CL %>% filter(grepl("USA",country) & (is.na(language) | language=="
 #   pull(tconst)
 # 
 # principals2.eng = principals %>% filter(tconst %in% eng.titles & tconst %in% keep.titles.2)
-# save(principals2.eng,file="data/principals2.eng.Rdata",compression_level=9)
+# 
+# # use new filter from above
+# principals2.eng %<>% filter(tconst %in% eng.titles)
+# 
 
-load("data/principals2.eng.Rdata")
+save(principals2.eng,actor.names.eng,title.names.eng,
+     file="../project/eng_principals2+names.Rdata",compression_level=9)
 
-# use new filter from above
-principals2.eng %<>% filter(tconst %in% eng.titles)
+load("../project/principals2.eng.Rdata")
 
 t.names.eng = unique(principals2.eng$tconst)
 n.names.eng = unique(principals2.eng$nconst)
@@ -142,3 +145,29 @@ fa1.list = lapply(fa1.links%>%data.frame, .%>%paste(.,collapse=", "))
 fa2.list = lapply(fa2.links%>%data.frame, .%>%paste(.,collapse=", "))
 
 save(fa1.list,fa2.list,file="content/assets/data/fa.lists.Rdata")
+
+
+
+
+
+# get some missing names
+
+library(rvest)
+
+n.names.eng[which(is.na(actor.names.eng))] -> missing
+missing_names = setNames(rep(NA,length(missing)),missing)
+
+for(M in missing){
+  page = read_html(paste0("https://www.imdb.com/name/",M))
+  N = page %>% html_nodes(xpath="//span[@class='itemprop']") %>% 
+    .[1] %>% sub("^.+>([^<]+)<.+$","\\1",.)
+  print(c(M,N))
+  missing_names[M] = N
+}
+
+actor.names.eng = actor.names.eng[!is.na(actor.names.eng)]
+actor.names.eng = c(actor.names.eng,missing_names)
+actor.names.eng = actor.names.eng[n.names.eng]
+
+# save(principals2.eng,actor.names.eng,title.names.eng,
+#      file="../project/eng_principals2+names.Rdata",compression_level=9)
