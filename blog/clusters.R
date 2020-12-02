@@ -82,11 +82,10 @@ fa1.links = fa1.bff %>%
 # # use new filter from above
 # principals2.eng %<>% filter(tconst %in% eng.titles)
 # 
+# save(principals2.eng,actor.names.eng,title.names.eng,
+#      file="../project/eng_principals2+names.Rdata",compression_level=9)
 
-save(principals2.eng,actor.names.eng,title.names.eng,
-     file="../project/eng_principals2+names.Rdata",compression_level=9)
-
-load("../project/principals2.eng.Rdata")
+load("../project/eng_principals2+names.Rdata")
 
 t.names.eng = unique(principals2.eng$tconst)
 n.names.eng = unique(principals2.eng$nconst)
@@ -97,8 +96,9 @@ imdb.incidence.eng =
          value=1) %>% 
   with(.,sparseMatrix(i=tconst,j=nconst,x=value,dimnames=list(t.names.eng,n.names.eng)))
 
+names(imdb.incidence.eng@Dimnames) = c("titles","actors")
+
 str(imdb.incidence.eng)
-setNames(dim(imdb.incidence.eng),c("titles","actors"))
 
 # big jumps after k=2,5,8 small jump after k=12,19
 fa.eng = vsp(imdb.incidence.eng,k=100)
@@ -106,18 +106,15 @@ plot(fa.eng$d)
 
 fa.eng = vsp(imdb.incidence.eng,k=8)
 
-# fa.eng$Z %>% 
-#   apply(2, function(x)title.names[t.names[which(rank(-x,ties.method="random") <= 10)]])
-
-apply(fa.eng$Y,1,which.max) %>% 
+apply(fa.eng$Z,1,which.max) %>% 
   table %>% 
   enframe(name="Cluster",value="Count") %>% 
-  arrange(desc(Count)) %>% mutate(Cluster=rownames(.)) %>% 
-  mutate(Cluster=as.numeric(Cluster)) %>% 
+  mutate(Cluster=as.character(Cluster)) %>% 
   ggplot(aes(x=Cluster,y=Count)) + geom_col(position="dodge",width=0.9,fill="darkorange1") + 
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
-                labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),expand=c(0,0)) + 
-  scale_x_continuous(breaks=1:100,expand=c(0,0)) + labs(title="Cluster sizes") +
+                labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
+                limits=c(1,1.5e5),expand=c(0,0)) + 
+  labs(title="Cluster sizes") +
   theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
@@ -128,7 +125,17 @@ apply(fa.eng$Y,1,which.max) %>%
   )
 ggsave("../docs/cliques.svg",width=5.5,height=4,bg="transparent")
 
-fa2.bff = bff(fa.eng$Y,t(imdb.incidence.eng),10)
+
+# get cluster and value for each title
+apply(fa.eng$Z,1,function(x){c(which.max(x),max(x))}) %>% 
+  t %>% 
+  set_colnames(c("cluster","value")) %>% 
+  set_rownames(t.names.eng) ->
+  fa2.clusters
+
+save(fa2.clusters,file="../content/assets/data/fa2.clusters.Rdata",compression_level=9)
+
+fa2.bff = bff(fa.eng$Z,imdb.incidence.eng,10)
 
 fa2.titles = fa2.bff %>% 
   apply(2, function(x)sapply(x,function(i)title.names[which(i==names(title.names))]))
