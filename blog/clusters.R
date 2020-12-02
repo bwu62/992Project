@@ -133,7 +133,7 @@ apply(fa.eng$Z,1,function(x){c(which.max(x),max(x))}) %>%
   set_rownames(t.names.eng) ->
   fa2.clusters
 
-save(fa2.clusters,file="../content/assets/data/fa2.clusters.Rdata",compression_level=9)
+save(fa2.clusters,file="../project/chris/fa2.clusters.Rdata",compression_level=9)
 
 fa2.bff = bff(fa.eng$Z,imdb.incidence.eng,10)
 
