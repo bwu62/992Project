@@ -45,7 +45,7 @@ imdb.incidence.eng =
   with(.,sparseMatrix(i=tconst,j=nconst,x=value,dimnames=list(names(title.names.eng),names(actor.names.eng))))
 ```
 
-If you wanted to project $AA^\text{T}$ or $A^\text{T}A$, you can transpose and multiply like a normal `R` matrix.
+If you wanted to project A(A^T) or (A^T)A, you can transpose and multiply like a normal `R` matrix.
 
 ```r
 # get title by title projected adjacency matrix
