@@ -1,0 +1,18 @@
+---
+title: Log transformed clusters
+output: html_document
+---
+
+```{r}
+load("../project/bi/fa.log.list.Rdata")
+options(width=1000)
+```
+
+<br/><code class="fa-links">
+
+`r paste(unlist(lapply(seq_along(fa.log.list),function(i){sprintf(" > Group %d:\n%s",i,fa.log.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
+
+
+

@@ -125,6 +125,9 @@ apply(fa.eng$Z,1,which.max) %>%
   )
 ggsave("../docs/cliques.svg",width=5.5,height=4,bg="transparent")
 
+# library(DescTools)
+# Gini(table(apply(fa.eng$Z,1,which.max)))
+# # gini index: 0.914
 
 # get cluster and value for each title
 apply(fa.eng$Z,1,function(x){c(which.max(x),max(x))}) %>% 
