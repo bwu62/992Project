@@ -8,7 +8,7 @@ load("../project/bi/fa.log.list.Rdata")
 options(width=1000)
 ```
 
-<br/><code class="fa-links">
+<br/><code class="fa-links" style="white-space:normal">
 
 `r paste(unlist(lapply(seq_along(fa.log.list),function(i){sprintf(" > Group %d:\n%s",i,fa.log.list[[i]])})),collapse='\n\n')`
 
