@@ -78,7 +78,7 @@ apply(fa.log$Z,1,which.max) %>%
 
 Gini(table(apply(fa.log$Z,1,which.max)))
 
-fa.log.bff = bff(fa.log$Z,AAT,10)
+fa.log.bff = bff(fa.log$Z,AAT,20)
 fa.log.titles = fa.log.bff %>% 
   apply(2, function(x)sapply(x,function(i)title.names.eng[which(i==names(title.names.eng))]))
 fa.log.links = fa.log.bff %>% 
