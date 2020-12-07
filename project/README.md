@@ -55,6 +55,98 @@ AAT = imdb.incidence.eng %*% t(imdb.incidence.eng)
 ATA = t(imdb.incidence.eng) %*% imdb.incidence.eng
 ```
 
+## Running VSP
+
+Once clique nodes have been identified and filtered out, you're ready to run `vsp` again to check the results. Rerun the code above that was used to generate `imdb.incidence.eng` to generate your new incidence matrix.
+
+Suppose your new clique-filtered incidence matrix is called `imdb.incidence.new` (and assume of course it's still titles as rows and actors as columns). Run `vsp` and save the output as following, starting with an extremely high value of `k` :
+
+```r
+fa.new = vsp(imdb.incidence.new,k=100)
+```
+
+Make the scree plot (i.e. plot of eigenvalues) just to see what it looks like.
+
+```r
+plot(fa.new$d)
+```
+
+Normally we would look for a 'jump' which would suggest a possible value to set as `k`, but since we are comparing our results to the previous analysis where `k=8`, we will set `k=8` regardless of the eigenvalues and rerun. (If you see something strange with the scree plot, mention it to your group mates!)
+
+```r
+fa.new = vsp(imdb.incidence.new,k=8)
+```
+
+The main outputs of `vsp` are `$Z`, which is the clustering on the rows; and `$Y`, which is the clustering on the columns. Since we have titles on rows, we want `$Z`. To quickly plot the cluster groups, I did this:
+
+```r
+apply(fa.new$Z,1,which.max) %>% 
+  table %>% 
+  enframe(name="Cluster",value="Count") %>% 
+  mutate(Cluster=as.numeric(Cluster)) %>% 
+  ggplot(aes(x=Cluster,y=Count)) + geom_col(position="dodge",width=0.9,fill="darkorange1") + 
+  scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
+                labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
+                limits=c(1,1e5),expand=c(0,0)) + 
+  annotation_logticks(sides="l") + 
+  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
+  labs(title="Title") + 
+  theme_minimal() + theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(color="black",size=.05),
+    panel.grid.minor.y = element_blank(),
+    panel.background = element_rect(fill="transparent",colour=NA),
+    plot.background = element_rect(fill="transparent",colour=NA)
+  )
+```
+
+Remember to change the following to your plot:
+ - Change the title in `labs(title="Title")`
+ - Change the y-limits (which were set manually for aesthetic purposes) in `limits=c(1,1e5)` inside `scale_y_log10`
+ - If you want, you can also change the color (I just arbitrarily chose `"darkorange1"` cause I thought it looked nice)
+
+You should also compute the [Gini index](https://en.wikipedia.org/wiki/Gini_coefficient) of your cluster sizes to measure how imbalanced the clusters are. You can use the `Gini` function in the `DescTools` package.
+
+```r
+pacman::p_load(DescTools)
+Gini(table(apply(fa.new$Z,1,which.max)))
+```
+
+## Extra (checking cluster results)
+
+You can also look at some of the top movies in your clusters using the `bff` tool from `vsp`. Here's some code I wrote to automatically generate [Markdown-formatted links](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links) that you can then paste into a notebook (I used `num_best=10` to get the top 10 but you can change this).
+
+Also, I'm not quite sure why, but `bff` seems to need to run on `$Y` to generate the top titles. It also needs the transpose of the incidence matrix as the second argument. The outputs look right though so I'm pretty sure this is fine.
+
+```r
+# select best features
+fa.new.bff = bff(fa.new$Y,t(imdb.incidence.new),num_best=10)
+fa.new.bff
+
+# view titles for these features
+fa.new.titles = fa.new.bff %>% 
+  apply(2, function(x)sapply(x,function(i)title.names.eng[which(i==names(title.names.eng))]))
+fa.new.titles
+
+# add Markdown-formatted links to titles so viewer can click on titles to get to movie page on imdb
+# these must be saved in a .md file and viewed or converted with a tool that understands Markdown
+# GitHub renders .md files natively (this page you're reading right now is actually written in .md)
+# Rstudio will also knit .md to html for you if you want to test locally
+fa.new.links = fa.new.bff %>% 
+  apply(2, function(x){
+    sapply(x,function(i){
+      sprintf("[%s](https://www.imdb.com/title/%s)",title.names.eng[which(i==names(title.names.eng))],i)
+    })
+  })
+
+# print links; the output of these lines can be copied into your .md files directly
+for(i in 1:ncol(fa.new.links)){
+  cat("Group ",i,":\n")
+  cat(paste(fa.new.links[,1],collapse='\n'),'\n\n')
+}
+```
+
 ## Other notes
 
 Some other random notes:
