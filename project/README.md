@@ -149,7 +149,7 @@ fa.new.links = fa.new.bff %>%
 # print links; the output of these lines can be copied into your .md files directly
 for(i in 1:ncol(fa.new.links)){
   cat("Group ",i,":\n")
-  cat(paste(fa.new.links[,1],collapse='\n'),'\n\n')
+  cat(paste(fa.new.links[,i],collapse='\n'),'\n\n')
 }
 ```
 
