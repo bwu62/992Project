@@ -101,6 +101,12 @@ apply(fa.new$Z,1,which.max) %>%
   )
 ```
 
+It's recommended to save them using these settings (use eps if you're using it in the slides (eps works better with pdf))
+
+```r
+ggsave("cliques.svg",width=5.5,height=4,bg="transparent")
+```
+
 Remember to change the following to your plot:
  - Change the title in `labs(title="Title")`
  - Change the y-limits (which were set manually for aesthetic purposes) in `limits=c(1,1e5)` inside `scale_y_log10`
