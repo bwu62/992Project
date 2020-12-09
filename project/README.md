@@ -116,7 +116,8 @@ apply(fa.new$Z,1,which.max) %>%
                 limits=c(1,1e5),expand=c(0,0)) + 
   annotation_logticks(sides="l") + 
   scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
-  labs(title="Title") + 
+  labs(title=sprintf("Title (Gini index: %.3f)",
+                     Gini(table(apply(fa.new$Z,1,which.max))))) + 
   ggdark::dark_mode(theme_minimal()) + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
