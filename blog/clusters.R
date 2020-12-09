@@ -1,7 +1,7 @@
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 if(!require(pacman)) install.packages("pacman")
-pacman::p_load(tidyverse,igraph,ggplot2,scales,Matrix,vsp,magrittr)
+pacman::p_load(tidyverse,igraph,ggplot2,scales,Matrix,vsp,magrittr,DescTools)
 
 # load data
 load("data/principals+names.Rdata")
@@ -109,25 +109,24 @@ fa.eng = vsp(imdb.incidence.eng,k=8)
 apply(fa.eng$Z,1,which.max) %>% 
   table %>% 
   enframe(name="Cluster",value="Count") %>% 
-  mutate(Cluster=as.character(Cluster)) %>% 
+  mutate(Cluster=as.numeric(Cluster)) %>% 
   ggplot(aes(x=Cluster,y=Count)) + geom_col(position="dodge",width=0.9,fill="darkorange1") + 
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,1.5e5),expand=c(0,0)) + 
-  labs(title="Cluster sizes") +
-  theme_minimal() + theme(
+  annotation_logticks(sides="l",color="grey") + 
+  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
+  labs(title=sprintf("Original cluster sizes (Gini index: %.3f)",
+                     Gini(table(apply(fa.eng$Z,1,which.max))))) + 
+  dark_mode(theme_minimal()) + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_line(color="black",size=.05),
-    panel.grid.minor.y = element_line(color="black",size=.03),
+    panel.grid.major.y = element_line(color="grey",size=.05),
+    panel.grid.minor.y = element_blank(),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
-ggsave("../docs/cliques.svg",width=5.5,height=4,bg="transparent")
-
-# library(DescTools)
-# Gini(table(apply(fa.eng$Z,1,which.max)))
-# # gini index: 0.914
+ggsave("../project/cliques_orig_dark.eps",width=5.5,height=4,bg="transparent")
 
 # get cluster and value for each title
 apply(fa.eng$Z,1,function(x){c(which.max(x),max(x))}) %>% 
@@ -181,3 +180,4 @@ actor.names.eng = actor.names.eng[n.names.eng]
 
 # save(principals2.eng,actor.names.eng,title.names.eng,
 #      file="../project/eng_principals2+names.Rdata",compression_level=9)
+
