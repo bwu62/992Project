@@ -142,3 +142,6 @@ for(i in 1:ncol(fa.new.links)){
   cat("Group ",i,":\n")
   cat(paste(fa.new.links[,i],collapse='\n'),'\n\n')
 }
+
+fa.new.list = lapply(fa.new.links %>% data.frame, . %>% paste(.,collapse=", "))
+save(fa.new.list,file="fa.new.list.Rdata",compression_level=9)
