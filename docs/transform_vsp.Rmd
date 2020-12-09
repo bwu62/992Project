@@ -5,8 +5,19 @@ output: html_document
 
 ```{r}
 load("../project/bi/fa.log.list.Rdata")
+load("../project/chris/fa.new.list.Rdata")
 options(width=1000)
 ```
+
+# Chris's clusters
+
+<br/><code class="fa-links" style="white-space:normal">
+
+`r paste(unlist(lapply(seq_along(fa.new.list),function(i){sprintf(" > Group %d:\n%s",i,fa.new.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
+
+# Bi's clusters
 
 <br/><code class="fa-links" style="white-space:normal">
 

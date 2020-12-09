@@ -75,7 +75,8 @@ AAT.diag@x %>%
 # so just do log2(x+1). also, base shouldn't matter, but 2 used so that 1 maps to 1
 # first duplicate the objects from AAT, then apply function
 AAT.log = AAT
-AAT.log@x = AAT.log@x^(1/3) # log(AAT.log@x+1,base=2)/2
+AAT.log@x = log2(AAT.log@x+1)
+# AAT.log@x = AAT.log@x^(1/3)
 
 # fa.log = vsp(AAT.log,k=100)
 # plot(fa.log$d)
@@ -93,7 +94,7 @@ apply(fa.log$Z,1,which.max) %>%
   scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
   labs(title=bquote(paste("Cluster sizes after ",log[2],"(A",A^{T},"+1)","   ",
                           "(Gini index: ",.(round(Gini(table(apply(fa.log$Z,1,which.max))),3)),")"
-                          ))) + 
+  ))) + 
   # dark_mode(theme_minimal()) + theme(
   theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
@@ -108,7 +109,7 @@ apply(fa.log$Z,1,which.max) %>%
 
 Gini(table(apply(fa.log$Z,1,which.max)))
 
-fa.log.bff = bff(fa.log$Z,AAT,20)
+fa.log.bff = bff(fa.log$Z,AAT,10)
 fa.log.titles = fa.log.bff %>% 
   apply(2, function(x)sapply(x,function(i)title.names.eng[which(i==names(title.names.eng))]))
 fa.log.links = fa.log.bff %>% 
@@ -123,35 +124,40 @@ save(fa.log.list,file="./fa.log.list.Rdata",compression_level=9)
 
 
 
-# extra stuff for chris
-imdb.titles = full_join(principals2.eng,principals2.eng,c('nconst'='nconst'))[c(1,3,2)] %>% 
-  filter(tconst.x!=tconst.y) %>%
-  graph_from_data_frame(directed=F)
-
-triangles = setNames(count_triangles(imdb.titles,V(imdb.titles)),names(V(imdb.titles)))
 
 
-# recompute centrality info but for titles
-getMeanDegrees = function(title){
-  mean(distances(imdb.titles,v=title))
-}
-
-library(parallel)
-
-gc()
-cores = detectCores()-1
-cl = makeCluster(cores)
-clusterEvalQ(cl,library(igraph))
-clusterExport(cl,list("imdb.titles","getMeanDegrees",))
-top.means = parSapply(cl,top.names,getMeanDegrees)
-stopCluster(cl)
-gc()
-
-top.means = top.means %>%
-  sort %>%
-  enframe(name="actor.id",value="mean.degree") %>%
-  mutate(actor.name=actor.names[actor.id]) %>%
-  select(mean.degree,actor.name,actor.id)
-
-
-write.table(triangles,file="../chris/triangles.csv",sep=',',quote=F,col.names=FALSE)
+# # extra stuff for chris
+# imdb.titles = full_join(principals2.eng,principals2.eng,c('nconst'='nconst'))[c(1,3,2)] %>%
+#   filter(tconst.x!=tconst.y) %>%
+#   graph_from_data_frame(directed=F)
+# 
+# triangles = setNames(count_triangles(imdb.titles,V(imdb.titles)),names(V(imdb.titles)))
+# write.table(triangles,file="../chris/triangles.csv",sep=',',quote=F,col.names=FALSE)
+# 
+# # recompute centrality info but for titles
+# getMeanDegrees = function(title){
+#   D = distances(imdb.titles,v=title)[1,]
+#   D_log = table(as.numeric(
+#     with(data.frame(values=table(D)),rep(values.D,floor(log2(values.Freq))))
+#   ))
+#   return(setNames(c(Mode(D),mean(D),sd(D_log),Skew(D_log),Kurt(D_log)),
+#                   c("mode","mean","logSD","logSkew","logKurt")))
+# }
+# 
+# library(parallel)
+# 
+# gc()
+# cores = detectCores()-1
+# cl = makeCluster(cores)
+# clusterEvalQ(cl,library(igraph))
+# clusterEvalQ(cl,library(DescTools))
+# clusterExport(cl,list("imdb.titles","getMeanDegrees","title.names.eng"))
+# {
+#   start=Sys.time()
+#   nodeStats = parSapply(cl,names(title.names.eng),getMeanDegrees)
+#   (elapsed=Sys.time()-start)
+# }
+# stopCluster(cl)
+# gc()
+# 
+# write.csv(nodeStats,file="../chris/nodeStats.csv",quote=F,row.names=F)
