@@ -20,3 +20,4 @@ site/Gemfile.lock
 site/beautiful-jekyll-theme-*.gem
 site/_site
 node_modules/
+.Rproj.user
