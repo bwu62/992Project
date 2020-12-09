@@ -79,7 +79,7 @@ AAT.log@x = AAT.log@x^(1/3) # log(AAT.log@x+1,base=2)/2
 
 # fa.log = vsp(AAT.log,k=100)
 # plot(fa.log$d)
-fa.log = vsp(AAT.log,k=8)
+fa.log = vsp(AAT.log,k=13)
 
 apply(fa.log$Z,1,which.max) %>% 
   table %>% 
