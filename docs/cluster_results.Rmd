@@ -1,5 +1,4 @@
 ---
-title: Clustered titles
 output: html_document
 ---
 
@@ -11,7 +10,7 @@ options(width=1000)
 
 # Chris's clusters
 
-<br/><code class="fa-links" style="white-space:normal">
+<br/><code class="fa-links" style="white-space:normal;padding:2px 0">
 
 `r paste(unlist(lapply(seq_along(fa.new.list),function(i){sprintf(" > Group %d:\n%s",i,fa.new.list[[i]])})),collapse='\n\n')`
 
@@ -19,9 +18,8 @@ options(width=1000)
 
 # Bi's clusters
 
-<br/><code class="fa-links" style="white-space:normal">
+<br/><code class="fa-links" style="white-space:normal;padding:2px 0;">
 
 `r paste(unlist(lapply(seq_along(fa.log.list),function(i){sprintf(" > Group %d:\n%s",i,fa.log.list[[i]])})),collapse='\n\n')`
 
 </code><br/>
-
