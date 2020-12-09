@@ -4,10 +4,36 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 if(!require(pacman)) install.packages("pacman")
 
 # use pacman to install/load most packages
-pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools)
+pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools,ggdark,magrittr)
 
 # use older (forked) version of vsp due to bug in most recent version
 pacman::p_load_gh("bwu62/vsp")
+
+
+
+# ################################################################
+# # WAIT IT'S NOT CONNECTED NOW LOL need to fix
+# load("../eng_principals2+names.Rdata")
+# 
+# imdb.titles = full_join(principals2.eng,principals2.eng,c('nconst'='nconst'))[c(1,3,2)] %>% 
+#   filter(tconst.x!=tconst.y) %>%
+#   graph_from_data_frame(directed=F)
+# 
+# # subset the largest connected component
+# imdb.comp = components(imdb.titles)
+# imdb.titles = induced_subgraph(imdb.titles,names(imdb.comp$membership[imdb.comp$membership == 1]))
+# 
+# # get titles in this component, to subset principals and names
+# titles.keep2 = V(imdb.titles) %>% names
+# principals2.eng %<>% filter(tconst %in% titles.keep2)
+# actor.names.eng = actor.names.eng[names(actor.names.eng) %in% principals2.eng$nconst]
+# title.names.eng = title.names.eng[names(title.names.eng) %in% principals2.eng$tconst]
+# 
+# save(principals2.eng,actor.names.eng,title.names.eng,
+#      file="../eng_principals2+names.Rdata",compression_level=9)
+# ################################################################
+
+
 
 load("../eng_principals2+names.Rdata")
 
@@ -64,17 +90,19 @@ apply(fa.log$Z,1,which.max) %>%
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,1e5),expand=c(0,0)) + 
-  annotation_logticks(sides="l") + 
+  annotation_logticks(sides="l",color="grey") + 
   scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
   labs(title="Cluster sizes after log transform") + 
-  theme_minimal() + theme(
+  dark_mode(theme_minimal()) + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_line(color="black",size=.05),
+    panel.grid.major.y = element_line(color="grey",size=.05),
     panel.grid.minor.y = element_blank(),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
+
+# ggsave("cliques.eps",width=5.5,height=4,bg="transparent")
 
 Gini(table(apply(fa.log$Z,1,which.max)))
 
@@ -88,4 +116,40 @@ fa.log.links = fa.log.bff %>%
     })
   })
 fa.log.list = lapply(fa.log.links%>%data.frame, .%>%paste(.,collapse=", "))
-save(fa.log.list,file="./fa.log.list.Rdata",compression_level=9)
+# save(fa.log.list,file="./fa.log.list.Rdata",compression_level=9)
+
+
+
+
+# extra stuff for chris
+imdb.titles = full_join(principals2.eng,principals2.eng,c('nconst'='nconst'))[c(1,3,2)] %>% 
+  filter(tconst.x!=tconst.y) %>%
+  graph_from_data_frame(directed=F)
+
+triangles = setNames(count_triangles(imdb.titles,V(imdb.titles)),names(V(imdb.titles)))
+
+
+# recompute centrality info but for titles
+getMeanDegrees = function(title){
+  mean(distances(imdb.titles,v=title))
+}
+
+library(parallel)
+
+gc()
+cores = detectCores()-1
+cl = makeCluster(cores)
+clusterEvalQ(cl,library(igraph))
+clusterExport(cl,list("imdb.titles","getMeanDegrees",))
+top.means = parSapply(cl,top.names,getMeanDegrees)
+stopCluster(cl)
+gc()
+
+top.means = top.means %>%
+  sort %>%
+  enframe(name="actor.id",value="mean.degree") %>%
+  mutate(actor.name=actor.names[actor.id]) %>%
+  select(mean.degree,actor.name,actor.id)
+
+
+write.table(triangles,file="../chris/triangles.csv",sep=',',quote=F,col.names=FALSE)
