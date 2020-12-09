@@ -75,8 +75,7 @@ AAT.diag@x %>%
 # so just do log2(x+1). also, base shouldn't matter, but 2 used so that 1 maps to 1
 # first duplicate the objects from AAT, then apply function
 AAT.log = AAT
-AAT.log@x  = log(AAT.log@x+1,base=2)
-
+AAT.log@x  = sign(AAT.log@x) #log(AAT.log@x+1,base=2)
 
 # fa.log = vsp(AAT.log,k=100)
 # plot(fa.log$d)
@@ -106,7 +105,7 @@ apply(fa.log$Z,1,which.max) %>%
 
 Gini(table(apply(fa.log$Z,1,which.max)))
 
-fa.log.bff = bff(fa.log$Z,AAT,50)
+fa.log.bff = bff(fa.log$Z,AAT,20)
 fa.log.titles = fa.log.bff %>% 
   apply(2, function(x)sapply(x,function(i)title.names.eng[which(i==names(title.names.eng))]))
 fa.log.links = fa.log.bff %>% 
@@ -116,7 +115,7 @@ fa.log.links = fa.log.bff %>%
     })
   })
 fa.log.list = lapply(fa.log.links%>%data.frame, .%>%paste(.,collapse=", "))
-# save(fa.log.list,file="./fa.log.list.Rdata",compression_level=9)
+save(fa.log.list,file="./fa.log.list.Rdata",compression_level=9)
 
 
 
