@@ -106,7 +106,7 @@ If you want a dark mode version for the slides, install `ggdark` and run the fol
 ```r
 pacman::p_load(ggdark)
 
-apply(fa.log$Z,1,which.max) %>% 
+apply(fa.new$Z,1,which.max) %>% 
   table %>% 
   enframe(name="Cluster",value="Count") %>% 
   mutate(Cluster=as.numeric(Cluster)) %>% 
@@ -114,9 +114,9 @@ apply(fa.log$Z,1,which.max) %>%
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,1e5),expand=c(0,0)) + 
-  annotation_logticks(sides="l",color="grey") + 
+  annotation_logticks(sides="l") + 
   scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
-  labs(title="Cluster sizes after log transform") + 
+  labs(title="Title") + 
   ggdark::dark_mode(theme_minimal()) + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
