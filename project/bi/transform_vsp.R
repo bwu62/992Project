@@ -4,7 +4,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 if(!require(pacman)) install.packages("pacman")
 
 # use pacman to install/load most packages
-pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools,ggdark,magrittr)
+pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools,ggdark,magrittr,latex2exp)
 
 # use older (forked) version of vsp due to bug in most recent version
 pacman::p_load_gh("bwu62/vsp")
@@ -75,7 +75,7 @@ AAT.diag@x %>%
 # so just do log2(x+1). also, base shouldn't matter, but 2 used so that 1 maps to 1
 # first duplicate the objects from AAT, then apply function
 AAT.log = AAT
-AAT.log@x  = sign(AAT.log@x) #log(AAT.log@x+1,base=2)
+AAT.log@x = AAT.log@x^(1/3) # log(AAT.log@x+1,base=2)/2
 
 # fa.log = vsp(AAT.log,k=100)
 # plot(fa.log$d)
@@ -91,8 +91,11 @@ apply(fa.log$Z,1,which.max) %>%
                 limits=c(1,1e5),expand=c(0,0)) + 
   annotation_logticks(sides="l",color="grey") + 
   scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
-  labs(title="Cluster sizes after log transform") + 
-  dark_mode(theme_minimal()) + theme(
+  labs(title=bquote(paste("Cluster sizes after ",log[2],"(A",A^{T},"+1)","   ",
+                          "(Gini index: ",.(round(Gini(table(apply(fa.log$Z,1,which.max))),3)),")"
+                          ))) + 
+  # dark_mode(theme_minimal()) + theme(
+  theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.major.y = element_line(color="grey",size=.05),
