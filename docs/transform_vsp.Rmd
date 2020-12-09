@@ -1,9 +1,9 @@
 ---
-title: Log transformed clusters
+title: Clustered titles
 output: html_document
 ---
 
-```{r}
+```{r, echo=F}
 load("../project/bi/fa.log.list.Rdata")
 load("../project/chris/fa.new.list.Rdata")
 options(width=1000)
