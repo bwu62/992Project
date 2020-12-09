@@ -179,6 +179,13 @@ for(i in 1:ncol(fa.new.links)){
 }
 ```
 
+For Bi to add these to a GitHub page, run this to save results to a list (in your own directory).
+
+```r
+fa.new.list = lapply(fa.new.links %>% data.frame, . %>% paste(.,collapse=", "))
+save(fa.new.list,file="fa.new.list.Rdata",compression_level=9)
+```
+
 ## Other notes
 
 Some other random notes:
