@@ -101,10 +101,36 @@ apply(fa.new$Z,1,which.max) %>%
   )
 ```
 
-It's recommended to save them using these settings (use eps if you're using it in the slides (eps works better with pdf))
+If you want a dark mode version for the slides, install `ggdark` and run the following modified code:
 
 ```r
-ggsave("cliques.svg",width=5.5,height=4,bg="transparent")
+pacman::p_load(ggdark)
+
+apply(fa.log$Z,1,which.max) %>% 
+  table %>% 
+  enframe(name="Cluster",value="Count") %>% 
+  mutate(Cluster=as.numeric(Cluster)) %>% 
+  ggplot(aes(x=Cluster,y=Count)) + geom_col(position="dodge",width=0.9,fill="darkorange1") + 
+  scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
+                labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
+                limits=c(1,1e5),expand=c(0,0)) + 
+  annotation_logticks(sides="l",color="grey") + 
+  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
+  labs(title="Cluster sizes after log transform") + 
+  ggdark::dark_mode(theme_minimal()) + theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(color="grey",size=.05),
+    panel.grid.minor.y = element_blank(),
+    panel.background = element_rect(fill="transparent",colour=NA),
+    plot.background = element_rect(fill="transparent",colour=NA)
+  )
+```
+
+It's recommended to save them using these settings (using eps here for slide (eps works better with pdf than svg))
+
+```r
+ggsave("cliques.eps",width=5.5,height=4,bg="transparent")
 ```
 
 Remember to change the following to your plot:
