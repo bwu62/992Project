@@ -89,7 +89,7 @@ non.cliques<-read.csv("pred_non_clique_titles.csv")[[2]]
 imdb.incidence.new <- imdb.incidence.eng[non.cliques,]
 fa.new = vsp(imdb.incidence.new,k=100)
 plot(fa.new$d)
-fa.new = vsp(imdb.incidence.new,k=13)
+fa.new = vsp(imdb.incidence.new,k=12)
 
 pacman::p_load(ggdark)
 
@@ -103,7 +103,8 @@ apply(fa.new$Z,1,which.max) %>%
                 limits=c(1,1e5),expand=c(0,0)) + 
   annotation_logticks(sides="l",color="grey") + 
   scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
-  labs(title="Cluster sizes after log transform") + 
+  labs(title=sprintf("Cluster sizes after subsetting (Gini index: %.3f)",
+                     Gini(table(apply(fa.new$Z,1,which.max))))) +  
   ggdark::dark_mode(theme_minimal()) + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
