@@ -30,7 +30,7 @@ This is a continuation of our previous works:
 
  - [Blog post](../)
  - [Proposal](../proposal)
- - [Presentation](../presentation)
+ - [Presentation](../presentation.pdf)
 
 
 done for our mid-semester blog post, our final project was an attempt to improve our clustering of IMDB movie titles. In particular, we wanted to try to achieve better genre detection in our clustering.
