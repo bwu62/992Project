@@ -188,7 +188,8 @@ These clusters, similar to Chris's results, seem to have clustered better by bot
 12. Niche 21st century horrors (like [this](https://www.imdb.com/title/tt12395290/) and [this](https://www.imdb.com/title/tt12395290/))
 13. 1940's musical
 
+## Further work
 
+Using these methods, we were able to noticeably improve the clustering results of `vsp`. Considering our data only included information on the principal cast in each movie, we believe these clusters are fairly well categorized.
 
-
-
+An additional idea we initially considered but did not pursue was a personalized page rank based method to identify highly connected actors to be contracted. Yuqin may pursue this in his project in his own offshoot of the project.
