@@ -34,7 +34,7 @@ This is a continuation of our previous works:
 
 ## Background
 
-We were previously interested in clustering IMDB movies by genre. We filtered out undesired content (i.e. television shows, web shorts, adult content, non-English titles) and applied `vsp` but found the method was highly sensitive to small densely-connected cliques of nodes (e.g. RiffTrax releases, Blondies movies; see [blog](..) for more). This was evidenced by observing that the sizes of the resultant clusters were wildly imbalanced:
+We were previously interested in clustering IMDB movies by genre. We filtered out undesired content (i.e. television shows, web shorts, adult content, non-English titles) and applied `vsp` but found the method was highly sensitive to small densely-connected cliques of nodes (e.g. RiffTrax releases, Blondies movies; see [blog](..) for more details). This was evidenced by observing that the sizes of the resultant clusters were wildly imbalanced:
 
 <p><img class="plots" src="../assets/img/cliques_orig.svg" alt="plot of original clusters"/></p>
 
@@ -42,15 +42,21 @@ In this current project, we explore methods of mitigating the influence of these
 
 ## Analysis
 
-### Method 1: Predicting Node Cliquishness by Logistic Regression
+### Method 1 (Chris): Logistic Regression
 
 In our first attempt at improving our clustering, we tried to contract our graph to exclude nodes which we predicted to belong to cliques. Our motivation for doing this was to get rid of some of the clusters that were too specific to be considered any sort of genre, for instance the director-specific clusters.
 
-To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree and coreness, to measure a nodes connectedness, and the number of triangles at each node and degree distribution to other nodes, to measure the connectedness of the nodes’ neighbors.
+To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree, a measure of the number of edges adjacent to a node, and coreness. The k-core of graph is a maximal subgraph in which each vertex has at least degree k. The coreness of a vertex is k if it belongs to the k-core but not to the (k+1)-core. We used these two measures to gauge a node's connectedness. We also calculated the number of triangles at each node and degree distribution to other nodes. Within degree distribution we looked at the mean, mode, standard deviation, skew, and kurtosis of the distribution of degrees from a node to each other node. This metric was used to measure the connectedness of the nodes’ neighbors.
 
-Using a list of “IMDB top movies” and our previous attempt at clustering, we built a training dataset of around 1200 titles that we individually labeled as either belonging to a clique or not. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.
+Using a list of "IMDB top movies" and our previous attempt at clustering, we built a training dataset of around 1200 titles. We assigned a label of 1 to titles that had been assigned to clusters 2, 3, 5, and 7, four director-specific clusters, in our previous attempt at clustering. We assigned a label of 0 to titles in the "IMDB top movies" list. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.
 
-We then removed all of these "cliquish" nodes from our graph, and performed clustering using VSP once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .865. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.
+We then contracted all of these "cliquish" nodes and performed clustering using `vsp` once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .865. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.
 
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
+
+### Method 2 (Bi): Projection Transformation
+
+
+
+
 
