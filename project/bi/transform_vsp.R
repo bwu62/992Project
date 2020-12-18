@@ -4,7 +4,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 if(!require(pacman)) install.packages("pacman")
 
 # use pacman to install/load most packages
-pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools,ggdark,magrittr,latex2exp,ggdark)
+pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools,ggdark,magrittr,latex2exp)
 
 # use older (forked) version of vsp due to bug in most recent version
 pacman::p_load_gh("bwu62/vsp")
@@ -59,18 +59,20 @@ AAT.diag@x %>%
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,2.5e6),expand=c(0,0)) + 
-  annotation_logticks(sides="l",color="grey") + 
-  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.02,0)) + 
+  annotation_logticks(sides="l",color="grey30") + 
+  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.04,0)) + 
   labs(title="Projected adjacency values distribution") + 
-  dark_mode(theme_minimal()) + theme(
+  # dark_mode(theme_minimal()) + theme(
+  theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_line(color="grey",size=.05),
+    panel.grid.major.y = element_line(color="grey30",size=.05),
     panel.grid.minor.y = element_blank(),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
-ggsave("./adjacency.eps",width=5.5,height=4,bg="transparent")
+# ggsave("./adjacency_dark.eps",width=5.5,height=4,bg="transparent")
+ggsave("./adjacency.svg",width=5.5,height=4,bg="transparent")
 
 # tried 2 different transformations at first: log2(x+1) and sqrt(x)
 # but it turns out they're almost equal on 1:10 so the results are almost the same,
@@ -92,20 +94,22 @@ apply(fa.log$Z,1,which.max) %>%
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,1e5),expand=c(0,0)) + 
-  annotation_logticks(sides="l",color="grey") + 
-  scale_x_continuous(breaks=1:13,labels=1:13,expand=c(.025,0)) + 
+  annotation_logticks(sides="l",color="grey30") + 
+  scale_x_continuous(breaks=1:13,labels=1:13,expand=c(.04,0)) + 
   labs(title=bquote(paste("Cluster sizes after ",log[2],"(A",A^{T},"+1)","   ",
                           "(Gini index: ",.(round(Gini(table(apply(fa.log$Z,1,which.max))),3)),")"
   ))) + 
-  dark_mode(theme_minimal()) + theme(
+  # dark_mode(theme_minimal()) + theme(
+  theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_line(color="grey",size=.05),
+    panel.grid.major.y = element_line(color="grey30",size=.05),
     panel.grid.minor.y = element_blank(),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
-ggsave("cliques_bi.eps",width=5.5,height=4,bg="transparent")
+# ggsave("cliques_bi_dark.eps",width=5.5,height=4,bg="transparent")
+ggsave("cliques_bi.svg",width=5.5,height=4,bg="transparent")
 
 Gini(table(apply(fa.log$Z,1,which.max)))
 

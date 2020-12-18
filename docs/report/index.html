@@ -38,11 +38,10 @@ pre{
 <h2 id="background">Background</h2>
 <p>This is a continuation of our previous works:</p>
 <ul>
-<li><a href="../">Blog post</a></li>
+<li><a href="../">Blog page</a></li>
 <li><a href="../proposal">Proposal</a></li>
 <li><a href="../presentation.pdf">Presentation</a></li>
 </ul>
-<p>done for our mid-semester blog post, our final project was an attempt to improve our clustering of IMDB movie titles. In particular, we wanted to try to achieve better genre detection in our clustering.</p>
 <p>One of the steps which we had already taken towards this end in our initial attempt was filtering non-English titles out of our graph. While this did achieve the goal of removing language-specific clusters from our results, we still saw clusters that were specific to particular directors or actors. For instance, one of our clusters was simply comprised of Blondie movies.</p>
 <p>In this project, we would try implementing additional approaches to improve our performance in identifying genres. One metric which we considered as somewhat of a proxy for our success was the Gini Index of the sizes of the clusters which we produced. The motivation behind using this metric was a belief that clustering which resulted in more evenly balanced clusters was less likely to result in the actor or director-specific clusters we saw in previous attempts.</p>
 <p>There are three approaches which we would test in this project. The first was to use node statistics to predict node cliquishness using logistic regression and contract the title graph based on the results. The second was to run Personalized Page Rank (PPR) on the projected actor by actor adjacency matrix to identify highly connected cliques of actors to remove. Lastly, we would explore transformations of the projected title by title adjacency matrix followed by VSP to try to penalize cliques.</p>

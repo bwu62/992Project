@@ -3,7 +3,7 @@ setwd("project/chris/")
 if(!require(pacman)) install.packages("pacman")
 
 # use pacman to install/load most packages
-pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales)
+pacman::p_load(Matrix,igraph,tidyverse,ggplot2,scales,DescTools)
 
 # use older (forked) version of vsp due to bug in most recent version
 pacman::p_load_gh("bwu62/vsp")
@@ -87,8 +87,8 @@ write.csv(movie.degrees, "movie.statistics.csv")
 non.cliques<-read.csv("pred_non_clique_titles.csv")[[2]]
 
 imdb.incidence.new <- imdb.incidence.eng[non.cliques,]
-fa.new = vsp(imdb.incidence.new,k=100)
-plot(fa.new$d)
+# fa.new = vsp(imdb.incidence.new,k=100)
+# plot(fa.new$d)
 fa.new = vsp(imdb.incidence.new,k=12)
 
 pacman::p_load(ggdark)
@@ -101,21 +101,22 @@ apply(fa.new$Z,1,which.max) %>%
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,1e5),expand=c(0,0)) + 
-  annotation_logticks(sides="l",color="grey") + 
-  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
+  annotation_logticks(sides="l",color="grey30") + 
+  scale_x_continuous(breaks=1:12,labels=1:12,expand=c(.04,0)) + 
   labs(title=sprintf("Cluster sizes after subsetting (Gini index: %.3f)",
                      Gini(table(apply(fa.new$Z,1,which.max))))) +  
-  ggdark::dark_mode(theme_minimal()) + theme(
+  # ggdark::dark_mode(theme_minimal()) + theme(
+  theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_line(color="grey",size=.05),
+    panel.grid.major.y = element_line(color="grey30",size=.05),
     panel.grid.minor.y = element_blank(),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
-ggsave("cliques.eps",width=5.5,height=4,bg="transparent")
+# ggsave("cliques_dark.eps",width=5.5,height=4,bg="transparent")
+ggsave("cliques.svg",width=5.5,height=4,bg="transparent")
 
-pacman::p_load(DescTools)
 Gini(table(apply(fa.new$Z,1,which.max)))
 
 # select best features

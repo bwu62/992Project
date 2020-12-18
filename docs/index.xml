@@ -14,7 +14,7 @@
       <guid>https://bwu62.github.io/992Project/report/</guid>
       <description>.plots{max-width: 80%;text-align: center;margin-top: 15px !important;}pre{white-space: pre-wrap; /* Since CSS 2.1 */white-space: -moz-pre-wrap; /* Mozilla, since 1999 */white-space: -pre-wrap; /* Opera 4-6 */white-space: -o-pre-wrap; /* Opera 7 */word-wrap: break-word; /* Internet Explorer 5.5+ */margin: 40px 0 !important;}IMDB Genre Identification Authors: Bi Wu &amp;amp; Chris Kardatzke
 Background This is a continuation of our previous works:
- Blog post Proposal Presentation  done for our mid-semester blog post, our final project was an attempt to improve our clustering of IMDB movie titles.</description>
+ Blog page Proposal Presentation  One of the steps which we had already taken towards this end in our initial attempt was filtering non-English titles out of our graph.</description>
     </item>
     
   </channel>

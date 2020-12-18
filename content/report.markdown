@@ -28,12 +28,11 @@ _Authors: Bi Wu & Chris Kardatzke_
 
 This is a continuation of our previous works:
 
- - [Blog post](../)
+ - [Blog page](../)
  - [Proposal](../proposal)
  - [Presentation](../presentation.pdf)
 
 
-done for our mid-semester blog post, our final project was an attempt to improve our clustering of IMDB movie titles. In particular, we wanted to try to achieve better genre detection in our clustering.
 
 One of the steps which we had already taken towards this end in our initial attempt was filtering non-English titles out of our graph. While this did achieve the goal of removing language-specific clusters from our results, we still saw clusters that were specific to particular directors or actors. For instance, one of our clusters was simply comprised of Blondie movies.
 

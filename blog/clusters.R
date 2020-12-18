@@ -101,8 +101,8 @@ names(imdb.incidence.eng@Dimnames) = c("titles","actors")
 str(imdb.incidence.eng)
 
 # big jumps after k=2,5,8 small jump after k=12,19
-fa.eng = vsp(imdb.incidence.eng,k=100)
-plot(fa.eng$d)
+# fa.eng = vsp(imdb.incidence.eng,k=100)
+# plot(fa.eng$d)
 
 fa.eng = vsp(imdb.incidence.eng,k=8)
 
@@ -114,19 +114,21 @@ apply(fa.eng$Z,1,which.max) %>%
   scale_y_log10(breaks=trans_breaks("log10",function(x)10^x),
                 labels=trans_format("log10",function(x)formatC(10^x,format="d",big.mark=",")),
                 limits=c(1,1.5e5),expand=c(0,0)) + 
-  annotation_logticks(sides="l",color="grey") + 
-  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.025,0)) + 
+  annotation_logticks(sides="l",color="grey30") + 
+  scale_x_continuous(breaks=1:10,labels=1:10,expand=c(.04,0)) + 
   labs(title=sprintf("Original cluster sizes (Gini index: %.3f)",
                      Gini(table(apply(fa.eng$Z,1,which.max))))) + 
-  dark_mode(theme_minimal()) + theme(
+  # dark_mode(theme_minimal()) + theme(
+  theme_minimal() + theme(
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_line(color="grey",size=.05),
+    panel.grid.major.y = element_line(color="grey30",size=.05),
     panel.grid.minor.y = element_blank(),
     panel.background = element_rect(fill="transparent",colour=NA),
     plot.background = element_rect(fill="transparent",colour=NA)
   )
-ggsave("../project/cliques_orig_dark.eps",width=5.5,height=4,bg="transparent")
+# ggsave("../project/cliques_orig_dark.eps",width=5.5,height=4,bg="transparent")
+ggsave("../project/cliques_orig.svg",width=5.5,height=4,bg="transparent")
 
 # get cluster and value for each title
 apply(fa.eng$Z,1,function(x){c(which.max(x),max(x))}) %>% 
