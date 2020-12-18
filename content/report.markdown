@@ -58,18 +58,18 @@ Here are the top 10 best movies from each cluster selected using `bff`
 
 
 
-1.  
-2.  
-3.  
-4.  
-5.  
-6.  
-7.  
-8.  
-9.  
-10. 
-11. 
-12. 
+1.  Early 1900s dramas
+2.  40s and 50s westerns
+3.  Thomas the Tank Engine movies
+4.  Warhol movies
+5.  2000s dramas
+6.  Documentaries about films
+7.  60s and 70s sexual dramas
+8.  2000s action
+9.  70s smut
+10. 20s westerns
+11. 2020s westerns
+12. 2020s horror
 
 <br/><code class="fa-links" style="white-space:normal;padding:2px 0">
 
