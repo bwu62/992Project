@@ -49,11 +49,154 @@ pre{
 <h2 id="analysis">Analysis</h2>
 <h3 id="method-1-chris-logistic-regression">Method 1 (Chris): Logistic Regression</h3>
 <p>In our first attempt at improving our clustering, we tried to contract our graph to exclude nodes which we predicted to belong to cliques. Our motivation for doing this was to get rid of some of the clusters that were too specific to be considered any sort of genre, for instance the director-specific clusters.</p>
-<p>To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree, a measure of the number of edges adjacent to a node, and coreness. The k-core of graph is a maximal subgraph in which each vertex has at least degree k. The coreness of a vertex is k if it belongs to the k-core but not to the (k+1)-core. We used these two measures to gauge a node&rsquo;s connectedness. We also calculated the number of triangles at each node and degree distribution to other nodes. Within degree distribution we looked at the mean, mode, standard deviation, skew, and kurtosis of the distribution of degrees from a node to each other node. This metric was used to measure the connectedness of the nodes’ neighbors.</p>
+<p>To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree, a measure of the number of edges adjacent to a node, and coreness. The k-core of graph is a maximal subgraph in which each vertex has at least degree k. The coreness of a vertex is k if it belongs to the k-core but not to the (k+1)-core. We used these two measures to gauge a node&rsquo;s connectedness. We also calculated the number of triangles at each node and degree distribution to other nodes. Within degree distribution we looked at the mean, mode, standard deviation, skew, and kurtosis of the distribution of degrees from a node to each other node. This metric was used to measure the connectedness of the nodes' neighbors.</p>
 <p>Using a list of &ldquo;IMDB top movies&rdquo; and our previous attempt at clustering, we built a training dataset of around 1200 titles. We assigned a label of 1 to titles that had been assigned to clusters 2, 3, 5, and 7, four director-specific clusters, in our previous attempt at clustering. We assigned a label of 0 to titles in the &ldquo;IMDB top movies&rdquo; list. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.</p>
 <p>We then contracted all of these &ldquo;cliquish&rdquo; nodes and performed clustering using <code>vsp</code> once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .865. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.</p>
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
+<p>Here are the top 10 best movies from each cluster selected using <code>bff</code></p>
+<ol>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<p><br/><code class="fa-links" style="white-space:normal;padding:2px 0"></p>
+<blockquote>
+<p>Group 1:
+<a href="https://www.imdb.com/title/tt0014135">His Last Race</a>, <a href="https://www.imdb.com/title/tt0010772">This Hero Stuff</a>, <a href="https://www.imdb.com/title/tt0015839">Free and Equal</a>, <a href="https://www.imdb.com/title/tt0021163">Murder Will Out</a>, <a href="https://www.imdb.com/title/tt0014187">The Last Hour</a>, <a href="https://www.imdb.com/title/tt0338339">Peg o' My Heart</a>, <a href="https://www.imdb.com/title/tt0010014">Come Again Smith</a>, <a href="https://www.imdb.com/title/tt0008993">Danger, Go Slow</a>, <a href="https://www.imdb.com/title/tt0008603">The Son of His Father</a>, <a href="https://www.imdb.com/title/tt0013134">Flesh and Blood</a></p>
+</blockquote>
+<blockquote>
+<p>Group 2:
+<a href="https://www.imdb.com/title/tt0042917">Salt Lake Raiders</a>, <a href="https://www.imdb.com/title/tt0039173">Bandits of Dark Canyon</a>, <a href="https://www.imdb.com/title/tt0040574">Marshal of Amarillo</a>, <a href="https://www.imdb.com/title/tt0040286">Desperadoes of Dodge City</a>, <a href="https://www.imdb.com/title/tt0046049">Marshal of Cedar Rock</a>, <a href="https://www.imdb.com/title/tt0045540">Bandits of the West</a>, <a href="https://www.imdb.com/title/tt0041392">Frontier Investigator</a>, <a href="https://www.imdb.com/title/tt0040659">Oklahoma Badlands</a>, <a href="https://www.imdb.com/title/tt0040180">The Bold Frontiersman</a>, <a href="https://www.imdb.com/title/tt0040850">Sundown in Santa Fe</a></p>
+</blockquote>
+<blockquote>
+<p>Group 3:
+<a href="https://www.imdb.com/title/tt3384178">Hit Favorites: Trick Or Treat Tales</a>, <a href="https://www.imdb.com/title/tt2181148">Hit Favorites: Sweet Dreams</a>, <a href="https://www.imdb.com/title/tt2224990">Hit Favorites: Preschool Fun</a>, <a href="https://www.imdb.com/title/tt2364846">Bob the Builder: The Ultimate Can-Do Crew</a>, <a href="https://www.imdb.com/title/tt0080515">A Change of Seasons</a>, <a href="https://www.imdb.com/title/tt0077532">FM</a>, <a href="https://www.imdb.com/title/tt0079757">Promises in the Dark</a>, <a href="https://www.imdb.com/title/tt0098530">Try This One for Size</a>, <a href="https://www.imdb.com/title/tt0140313">King B: A Life in the Movies</a>, <a href="https://www.imdb.com/title/tt0312004">Wallace &amp; Gromit: The Curse of the Were-Rabbit</a></p>
+</blockquote>
+<blockquote>
+<p>Group 4:
+<a href="https://www.imdb.com/title/tt0260516">Cleopatra</a>, <a href="https://www.imdb.com/title/tt0179184">****</a>, <a href="https://www.imdb.com/title/tt0218575">San Diego Surf</a>, <a href="https://www.imdb.com/title/tt3335870">Since</a>, <a href="https://www.imdb.com/title/tt0062055">The Nude Restaurant</a>, <a href="https://www.imdb.com/title/tt0207531">Imitation of Christ</a>, <a href="https://www.imdb.com/title/tt0061923">The Loves of Ondine</a>, <a href="https://www.imdb.com/title/tt0218325">Hedy</a>, <a href="https://www.imdb.com/title/tt3750328">The Velvet Underground Tarot Cards</a>, <a href="https://www.imdb.com/title/tt0173709">Camp</a></p>
+</blockquote>
+<blockquote>
+<p>Group 5:
+<a href="https://www.imdb.com/title/tt1999956">Sugar Shop</a>, <a href="https://www.imdb.com/title/tt2418104">La La</a>, <a href="https://www.imdb.com/title/tt6397950">The Anubis Tapes</a>, <a href="https://www.imdb.com/title/tt0973785">The Bridge to Nowhere</a>, <a href="https://www.imdb.com/title/tt1800671">Beyond</a>, <a href="https://www.imdb.com/title/tt9149982">Killer Under the Bed</a>, <a href="https://www.imdb.com/title/tt4500572">Friday I&rsquo;m in Love</a>, <a href="https://www.imdb.com/title/tt0229513">King of the Open Mics</a>, <a href="https://www.imdb.com/title/tt10302982">JL Family Ranch 2</a>, <a href="https://www.imdb.com/title/tt5321174">JL Ranch</a></p>
+</blockquote>
+<blockquote>
+<p>Group 6:
+<a href="https://www.imdb.com/title/tt1546668">The 100 Best Black Movies (Ever)</a>, <a href="https://www.imdb.com/title/tt1518293">Sundance Skippy</a>, <a href="https://www.imdb.com/title/tt12081026">Time Warp: The Greatest Cult Films of All-Time- Vol. 1 Midnight Madness</a>, <a href="https://www.imdb.com/title/tt0107455">Luck, Trust &amp; Ketchup: Robert Altman in Carver Country</a>, <a href="https://www.imdb.com/title/tt0116410">Ghosts of Mississippi</a>, <a href="https://www.imdb.com/title/tt4151800">Na Nai&rsquo;a: Legend of the Dolphins</a>, <a href="https://www.imdb.com/title/tt3668260">Before Her Time: Decommissioning Enterprise</a>, <a href="https://www.imdb.com/title/tt7742108">Alan Pakula: Going for Truth</a>, <a href="https://www.imdb.com/title/tt0109890">The Getaway</a>, <a href="https://www.imdb.com/title/tt6111980">Platoon: Brothers in Arms</a></p>
+</blockquote>
+<blockquote>
+<p>Group 7:
+<a href="https://www.imdb.com/title/tt1043859">Monique, My Love</a>, <a href="https://www.imdb.com/title/tt0217375">Daughters of Lesbos</a>, <a href="https://www.imdb.com/title/tt0064972">She Came on the Bus</a>, <a href="https://www.imdb.com/title/tt0064637">Marcy</a>, <a href="https://www.imdb.com/title/tt0174205">Sin in the City</a>, <a href="https://www.imdb.com/title/tt0128422">Private Relations</a>, <a href="https://www.imdb.com/title/tt0254630">Only in My Dreams</a>, <a href="https://www.imdb.com/title/tt0153446">Unholy Matrimony</a>, <a href="https://www.imdb.com/title/tt0059067">Crazy Wild and Crazy</a>, <a href="https://www.imdb.com/title/tt0192081">The Good, the Bad and the Beautiful</a></p>
+</blockquote>
+<blockquote>
+<p>Group 8:
+<a href="https://www.imdb.com/title/tt2930426">Blood Mercury</a>, <a href="https://www.imdb.com/title/tt9810278">The King, The Swordsman, and the Sorceress</a>, <a href="https://www.imdb.com/title/tt3677840">Angel of Reckoning</a>, <a href="https://www.imdb.com/title/tt5673828">Hellcat&rsquo;s Revenge</a>, <a href="https://www.imdb.com/title/tt12429968">Arachnado</a>, <a href="https://www.imdb.com/title/tt7049448">Challenge of Five Gauntlets</a>, <a href="https://www.imdb.com/title/tt6137138">Meathook Massacre II</a>, <a href="https://www.imdb.com/title/tt10060386">Hellcat&rsquo;s Revenge II: Deadman&rsquo;s Hand</a>, <a href="https://www.imdb.com/title/tt7542096">Loose Luck</a>, <a href="https://www.imdb.com/title/tt12395290">The Beast Beneath</a></p>
+</blockquote>
+<blockquote>
+<p>Group 9:
+<a href="https://www.imdb.com/title/tt0065557">The Class Reunion</a>, <a href="https://www.imdb.com/title/tt0128550">The Snow Bunnies</a>, <a href="https://www.imdb.com/title/tt2480376">The French Love Secret</a>, <a href="https://www.imdb.com/title/tt1187033">Runaway Hormones</a>, <a href="https://www.imdb.com/title/tt1500683">Affair in the Air</a>, <a href="https://www.imdb.com/title/tt0316584">The Sexpert</a>, <a href="https://www.imdb.com/title/tt0056166">Lash of Lust</a>, <a href="https://www.imdb.com/title/tt3534536">Deep Love</a>, <a href="https://www.imdb.com/title/tt0125332">Lady Godiva Rides</a>, <a href="https://www.imdb.com/title/tt0071641">I Love You, I Love You Not</a></p>
+</blockquote>
+<blockquote>
+<p>Group 10:
+<a href="https://www.imdb.com/title/tt0016260">Ranchers and Rascals</a>, <a href="https://www.imdb.com/title/tt0016456">The Trouble Buster</a>, <a href="https://www.imdb.com/title/tt0015082">The Loser&rsquo;s End</a>, <a href="https://www.imdb.com/title/tt0142702">Not Built for Runnin'</a>, <a href="https://www.imdb.com/title/tt0016539">Win, Lose or Draw</a>, <a href="https://www.imdb.com/title/tt0015639">Border Vengeance</a>, <a href="https://www.imdb.com/title/tt0016351">Silent Sheldon</a>, <a href="https://www.imdb.com/title/tt0016659">The Blind Trail</a>, <a href="https://www.imdb.com/title/tt0017570">Without Orders</a>, <a href="https://www.imdb.com/title/tt0017107">The Man from Oklahoma</a></p>
+</blockquote>
+<blockquote>
+<p>Group 11:
+<a href="https://www.imdb.com/title/tt12619898">The New Frontier</a>, <a href="https://www.imdb.com/title/tt8452666">The Woman Who Robbed the Stagecoach</a>, <a href="https://www.imdb.com/title/tt7836694">Unearthed: The Curse of Nephthys</a>, <a href="https://www.imdb.com/title/tt2886732">Loaded Monday</a>, <a href="https://www.imdb.com/title/tt11032454">A Night of Hunt and Seek</a>, <a href="https://www.imdb.com/title/tt6830356">Love Gods from Planet Zero</a>, <a href="https://www.imdb.com/title/tt12079822">Counting Bullets</a>, <a href="https://www.imdb.com/title/tt8928236">Wrecking Ball</a>, <a href="https://www.imdb.com/title/tt7272192">You&rsquo;re All Gonna Die</a>, <a href="https://www.imdb.com/title/tt8470494">Kindness Matters</a></p>
+</blockquote>
+<blockquote>
+<p>Group 12:
+<a href="https://www.imdb.com/title/tt12395290">The Beast Beneath</a>, <a href="https://www.imdb.com/title/tt12429968">Arachnado</a>, <a href="https://www.imdb.com/title/tt8633640">Ghosthouse</a>, <a href="https://www.imdb.com/title/tt12304094">Angry Asian Murder Hornets</a>, <a href="https://www.imdb.com/title/tt11724312">Tales from the Campfire 3</a>, <a href="https://www.imdb.com/title/tt10079052">RoboWoman 2</a>, <a href="https://www.imdb.com/title/tt10078664">Moon of the Blood Beast</a>, <a href="https://www.imdb.com/title/tt10079028">Celluloid Slaughter</a>, <a href="https://www.imdb.com/title/tt10983270">Axegrinder 2</a>, <a href="https://www.imdb.com/title/tt10765798">Supernatural Assassins</a></p>
+</blockquote>
+<p></code><br/></p>
 <h3 id="method-2-bi-projection-transformation">Method 2 (Bi): Projection Transformation</h3>
+<p>The second method involves directly transforming the projected (movies by movies) adjacency matrix. Note this is possible since the original IMDB graph is bipartite.</p>
+<p>After projection, the weight of each edge represents the number of cast in common. Below is a histogram of the (non-zero) values in the projected adjacency matrix.</p>
+<p><img class="plots" src="../assets/img/adjacency.svg" alt="plot of projected adjacency matrix values"/></p>
+<p>Most pairs of movies share only a few actors in common, but a small percent are much more highly connected. These are believed to contribute to the poor genre clustering by <code>vsp</code>.</p>
+<p>To decrease the influence of these cliquish nodes, we apply the transformation <code>\(\log_2(AA^T+2)\)</code>. A log-type transform seems appropriate since it more harshly penalizes higher adjacency values. The <code>\(+1\)</code> term and base <code>\(2\)</code> are chosen to preserve <code>\(0\)</code>s and <code>\(1\)</code>s in the matrix. Afterwards, we run <code>vsp</code> again (this time choosing <code>\(k=13\)</code> as an appropriate cutoff based on the scree plot) and obtain these clusters:</p>
+<p><img class="plots" src="../assets/img/cliques_bi.svg" alt="plot of bi's improved clusters"/></p>
+<p>This time, the Gini index is much lower (more than we would expect from the increased <code>\(k\)</code>), implying we obtained more balanced, larger-sized clusters, which should hopefully capture larger genre-level information.</p>
+<p>Again, we use <code>bff</code> to select best features in each cluster for inspection:</p>
+<p><br/><code class="fa-links" style="white-space:normal;padding:2px 0;"></p>
+<blockquote>
+<p>Group 1:
+<a href="https://www.imdb.com/title/tt0014135">His Last Race</a>, <a href="https://www.imdb.com/title/tt0021163">Murder Will Out</a>, <a href="https://www.imdb.com/title/tt0015839">Free and Equal</a>, <a href="https://www.imdb.com/title/tt0010772">This Hero Stuff</a>, <a href="https://www.imdb.com/title/tt0014187">The Last Hour</a>, <a href="https://www.imdb.com/title/tt0009354">The Marriage Ring</a>, <a href="https://www.imdb.com/title/tt0013134">Flesh and Blood</a>, <a href="https://www.imdb.com/title/tt0016430">The Thundering Herd</a>, <a href="https://www.imdb.com/title/tt0010046">The Daredevil</a>, <a href="https://www.imdb.com/title/tt0008993">Danger, Go Slow</a></p>
+</blockquote>
+<blockquote>
+<p>Group 2:
+<a href="https://www.imdb.com/title/tt13057696">Peach Cobbler</a>, <a href="https://www.imdb.com/title/tt11075800">Exposure</a>, <a href="https://www.imdb.com/title/tt4837090">The Matadors</a>, <a href="https://www.imdb.com/title/tt9512094">Stringer</a>, <a href="https://www.imdb.com/title/tt5547188">3 Bullets</a>, <a href="https://www.imdb.com/title/tt3695684">Dark Cupid</a>, <a href="https://www.imdb.com/title/tt11182846">Soul Pursuit</a>, <a href="https://www.imdb.com/title/tt12221824">After Masks</a>, <a href="https://www.imdb.com/title/tt12029866">Doctor Who Am I</a>, <a href="https://www.imdb.com/title/tt3068544">Days of Power</a></p>
+</blockquote>
+<blockquote>
+<p>Group 3:
+<a href="https://www.imdb.com/title/tt0041577">Laramie</a>, <a href="https://www.imdb.com/title/tt0044775">Junction City</a>, <a href="https://www.imdb.com/title/tt0043708">The Kid from Amarillo</a>, <a href="https://www.imdb.com/title/tt0043036">Texas Dynamo</a>, <a href="https://www.imdb.com/title/tt0043062">Trail of the Rustlers</a>, <a href="https://www.imdb.com/title/tt0040691">Phantom Valley</a>, <a href="https://www.imdb.com/title/tt0240045">The Stranger from Ponca City</a>, <a href="https://www.imdb.com/title/tt0039978">West of Dodge City</a>, <a href="https://www.imdb.com/title/tt0033142">Texas Stagecoach</a>, <a href="https://www.imdb.com/title/tt0042181">Across the Badlands</a></p>
+</blockquote>
+<blockquote>
+<p>Group 4:
+<a href="https://www.imdb.com/title/tt0027196">West Point of the Air</a>, <a href="https://www.imdb.com/title/tt0023856">Bureau of Missing Persons</a>, <a href="https://www.imdb.com/title/tt0033092">Sporting Blood</a>, <a href="https://www.imdb.com/title/tt0020700">The Border Legion</a>, <a href="https://www.imdb.com/title/tt0022620">The All-American</a>, <a href="https://www.imdb.com/title/tt0021890">The Front Page</a>, <a href="https://www.imdb.com/title/tt0025173">The Girl from Missouri</a>, <a href="https://www.imdb.com/title/tt0030848">Test Pilot</a>, <a href="https://www.imdb.com/title/tt0026462">Helldorado</a>, <a href="https://www.imdb.com/title/tt0022967">Guilty as Hell</a></p>
+</blockquote>
+<blockquote>
+<p>Group 5:
+<a href="https://www.imdb.com/title/tt0034420">&lsquo;Neath Brooklyn Bridge</a>, <a href="https://www.imdb.com/title/tt0034973">Let&rsquo;s Get Tough!</a>, <a href="https://www.imdb.com/title/tt0035345">Smart Alecks</a>, <a href="https://www.imdb.com/title/tt0036073">Kid Dynamite</a>, <a href="https://www.imdb.com/title/tt0038753">Mr. Hex</a>, <a href="https://www.imdb.com/title/tt0039216">Bowery Buckaroos</a>, <a href="https://www.imdb.com/title/tt0039447">Hard Boiled Mahoney</a>, <a href="https://www.imdb.com/title/tt0039656">News Hounds</a>, <a href="https://www.imdb.com/title/tt0036175">Mr. Muggs Steps Out</a>, <a href="https://www.imdb.com/title/tt0036650">Block Busters</a></p>
+</blockquote>
+<blockquote>
+<p>Group 6:
+<a href="https://www.imdb.com/title/tt3781588">Against All Odds</a>, <a href="https://www.imdb.com/title/tt9486080">Mulatto</a>, <a href="https://www.imdb.com/title/tt10992238">The Jealous Mirror on My Wall</a>, <a href="https://www.imdb.com/title/tt10992240">Mirror on My Wall</a>, <a href="https://www.imdb.com/title/tt7406852">The Unholy Disciple</a>, <a href="https://www.imdb.com/title/tt6603156">Sodfather Spagatoni</a>, <a href="https://www.imdb.com/title/tt9041734">Desert Dick</a>, <a href="https://www.imdb.com/title/tt5723462">Right Before Your Eyes</a>, <a href="https://www.imdb.com/title/tt10155862">Monster On</a>, <a href="https://www.imdb.com/title/tt12102882">The Philly Mob</a></p>
+</blockquote>
+<blockquote>
+<p>Group 7:
+<a href="https://www.imdb.com/title/tt0032253">Billy the Kid in Texas</a>, <a href="https://www.imdb.com/title/tt0033393">Billy the Kid&rsquo;s Fighting Pals</a>, <a href="https://www.imdb.com/title/tt0033394">Billy the Kid&rsquo;s Range War</a>, <a href="https://www.imdb.com/title/tt0162197">Billy the Kid Outlawed</a>, <a href="https://www.imdb.com/title/tt0033392">Billy the Kid in Santa Fe</a>, <a href="https://www.imdb.com/title/tt0135805">Billy the Kid&rsquo;s Gun Justice</a>, <a href="https://www.imdb.com/title/tt0026886">Powdersmoke Range</a>, <a href="https://www.imdb.com/title/tt0021046">The Land of Missing Men</a>, <a href="https://www.imdb.com/title/tt0027870">Last of the Warrens</a>, <a href="https://www.imdb.com/title/tt0037375">Thundering Gun Slingers</a></p>
+</blockquote>
+<blockquote>
+<p>Group 8:
+<a href="https://www.imdb.com/title/tt0307526">The Summoned</a>, <a href="https://www.imdb.com/title/tt1637641">Meltdown</a>, <a href="https://www.imdb.com/title/tt0117930">Toad Warrior</a>, <a href="https://www.imdb.com/title/tt1454705">Untitled Horror Comedy</a>, <a href="https://www.imdb.com/title/tt10612336">Hawk Warrior of the Wheelzone</a>, <a href="https://www.imdb.com/title/tt12102214">Max Hell the Frog Warrior A Zen Silent Flick</a>, <a href="https://www.imdb.com/title/tt0306582">Body Count</a>, <a href="https://www.imdb.com/title/tt2386668">High on the Hog</a>, <a href="https://www.imdb.com/title/tt0100665">Soultaker</a>, <a href="https://www.imdb.com/title/tt0114150">Point Dume</a></p>
+</blockquote>
+<blockquote>
+<p>Group 9:
+<a href="https://www.imdb.com/title/tt0037883">The Lost Trail</a>, <a href="https://www.imdb.com/title/tt0037757">Gun Smoke</a>, <a href="https://www.imdb.com/title/tt0037940">The Navajo Trail</a>, <a href="https://www.imdb.com/title/tt0039048">Trigger Fingers</a>, <a href="https://www.imdb.com/title/tt0037719">Frontier Feud</a>, <a href="https://www.imdb.com/title/tt0037454">West of the Rio Grande</a>, <a href="https://www.imdb.com/title/tt0037165">Partners of the Trail</a>, <a href="https://www.imdb.com/title/tt0039063">Under Arizona Skies</a>, <a href="https://www.imdb.com/title/tt0039387">Flashing Guns</a>, <a href="https://www.imdb.com/title/tt0041868">Sheriff of Medicine Bow</a></p>
+</blockquote>
+<blockquote>
+<p>Group 10:
+<a href="https://www.imdb.com/title/tt12077330">I&rsquo;m Not Me</a>, <a href="https://www.imdb.com/title/tt1839436">Confiscated Police Video</a>, <a href="https://www.imdb.com/title/tt5782038">Daddy&hellip;</a>, <a href="https://www.imdb.com/title/tt10305228">Creepers &lsquo;R Us</a>, <a href="https://www.imdb.com/title/tt6941912">Deputy Small Town</a>, <a href="https://www.imdb.com/title/tt9511384">Dog Sick</a>, <a href="https://www.imdb.com/title/tt1314649">Crippled Heart</a>, <a href="https://www.imdb.com/title/tt11150726">Casey&rsquo;s Cleaning</a>, <a href="https://www.imdb.com/title/tt8042072">Fear Me: Cold Blooded</a>, <a href="https://www.imdb.com/title/tt5153502">Halloween Party</a></p>
+</blockquote>
+<blockquote>
+<p>Group 11:
+<a href="https://www.imdb.com/title/tt2464990">When the Devil Rides Out</a>, <a href="https://www.imdb.com/title/tt3147284">Joe&rsquo;s War</a>, <a href="https://www.imdb.com/title/tt0318176">Welcome to America</a>, <a href="https://www.imdb.com/title/tt1639081">The Banksters, Madoff with America</a>, <a href="https://www.imdb.com/title/tt9537428">Born2Race</a>, <a href="https://www.imdb.com/title/tt5421618">Vail of Justice</a>, <a href="https://www.imdb.com/title/tt1405414">Six Days in Paradise</a>, <a href="https://www.imdb.com/title/tt3592904">Cross Wars</a>, <a href="https://www.imdb.com/title/tt7409674">Peter Pan, Land of Forever</a>, <a href="https://www.imdb.com/title/tt3246874">Wish Man</a></p>
+</blockquote>
+<blockquote>
+<p>Group 12:
+<a href="https://www.imdb.com/title/tt9169200">Slumber Party Slaughter Party 2</a>, <a href="https://www.imdb.com/title/tt1922682">PUTA: People for the Upstanding Treatment of Animals</a>, <a href="https://www.imdb.com/title/tt0426629">Aconite</a>, <a href="https://www.imdb.com/title/tt7677184">Greetings from Tromaville</a>, <a href="https://www.imdb.com/title/tt4745692">Grizzled!</a>, <a href="https://www.imdb.com/title/tt4130510">Terror Toons 4</a>, <a href="https://www.imdb.com/title/tt3628704">The Ungovernable Force</a>, <a href="https://www.imdb.com/title/tt12395290">The Beast Beneath</a>, <a href="https://www.imdb.com/title/tt12663406">Joel D. Wynkoop&rsquo;s Beast Mode</a>, <a href="https://www.imdb.com/title/tt0338294">Nowhere Man</a></p>
+</blockquote>
+<blockquote>
+<p>Group 13:
+<a href="https://www.imdb.com/title/tt0037535">Bells of Rosarita</a>, <a href="https://www.imdb.com/title/tt0037509">Along the Navajo Trail</a>, <a href="https://www.imdb.com/title/tt0037018">Lights of Old Santa Fe</a>, <a href="https://www.imdb.com/title/tt0037894">Man from Oklahoma</a>, <a href="https://www.imdb.com/title/tt0038869">Rainbow Over Texas</a>, <a href="https://www.imdb.com/title/tt0038611">Home in Oklahoma</a>, <a href="https://www.imdb.com/title/tt0037656">Don&rsquo;t Fence Me In</a>, <a href="https://www.imdb.com/title/tt0038212">Utah</a>, <a href="https://www.imdb.com/title/tt0038593">Heldorado</a>, <a href="https://www.imdb.com/title/tt0038764">My Pal Trigger</a></p>
+</blockquote>
+<p></code><br/></p>
+<p>These clusters, similar to Chris&rsquo;s results, seem to have clustered better by both genre and decade. Here are approximate descriptions of each cluster:</p>
+<ol>
+<li>1920&rsquo;s dramas</li>
+<li>late 2010&rsquo;s to 2021 (unreleased) movies (mix of genres)</li>
+<li>1940&rsquo;s westerns</li>
+<li>1930&rsquo;s comedies/dramas</li>
+<li>1940&rsquo;s comedies</li>
+<li>late 2010&rsquo;s to 2021 crime/mysteries</li>
+<li>Billy the Kid Westerns (1930&rsquo;s to 1940&rsquo;s)</li>
+<li>1990&rsquo;s to 2000&rsquo;s horrors/thrillers</li>
+<li>More 1940&rsquo;s westerns</li>
+<li>2010&rsquo;s horrors/thrillers</li>
+<li>2010&rsquo;s action dramas</li>
+<li>Niche 21st century horrors (like <a href="https://www.imdb.com/title/tt12395290/">this</a> and <a href="https://www.imdb.com/title/tt12395290/">this</a>)</li>
+<li>1940&rsquo;s musical</li>
+</ol>
 
 </main>
 

@@ -46,7 +46,7 @@ In this current project, we explore methods of mitigating the influence of these
 
 In our first attempt at improving our clustering, we tried to contract our graph to exclude nodes which we predicted to belong to cliques. Our motivation for doing this was to get rid of some of the clusters that were too specific to be considered any sort of genre, for instance the director-specific clusters.
 
-To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree, a measure of the number of edges adjacent to a node, and coreness. The k-core of graph is a maximal subgraph in which each vertex has at least degree k. The coreness of a vertex is k if it belongs to the k-core but not to the (k+1)-core. We used these two measures to gauge a node's connectedness. We also calculated the number of triangles at each node and degree distribution to other nodes. Within degree distribution we looked at the mean, mode, standard deviation, skew, and kurtosis of the distribution of degrees from a node to each other node. This metric was used to measure the connectedness of the nodes’ neighbors.
+To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree, a measure of the number of edges adjacent to a node, and coreness. The k-core of graph is a maximal subgraph in which each vertex has at least degree k. The coreness of a vertex is k if it belongs to the k-core but not to the (k+1)-core. We used these two measures to gauge a node's connectedness. We also calculated the number of triangles at each node and degree distribution to other nodes. Within degree distribution we looked at the mean, mode, standard deviation, skew, and kurtosis of the distribution of degrees from a node to each other node. This metric was used to measure the connectedness of the nodes' neighbors.
 
 Using a list of "IMDB top movies" and our previous attempt at clustering, we built a training dataset of around 1200 titles. We assigned a label of 1 to titles that had been assigned to clusters 2, 3, 5, and 7, four director-specific clusters, in our previous attempt at clustering. We assigned a label of 0 to titles in the "IMDB top movies" list. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.
 
@@ -54,7 +54,72 @@ We then contracted all of these "cliquish" nodes and performed clustering using 
 
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
 
+Here are the top 10 best movies from each cluster selected using `bff`
+
+```{r, echo=F}
+load("../project/bi/fa.log.list.Rdata")
+load("../project/chris/fa.new.list.Rdata")
+options(width=1000)
+```
+
+1.  
+2.  
+3.  
+4.  
+5.  
+6.  
+7.  
+8.  
+9.  
+10. 
+11. 
+12. 
+
+<br/><code class="fa-links" style="white-space:normal;padding:2px 0">
+
+`r paste(unlist(lapply(seq_along(fa.new.list),function(i){sprintf(" > Group %d:\n%s",i,fa.new.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
+
 ### Method 2 (Bi): Projection Transformation
+
+The second method involves directly transforming the projected (movies by movies) adjacency matrix. Note this is possible since the original IMDB graph is bipartite.
+
+After projection, the weight of each edge represents the number of cast in common. Below is a histogram of the (non-zero) values in the projected adjacency matrix.
+
+<p><img class="plots" src="../assets/img/adjacency.svg" alt="plot of projected adjacency matrix values"/></p>
+
+Most pairs of movies share only a few actors in common, but a small percent are much more highly connected. These are believed to contribute to the poor genre clustering by `vsp`.
+
+To decrease the influence of these cliquish nodes, we apply the transformation $\log_2(AA^T+2)$. A log-type transform seems appropriate since it more harshly penalizes higher adjacency values. The $+1$ term and base $2$ are chosen to preserve $0$s and $1$s in the matrix. Afterwards, we run `vsp` again (this time choosing $k=13$ as an appropriate cutoff based on the scree plot) and obtain these clusters:
+
+<p><img class="plots" src="../assets/img/cliques_bi.svg" alt="plot of bi's improved clusters"/></p>
+
+This time, the Gini index is much lower (more than we would expect from the increased $k$), implying we obtained more balanced, larger-sized clusters, which should hopefully capture larger genre-level information.
+
+Again, we use `bff` to select best features in each cluster for inspection:
+
+<br/><code class="fa-links" style="white-space:normal;padding:2px 0;">
+
+`r paste(unlist(lapply(seq_along(fa.log.list),function(i){sprintf(" > Group %d:\n%s",i,fa.log.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
+
+These clusters, similar to Chris's results, seem to have clustered better by both genre and decade. Here are approximate descriptions of each cluster:
+
+1.  1920's dramas
+2.  late 2010's to 2021 (unreleased) movies (mix of genres)
+3.  1940's westerns
+4.  1930's comedies/dramas
+5.  1940's comedies
+6.  late 2010's to 2021 crime/mysteries
+7.  Billy the Kid Westerns (1930's to 1940's)
+8.  1990's to 2000's horrors/thrillers
+9.  More 1940's westerns
+10. 2010's horrors/thrillers
+11. 2010's action dramas
+12. Niche 21st century horrors (like [this](https://www.imdb.com/title/tt12395290/) and [this](https://www.imdb.com/title/tt12395290/))
+13. 1940's musical
 
 
 
