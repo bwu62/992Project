@@ -44,7 +44,7 @@ pre{
 </ul>
 <h2 id="background">Background</h2>
 <p>We were previously interested in clustering IMDB movies by genre. We filtered out undesired content (i.e. television shows, web shorts, adult content, non-English titles) and applied <code>vsp</code> but found the method was highly sensitive to small densely-connected cliques of nodes (e.g. RiffTrax releases, Blondies movies; see <a href="..">blog</a> for more). This was evidenced by observing that the sizes of the resultant clusters were wildly imbalanced:</p>
-<p><img src="../assets/img/cliques_orig.svg" alt=""></p>
+<p><img class="plots" src="../assets/img/cliques_orig.svg" alt="plot of original clusters"/></p>
 <p>In this current project, we explore methods of mitigating the influence of these cliques. We hope this would lead to better identification of larger-scale genre info.</p>
 <h2 id="analysis">Analysis</h2>
 <h3 id="method-1-predicting-node-cliquishness-by-logistic-regression">Method 1: Predicting Node Cliquishness by Logistic Regression</h3>
@@ -52,7 +52,7 @@ pre{
 <p>To predict which nodes belonged to cliques, we generated a number of node statistics on all of the title nodes. Included among these statistics were degree and coreness, to measure a nodes connectedness, and the number of triangles at each node and degree distribution to other nodes, to measure the connectedness of the nodes’ neighbors.</p>
 <p>Using a list of “IMDB top movies” and our previous attempt at clustering, we built a training dataset of around 1200 titles that we individually labeled as either belonging to a clique or not. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.</p>
 <p>We then removed all of these &ldquo;cliquish&rdquo; nodes from our graph, and performed clustering using VSP once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .867. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.</p>
-<p><img src="../assets/img/cliques_chris.svg" alt="Cluster plot after subsetting"></p>
+<p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
 
 </main>
 

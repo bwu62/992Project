@@ -36,7 +36,7 @@ This is a continuation of our previous works:
 
 We were previously interested in clustering IMDB movies by genre. We filtered out undesired content (i.e. television shows, web shorts, adult content, non-English titles) and applied `vsp` but found the method was highly sensitive to small densely-connected cliques of nodes (e.g. RiffTrax releases, Blondies movies; see [blog](..) for more). This was evidenced by observing that the sizes of the resultant clusters were wildly imbalanced:
 
-![](../assets/img/cliques_orig.svg)
+<p><img class="plots" src="../assets/img/cliques_orig.svg" alt="plot of original clusters"/></p>
 
 In this current project, we explore methods of mitigating the influence of these cliques. We hope this would lead to better identification of larger-scale genre info.
 
@@ -52,6 +52,5 @@ Using a list of “IMDB top movies” and our previous attempt at clustering, we
 
 We then removed all of these "cliquish" nodes from our graph, and performed clustering using VSP once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .867. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.
 
-![Cluster plot after subsetting](../assets/img/cliques_chris.svg)
-
+<p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
 
