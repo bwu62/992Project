@@ -54,22 +54,9 @@ We then contracted all of these "cliquish" nodes and performed clustering using 
 
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
 
-Here are the top 10 best movies from each cluster selected using `bff`
+Here are the top 12 best movies from each cluster selected using `bff`, followed by a description of each.
 
 
-
-1.  Early 1900s dramas
-2.  40s and 50s westerns
-3.  Thomas the Tank Engine movies
-4.  Warhol movies
-5.  2000s dramas
-6.  Documentaries about films
-7.  60s and 70s sexual dramas
-8.  2000s action
-9.  70s smut
-10. 20s westerns
-11. 2020s westerns
-12. 2020s horror
 
 <br/><code class="fa-links" style="white-space:normal;padding:2px 0">
 
@@ -110,6 +97,19 @@ Here are the top 10 best movies from each cluster selected using `bff`
 [The Beast Beneath](https://www.imdb.com/title/tt12395290), [Arachnado](https://www.imdb.com/title/tt12429968), [Ghosthouse](https://www.imdb.com/title/tt8633640), [Angry Asian Murder Hornets](https://www.imdb.com/title/tt12304094), [Tales from the Campfire 3](https://www.imdb.com/title/tt11724312), [RoboWoman 2](https://www.imdb.com/title/tt10079052), [Moon of the Blood Beast](https://www.imdb.com/title/tt10078664), [Celluloid Slaughter](https://www.imdb.com/title/tt10079028), [Axegrinder 2](https://www.imdb.com/title/tt10983270), [Supernatural Assassins](https://www.imdb.com/title/tt10765798)
 
 </code><br/>
+
+1.  Early 1900s dramas
+2.  40s and 50s westerns
+3.  Thomas the Tank Engine movies
+4.  Warhol movies
+5.  2000s dramas
+6.  Documentaries about films
+7.  60s and 70s sexual dramas
+8.  2000s action
+9.  70s smut
+10. 20s westerns
+11. 2020s westerns
+12. 2020s horror
 
 ### Method 2 (Bi): Projection Transformation
 

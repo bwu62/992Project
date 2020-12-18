@@ -53,21 +53,7 @@ pre{
 <p>Using a list of &ldquo;IMDB top movies&rdquo; and our previous attempt at clustering, we built a training dataset of around 1200 titles. We assigned a label of 1 to titles that had been assigned to clusters 2, 3, 5, and 7, four director-specific clusters, in our previous attempt at clustering. We assigned a label of 0 to titles in the &ldquo;IMDB top movies&rdquo; list. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.</p>
 <p>We then contracted all of these &ldquo;cliquish&rdquo; nodes and performed clustering using <code>vsp</code> once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .865. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.</p>
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
-<p>Here are the top 10 best movies from each cluster selected using <code>bff</code></p>
-<ol>
-<li>Early 1900s dramas</li>
-<li>40s and 50s westerns</li>
-<li>Thomas the Tank Engine movies</li>
-<li>Warhol movies</li>
-<li>2000s dramas</li>
-<li>Documentaries about films</li>
-<li>60s and 70s sexual dramas</li>
-<li>2000s action</li>
-<li>70s smut</li>
-<li>20s westerns</li>
-<li>2020s westerns</li>
-<li>2020s horror</li>
-</ol>
+<p>Here are the top 12 best movies from each cluster selected using <code>bff</code>, followed by a description of each.</p>
 <p><br/><code class="fa-links" style="white-space:normal;padding:2px 0"></p>
 <blockquote>
 <p>Group 1:
@@ -118,6 +104,20 @@ pre{
 <a href="https://www.imdb.com/title/tt12395290">The Beast Beneath</a>, <a href="https://www.imdb.com/title/tt12429968">Arachnado</a>, <a href="https://www.imdb.com/title/tt8633640">Ghosthouse</a>, <a href="https://www.imdb.com/title/tt12304094">Angry Asian Murder Hornets</a>, <a href="https://www.imdb.com/title/tt11724312">Tales from the Campfire 3</a>, <a href="https://www.imdb.com/title/tt10079052">RoboWoman 2</a>, <a href="https://www.imdb.com/title/tt10078664">Moon of the Blood Beast</a>, <a href="https://www.imdb.com/title/tt10079028">Celluloid Slaughter</a>, <a href="https://www.imdb.com/title/tt10983270">Axegrinder 2</a>, <a href="https://www.imdb.com/title/tt10765798">Supernatural Assassins</a></p>
 </blockquote>
 <p></code><br/></p>
+<ol>
+<li>Early 1900s dramas</li>
+<li>40s and 50s westerns</li>
+<li>Thomas the Tank Engine movies</li>
+<li>Warhol movies</li>
+<li>2000s dramas</li>
+<li>Documentaries about films</li>
+<li>60s and 70s sexual dramas</li>
+<li>2000s action</li>
+<li>70s smut</li>
+<li>20s westerns</li>
+<li>2020s westerns</li>
+<li>2020s horror</li>
+</ol>
 <h3 id="method-2-bi-projection-transformation">Method 2 (Bi): Projection Transformation</h3>
 <p>The second method involves directly transforming the projected (movies by movies) adjacency matrix. Note this is possible since the original IMDB graph is bipartite.</p>
 <p>After projection, the weight of each edge represents the number of cast in common. Below is a histogram of the (non-zero) values in the projected adjacency matrix.</p>

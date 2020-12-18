@@ -54,13 +54,19 @@ We then contracted all of these "cliquish" nodes and performed clustering using 
 
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
 
-Here are the top 10 best movies from each cluster selected using `bff`
+Here are the top 12 best movies from each cluster selected using `bff`, followed by a description of each.
 
 ```{r, echo=F}
 load("../project/bi/fa.log.list.Rdata")
 load("../project/chris/fa.new.list.Rdata")
 options(width=1000)
 ```
+
+<br/><code class="fa-links" style="white-space:normal;padding:2px 0">
+
+`r paste(unlist(lapply(seq_along(fa.new.list),function(i){sprintf(" > Group %d:\n%s",i,fa.new.list[[i]])})),collapse='\n\n')`
+
+</code><br/>
 
 1.  Early 1900s dramas
 2.  40s and 50s westerns
@@ -74,12 +80,6 @@ options(width=1000)
 10. 20s westerns
 11. 2020s westerns
 12. 2020s horror
-
-<br/><code class="fa-links" style="white-space:normal;padding:2px 0">
-
-`r paste(unlist(lapply(seq_along(fa.new.list),function(i){sprintf(" > Group %d:\n%s",i,fa.new.list[[i]])})),collapse='\n\n')`
-
-</code><br/>
 
 ### Method 2 (Bi): Projection Transformation
 
