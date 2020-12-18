@@ -50,7 +50,7 @@ To predict which nodes belonged to cliques, we generated a number of node statis
 
 Using a list of “IMDB top movies” and our previous attempt at clustering, we built a training dataset of around 1200 titles that we individually labeled as either belonging to a clique or not. From there, we fit a logistic regression model to predict which of the remaining ~90,000 nodes belonged to cliques.
 
-We then removed all of these "cliquish" nodes from our graph, and performed clustering using VSP once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .867. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.
+We then removed all of these "cliquish" nodes from our graph, and performed clustering using VSP once again. We found that with this subsetting, using 12 clusters worked better than 8. With this change in place, the Gini index of our cluster sizes fell to .865. Most importantly, our clusters looked much better. We no longer saw as many cliquish clusters like the cluster of Blondie movies we saw in our initial attempt.
 
 <p><img class="plots" src="../assets/img/cliques_chris.svg" alt="plot of chris's improved clusters"/></p>
 
