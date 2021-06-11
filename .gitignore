@@ -12,12 +12,5 @@ analysis/data/*.tsv
 # R junk
 *.Rproj
 
-# site
-site/.sass-cache
-site/.vagrant
-site/.jekyll-cache
-site/Gemfile.lock
-site/beautiful-jekyll-theme-*.gem
-site/_site
 node_modules/
 .Rproj.user
